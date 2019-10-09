@@ -1,0 +1,73 @@
+<!doctype html>
+<html ng-app="app">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link href="../../build/common/base.css" rel="stylesheet">
+		<script type="text/javascript" src="../../build/common/base.js"></script>
+		<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
+	</head>
+	<script type="text/javascript">
+		var app = angular.module('app', ['baseDirective']);
+		app.controller("ctrl", [ '$scope', 'baseService' ,function($scope, baseService) {
+			 
+		}]);
+		
+		/* 获取URL表单的 JSON 数据  必须以 getData为方法名*/
+		function getData(){
+			return AngularUtil.getScope().data;
+		}
+		/* 获取URL表单的校验情况，必须以isValid 为方法名 */
+		function isValid(){
+			//校验表单 ab-validate的 校验
+			if(!ngUtil.getScope().form.$valid){
+				$.Dialog.error("表单校验不通过！");
+				return false;
+			}
+
+			// 您可以自由的去做特殊业务逻辑的校验
+			if(!ngUtil.getScope().data.ah){
+				$.Dialog.error("爱好不可为空！");
+				return false;
+			}
+			return true;
+		}
+	</script>
+	<body class="panel success" ng-controller="ctrl">
+	<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" ab-save="/basedevice/api/save">保存</a>
+	<a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javaScript:window.close()">取消</a>
+
+	<!--  ab-load 去controller 层获取业务数据  -->
+			<form name="form" method="post" ab-load="/basedevice/api/get?id={id}"  ng-model="data">
+				<table class="form-table">
+					<tr>								
+						<th><span>名称:</span><span class="required">*</span></th>
+						<td>
+							<input class="form-control" type="text" ng-model="data.deviceBasicName"   ab-validate="{required:true,maxlength:192}"  />
+						</td>								
+					</tr>
+					<tr>								
+						<th><span>编号:</span><span class="required">*</span></th>
+						<td>
+							<input class="form-control" id="deviceBasicBodynumber" type="text" ng-model="data.deviceBasicBodynumber"   />
+						</td>								
+					</tr>
+					<tr>								
+						<th><span>版本:</span></th>
+						<td>
+							<input class="form-control" id="deviceBasicVerson"  type="text"   ng-model="data.deviceBasicVerson" />
+						</td>								
+					</tr>
+					<tr>
+						<th><span>分类:</span></th>
+						<td>
+							<input class="form-control" id="deviceBasicCategory"  type="text"   ng-model="data.deviceBasicCategory" />
+						</td>
+					</tr>
+
+					
+
+				</table>
+			</form>
+		
+	</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.DeviceBasicDao">
+  <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceBasic">
+    <id column="device_basic_id" jdbcType="VARCHAR" property="id" />
+    <result column="device_basic_name" jdbcType="VARCHAR" property="deviceBasicName" />
+    <result column="device_basic_bodyNumber" jdbcType="VARCHAR" property="deviceBasicBodynumber" />
+    <result column="device_basic_verson" jdbcType="VARCHAR" property="deviceBasicVerson" />
+    <result column="device_basic_category" jdbcType="VARCHAR" property="deviceBasicCategory" />
+    <result column="device_basic_factorydate" jdbcType="TIMESTAMP" property="deviceBasicFactorydate" />
+    <result column="device_basic_status" jdbcType="INTEGER" property="deviceBasicStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    device_basic_id, device_basic_name, device_basic_bodyNumber, device_basic_verson, 
+    device_basic_category, device_basic_factorydate, device_basic_status
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from device_basic
+    where device_basic_id = #{deviceBasicId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="create" parameterType="com.dstz.device.core.model.DeviceBasic">
+    insert into device_basic (device_basic_id, device_basic_name, device_basic_bodyNumber, 
+      device_basic_verson, device_basic_category, 
+      device_basic_factorydate, device_basic_status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{deviceBasicName,jdbcType=VARCHAR}, #{deviceBasicBodynumber,jdbcType=VARCHAR},
+      #{deviceBasicVerson,jdbcType=VARCHAR}, #{deviceBasicCategory,jdbcType=VARCHAR}, 
+      #{deviceBasicFactorydate,jdbcType=TIMESTAMP}, #{deviceBasicStatus,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.dstz.device.core.model.DeviceBasic">
+    update device_basic
+    set device_basic_name = #{deviceBasicName,jdbcType=VARCHAR},
+      device_basic_bodyNumber = #{deviceBasicBodynumber,jdbcType=VARCHAR},
+      device_basic_verson = #{deviceBasicVerson,jdbcType=VARCHAR},
+      device_basic_category = #{deviceBasicCategory,jdbcType=VARCHAR},
+      device_basic_factorydate = #{deviceBasicFactorydate,jdbcType=TIMESTAMP},
+      device_basic_status = #{deviceBasicStatus,jdbcType=INTEGER}
+    where device_basic_id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM device_basic
+    <where>
+      <if test="whereSql!=null">
+        ${whereSql}
+      </if>
+    </where>
+    <if test="orderBySql!=null">
+      ORDER BY ${orderBySql}
+    </if>
+    <if test="orderBySql==null">
+      ORDER BY device_basic_id DESC
+    </if>
+  </select>
+
+  <delete id="remove" parameterType="java.lang.String">
+		DELETE FROM device_basic
+		WHERE
+		device_basic_id=#{id}
+	</delete>
+</mapper>
