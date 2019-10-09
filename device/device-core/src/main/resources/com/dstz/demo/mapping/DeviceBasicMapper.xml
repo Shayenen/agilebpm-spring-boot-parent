@@ -2,49 +2,97 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dstz.device.core.dao.DeviceBasicDao">
   <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceBasic">
-    <id column="device_basic_id" jdbcType="VARCHAR" property="id" />
+    <id column="device_basic_id" jdbcType="VARCHAR" property="deviceBasicId" />
     <result column="device_basic_name" jdbcType="VARCHAR" property="deviceBasicName" />
     <result column="device_basic_bodyNumber" jdbcType="VARCHAR" property="deviceBasicBodynumber" />
     <result column="device_basic_verson" jdbcType="VARCHAR" property="deviceBasicVerson" />
-    <result column="device_basic_category" jdbcType="VARCHAR" property="deviceBasicCategory" />
-    <result column="device_basic_factorydate" jdbcType="TIMESTAMP" property="deviceBasicFactorydate" />
+    <result column="device_basic_category" jdbcType="INTEGER" property="deviceBasicCategory" />
+    <result column="device_basic_type" jdbcType="INTEGER" property="deviceBasicType" />
+    <result column="device_basic_parent_equipment" jdbcType="VARCHAR" property="deviceBasicParentEquipment" />
+    <result column="device_basic_site" jdbcType="VARCHAR" property="deviceBasicSite" />
     <result column="device_basic_status" jdbcType="INTEGER" property="deviceBasicStatus" />
+    <result column="device_basic_factorydate" jdbcType="TIMESTAMP" property="deviceBasicFactorydate" />
+    <result column="device_basic_factory_number" jdbcType="VARCHAR" property="deviceBasicFactoryNumber" />
+    <result column="device_basic_purchase_amount" jdbcType="VARCHAR" property="deviceBasicPurchaseAmount" />
+    <result column="device_basic_save_place" jdbcType="VARCHAR" property="deviceBasicSavePlace" />
+    <result column="device_basic_user_department" jdbcType="VARCHAR" property="deviceBasicUserDepartment" />
+    <result column="device_basic_leader" jdbcType="VARCHAR" property="deviceBasicLeader" />
+    <result column="device_basic_setup_time" jdbcType="TIMESTAMP" property="deviceBasicSetupTime" />
+    <result column="device_basic_brand" jdbcType="VARCHAR" property="deviceBasicBrand" />
+    <result column="device_basic_provider" jdbcType="VARCHAR" property="deviceBasicProvider" />
+    <result column="device_basic_purchase_time" jdbcType="VARCHAR" property="deviceBasicPurchaseTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dstz.device.core.model.DeviceBasic">
+    <result column="device_basic_img" jdbcType="LONGVARBINARY" property="deviceBasicImg" />
   </resultMap>
   <sql id="Base_Column_List">
     device_basic_id, device_basic_name, device_basic_bodyNumber, device_basic_verson, 
-    device_basic_category, device_basic_factorydate, device_basic_status
+    device_basic_category, device_basic_type, device_basic_parent_equipment, device_basic_site,
+    device_basic_status, device_basic_factorydate, device_basic_factory_number, device_basic_purchase_amount,
+    device_basic_save_place, device_basic_user_department, device_basic_leader, device_basic_setup_time,
+    device_basic_brand, device_basic_provider, device_basic_purchase_time
+  </sql>
+  <sql id="Blob_Column_List">
+    device_basic_img
   </sql>
   <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from device_basic
     where device_basic_id = #{deviceBasicId,jdbcType=VARCHAR}
   </select>
 
   <insert id="create" parameterType="com.dstz.device.core.model.DeviceBasic">
-    insert into device_basic (device_basic_id, device_basic_name, device_basic_bodyNumber, 
-      device_basic_verson, device_basic_category, 
-      device_basic_factorydate, device_basic_status
+     insert into device_basic (device_basic_id, device_basic_name, device_basic_bodyNumber,
+      device_basic_verson, device_basic_category,
+      device_basic_type, device_basic_parent_equipment,
+      device_basic_site, device_basic_status, device_basic_factorydate,
+      device_basic_factory_number, device_basic_purchase_amount,
+      device_basic_save_place, device_basic_user_department,
+      device_basic_leader, device_basic_setup_time,
+      device_basic_brand, device_basic_provider,
+      device_basic_purchase_time, device_basic_img
       )
-    values (#{id,jdbcType=VARCHAR}, #{deviceBasicName,jdbcType=VARCHAR}, #{deviceBasicBodynumber,jdbcType=VARCHAR},
-      #{deviceBasicVerson,jdbcType=VARCHAR}, #{deviceBasicCategory,jdbcType=VARCHAR}, 
-      #{deviceBasicFactorydate,jdbcType=TIMESTAMP}, #{deviceBasicStatus,jdbcType=INTEGER}
+    values (#{deviceBasicId,jdbcType=VARCHAR}, #{deviceBasicName,jdbcType=VARCHAR}, #{deviceBasicBodynumber,jdbcType=VARCHAR},
+      #{deviceBasicVerson,jdbcType=VARCHAR}, #{deviceBasicCategory,jdbcType=INTEGER},
+      #{deviceBasicType,jdbcType=INTEGER}, #{deviceBasicParentEquipment,jdbcType=VARCHAR},
+      #{deviceBasicSite,jdbcType=VARCHAR}, #{deviceBasicStatus,jdbcType=INTEGER}, #{deviceBasicFactorydate,jdbcType=TIMESTAMP},
+      #{deviceBasicFactoryNumber,jdbcType=VARCHAR}, #{deviceBasicPurchaseAmount,jdbcType=VARCHAR},
+      #{deviceBasicSavePlace,jdbcType=VARCHAR}, #{deviceBasicUserDepartment,jdbcType=VARCHAR},
+      #{deviceBasicLeader,jdbcType=VARCHAR}, #{deviceBasicSetupTime,jdbcType=TIMESTAMP},
+      #{deviceBasicBrand,jdbcType=VARCHAR}, #{deviceBasicProvider,jdbcType=VARCHAR},
+      #{deviceBasicPurchaseTime,jdbcType=VARCHAR}, #{deviceBasicImg,jdbcType=LONGVARBINARY}
       )
   </insert>
 
   <update id="update" parameterType="com.dstz.device.core.model.DeviceBasic">
-    update device_basic
+   update device_basic
     set device_basic_name = #{deviceBasicName,jdbcType=VARCHAR},
       device_basic_bodyNumber = #{deviceBasicBodynumber,jdbcType=VARCHAR},
       device_basic_verson = #{deviceBasicVerson,jdbcType=VARCHAR},
-      device_basic_category = #{deviceBasicCategory,jdbcType=VARCHAR},
+      device_basic_category = #{deviceBasicCategory,jdbcType=INTEGER},
+      device_basic_type = #{deviceBasicType,jdbcType=INTEGER},
+      device_basic_parent_equipment = #{deviceBasicParentEquipment,jdbcType=VARCHAR},
+      device_basic_site = #{deviceBasicSite,jdbcType=VARCHAR},
+      device_basic_status = #{deviceBasicStatus,jdbcType=INTEGER},
       device_basic_factorydate = #{deviceBasicFactorydate,jdbcType=TIMESTAMP},
-      device_basic_status = #{deviceBasicStatus,jdbcType=INTEGER}
-    where device_basic_id = #{id,jdbcType=VARCHAR}
+      device_basic_factory_number = #{deviceBasicFactoryNumber,jdbcType=VARCHAR},
+      device_basic_purchase_amount = #{deviceBasicPurchaseAmount,jdbcType=VARCHAR},
+      device_basic_save_place = #{deviceBasicSavePlace,jdbcType=VARCHAR},
+      device_basic_user_department = #{deviceBasicUserDepartment,jdbcType=VARCHAR},
+      device_basic_leader = #{deviceBasicLeader,jdbcType=VARCHAR},
+      device_basic_setup_time = #{deviceBasicSetupTime,jdbcType=TIMESTAMP},
+      device_basic_brand = #{deviceBasicBrand,jdbcType=VARCHAR},
+      device_basic_provider = #{deviceBasicProvider,jdbcType=VARCHAR},
+      device_basic_purchase_time = #{deviceBasicPurchaseTime,jdbcType=VARCHAR},
+      device_basic_img = #{deviceBasicImg,jdbcType=LONGVARBINARY}
+    where device_basic_id = #{deviceBasicId,jdbcType=VARCHAR}
   </update>
 
   <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT * FROM device_basic
+    SELECT  <include refid="Base_Column_List" /> FROM device_basic
     <where>
       <if test="whereSql!=null">
         ${whereSql}
