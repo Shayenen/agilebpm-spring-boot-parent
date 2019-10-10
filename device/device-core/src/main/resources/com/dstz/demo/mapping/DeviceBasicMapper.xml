@@ -6,11 +6,11 @@
     <result column="device_basic_name" jdbcType="VARCHAR" property="deviceBasicName" />
     <result column="device_basic_bodyNumber" jdbcType="VARCHAR" property="deviceBasicBodynumber" />
     <result column="device_basic_verson" jdbcType="VARCHAR" property="deviceBasicVerson" />
-    <result column="device_basic_category" jdbcType="INTEGER" property="deviceBasicCategory" />
-    <result column="device_basic_type" jdbcType="INTEGER" property="deviceBasicType" />
+    <result column="device_basic_category" jdbcType="VARCHAR" property="deviceBasicCategory" />
+    <result column="device_basic_type" jdbcType="VARCHAR" property="deviceBasicType" />
     <result column="device_basic_parent_equipment" jdbcType="VARCHAR" property="deviceBasicParentEquipment" />
     <result column="device_basic_site" jdbcType="VARCHAR" property="deviceBasicSite" />
-    <result column="device_basic_status" jdbcType="INTEGER" property="deviceBasicStatus" />
+    <result column="device_basic_status" jdbcType="VARCHAR" property="deviceBasicStatus" />
     <result column="device_basic_factorydate" jdbcType="TIMESTAMP" property="deviceBasicFactorydate" />
     <result column="device_basic_factory_number" jdbcType="VARCHAR" property="deviceBasicFactoryNumber" />
     <result column="device_basic_purchase_amount" jdbcType="VARCHAR" property="deviceBasicPurchaseAmount" />
@@ -56,9 +56,9 @@
       device_basic_purchase_time, device_basic_img
       )
     values (#{deviceBasicId,jdbcType=VARCHAR}, #{deviceBasicName,jdbcType=VARCHAR}, #{deviceBasicBodynumber,jdbcType=VARCHAR},
-      #{deviceBasicVerson,jdbcType=VARCHAR}, #{deviceBasicCategory,jdbcType=INTEGER},
-      #{deviceBasicType,jdbcType=INTEGER}, #{deviceBasicParentEquipment,jdbcType=VARCHAR},
-      #{deviceBasicSite,jdbcType=VARCHAR}, #{deviceBasicStatus,jdbcType=INTEGER}, #{deviceBasicFactorydate,jdbcType=TIMESTAMP},
+      #{deviceBasicVerson,jdbcType=VARCHAR}, #{deviceBasicCategory,jdbcType=VARCHAR},
+      #{deviceBasicType,jdbcType=VARCHAR}, #{deviceBasicParentEquipment,jdbcType=VARCHAR},
+      #{deviceBasicSite,jdbcType=VARCHAR}, #{deviceBasicStatus,jdbcType=VARCHAR}, #{deviceBasicFactorydate,jdbcType=TIMESTAMP},
       #{deviceBasicFactoryNumber,jdbcType=VARCHAR}, #{deviceBasicPurchaseAmount,jdbcType=VARCHAR},
       #{deviceBasicSavePlace,jdbcType=VARCHAR}, #{deviceBasicUserDepartment,jdbcType=VARCHAR},
       #{deviceBasicLeader,jdbcType=VARCHAR}, #{deviceBasicSetupTime,jdbcType=TIMESTAMP},
@@ -72,11 +72,11 @@
     set device_basic_name = #{deviceBasicName,jdbcType=VARCHAR},
       device_basic_bodyNumber = #{deviceBasicBodynumber,jdbcType=VARCHAR},
       device_basic_verson = #{deviceBasicVerson,jdbcType=VARCHAR},
-      device_basic_category = #{deviceBasicCategory,jdbcType=INTEGER},
-      device_basic_type = #{deviceBasicType,jdbcType=INTEGER},
+      device_basic_category = #{deviceBasicCategory,jdbcType=VARCHAR},
+      device_basic_type = #{deviceBasicType,jdbcType=VARCHAR},
       device_basic_parent_equipment = #{deviceBasicParentEquipment,jdbcType=VARCHAR},
       device_basic_site = #{deviceBasicSite,jdbcType=VARCHAR},
-      device_basic_status = #{deviceBasicStatus,jdbcType=INTEGER},
+      device_basic_status = #{deviceBasicStatus,jdbcType=VARCHAR},
       device_basic_factorydate = #{deviceBasicFactorydate,jdbcType=TIMESTAMP},
       device_basic_factory_number = #{deviceBasicFactoryNumber,jdbcType=VARCHAR},
       device_basic_purchase_amount = #{deviceBasicPurchaseAmount,jdbcType=VARCHAR},
@@ -92,7 +92,15 @@
   </update>
 
   <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM device_basic
+    SELECT
+    device_basic_id, device_basic_name, device_basic_bodyNumber, device_basic_verson,
+    (select name_ from sys_data_dict where key_=device_basic_category and dict_key_='sbgl') device_basic_category,
+    (select name_ from sys_data_dict where key_=device_basic_type and dict_key_='sblx') device_basic_type, device_basic_parent_equipment, device_basic_site,
+    (select name_ from sys_data_dict where key_=device_basic_status and dict_key_='sbzt') device_basic_status, device_basic_factorydate, device_basic_factory_number, device_basic_purchase_amount,
+    device_basic_save_place,
+    (select name_ from sys_data_dict where key_=device_basic_user_department and dict_key_='sbsybm') device_basic_user_department, device_basic_leader, device_basic_setup_time,
+    device_basic_brand, device_basic_provider, device_basic_purchase_time
+    FROM device_basic
     <where>
       <if test="whereSql!=null">
         ${whereSql}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.DeviceSensorDao">
+  <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceSensor">
+    <id column="device_sensor_id" jdbcType="VARCHAR" property="deviceSensorId" />
+    <result column="device_basic_id" jdbcType="VARCHAR" property="deviceBasicId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dstz.device.core.model.DeviceSensor">
+    <result column="device_sensor_remark" jdbcType="LONGVARCHAR" property="deviceSensorRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    device_sensor_id, device_basic_id
+  </sql>
+  <sql id="Blob_Column_List">
+    device_sensor_remark
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device_sensor
+    where device_sensor_id = #{deviceSensorId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getByDeviceBaiscId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device_sensor
+    where device_basic_id = #{basicId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="create" parameterType="com.dstz.device.core.model.DeviceSensor">
+     insert into device_sensor (device_sensor_id, device_basic_id, device_sensor_remark
+      )
+    values (#{deviceSensorId,jdbcType=VARCHAR}, #{deviceBasicId,jdbcType=VARCHAR}, #{deviceSensorRemark,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.dstz.device.core.model.DeviceSensor">
+    update device_sensor
+    set device_basic_id = #{deviceBasicId,jdbcType=VARCHAR},
+      device_sensor_remark = #{deviceSensorRemark,jdbcType=LONGVARCHAR}
+    where device_sensor_id = #{deviceSensorId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM device_sensor
+    <where>
+      <if test="whereSql!=null">
+        ${whereSql}
+      </if>
+    </where>
+    <if test="orderBySql!=null">
+      ORDER BY ${orderBySql}
+    </if>
+    <if test="orderBySql==null">
+      ORDER BY device_sensor_id DESC
+    </if>
+  </select>
+
+  <delete id="remove" parameterType="java.lang.String">
+		DELETE FROM device_sensor
+		WHERE
+		device_sensor_id=#{id}
+	</delete>
+  <delete id="removeByBasicId" parameterType="java.lang.String">
+		DELETE FROM device_sensor
+		WHERE
+		device_basic_id = #{basicId,jdbcType=VARCHAR}
+	</delete>
+</mapper>

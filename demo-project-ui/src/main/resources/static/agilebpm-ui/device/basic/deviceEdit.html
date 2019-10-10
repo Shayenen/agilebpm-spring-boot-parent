@@ -33,16 +33,16 @@
 		}
 	</script>
 	<body class="panel success" ng-controller="ctrl">
-	<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" ab-save="/basedevice/api/saveDeviceCamera">保存</a>
+	<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" onclick="submitBasic();">保存</a>
 	<a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javaScript:window.close()">取消</a>
 
 	<!--  ab-load 去controller 层获取业务数据  -->
-			<form name="form" method="post" ab-load="/basedevice/api/get?id={id}"  ng-model="data" enctype="multipart/form-data">
+			<form name="form" method="post" id="basicForm" ab-load="/basedevice/api/get?id={id}"  ng-model="data" enctype="multipart/form-data">
 				<table class="form-table">
 					<tr>								
 						<th><span>设备名称:</span><span class="required">*</span></th>
 						<td>
-							<input class="form-control" type="text" ng-model="data.deviceBasicName"   ab-validate="{required:true,maxlength:192}"  />
+							<input class="form-control" name="deviceBasicName" type="text" ng-model="data.deviceBasicName"   ab-validate="{required:true,maxlength:192}"  />
 						</td>
 						<th><span>设备编号:</span><span class="required">*</span></th>
 						<td>
@@ -92,6 +92,28 @@
 
 				</table>
 			</form>
-		
+		<script>
+			function submitBasic(){
+				var formData = new FormData($("#uploadForm")[0]);
+				console.log(formData);
+				console.log($( '#uploadForm').serialize());
+				$.ajax({
+					async : false,
+					cache : false,
+					type : "post",
+					data : {"deviceBasic":formData,"test":"ceshi"},
+					url : '/basedevice/api/saveDeviceCamera',
+					dataType : 'json',
+					contentType: false, //必须
+					processData: false, //必须
+					success : function() {
+						console.log('success');
+					},
+					error : function(arg1, arg2, arg3) {
+						console.log(arg1 + "--" + arg2 + "--" + arg3);
+					}
+				});
+			}
+		</script>
 	</body>
 </html>

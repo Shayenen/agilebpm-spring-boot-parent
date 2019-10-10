@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.DeviceLightDao">
+  <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceLight">
+    <id column="device_light_id" jdbcType="VARCHAR" property="deviceLightId" />
+    <result column="device_basic_id" jdbcType="VARCHAR" property="deviceBasicId" />
+    <result column="device_light_power" jdbcType="VARCHAR" property="deviceLightPower" />
+    <result column="device_light_luminance" jdbcType="VARCHAR" property="deviceLightLuminance" />
+    <result column="device_light_voltage" jdbcType="VARCHAR" property="deviceLightVoltage" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dstz.device.core.model.DeviceLight">
+    <result column="device_light_remark" jdbcType="LONGVARCHAR" property="deviceLightRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    device_light_id, device_basic_id, device_light_power, device_light_luminance, device_light_voltage
+  </sql>
+  <sql id="Blob_Column_List">
+    device_light_remark
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device_light
+    where device_light_id = #{deviceCameraId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getByDeviceBaiscId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device_light
+    where device_basic_id = #{basicId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="create" parameterType="com.dstz.device.core.model.DeviceLight">
+     insert into device_light (device_light_id, device_basic_id, device_light_power,
+      device_light_luminance, device_light_voltage,
+      device_light_remark)
+    values (#{deviceLightId,jdbcType=VARCHAR}, #{deviceBasicId,jdbcType=VARCHAR}, #{deviceLightPower,jdbcType=VARCHAR},
+      #{deviceLightLuminance,jdbcType=VARCHAR}, #{deviceLightVoltage,jdbcType=VARCHAR},
+      #{deviceLightRemark,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="update" parameterType="com.dstz.device.core.model.DeviceLight">
+   update device_light
+    set device_basic_id = #{deviceBasicId,jdbcType=VARCHAR},
+      device_light_power = #{deviceLightPower,jdbcType=VARCHAR},
+      device_light_luminance = #{deviceLightLuminance,jdbcType=VARCHAR},
+      device_light_voltage = #{deviceLightVoltage,jdbcType=VARCHAR},
+      device_light_remark = #{deviceLightRemark,jdbcType=LONGVARCHAR}
+    where device_light_id = #{deviceLightId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM device_light
+    <where>
+      <if test="whereSql!=null">
+        ${whereSql}
+      </if>
+    </where>
+    <if test="orderBySql!=null">
+      ORDER BY ${orderBySql}
+    </if>
+    <if test="orderBySql==null">
+      ORDER BY device_light_id DESC
+    </if>
+  </select>
+
+  <delete id="remove" parameterType="java.lang.String">
+		DELETE FROM device_light
+		WHERE
+		device_light_id=#{id}
+	</delete>
+  <delete id="removeByBasicId" parameterType="java.lang.String">
+		DELETE FROM device_light
+		WHERE
+		device_basic_id = #{basicId,jdbcType=VARCHAR}
+	</delete>
+</mapper>

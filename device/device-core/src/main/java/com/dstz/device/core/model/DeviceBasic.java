@@ -15,15 +15,15 @@ public class DeviceBasic extends BaseModel {
 
     private String deviceBasicVerson;
 
-    private Integer deviceBasicCategory;
+    private String deviceBasicCategory;
 
-    private Integer deviceBasicType;
+    private String deviceBasicType;
 
     private String deviceBasicParentEquipment;
 
     private String deviceBasicSite;
 
-    private Integer deviceBasicStatus;
+    private String deviceBasicStatus;
 
     private Date deviceBasicFactorydate;
 
@@ -81,19 +81,19 @@ public class DeviceBasic extends BaseModel {
         this.deviceBasicVerson = deviceBasicVerson == null ? null : deviceBasicVerson.trim();
     }
 
-    public Integer getDeviceBasicCategory() {
+    public String getDeviceBasicCategory() {
         return deviceBasicCategory;
     }
 
-    public void setDeviceBasicCategory(Integer deviceBasicCategory) {
+    public void setDeviceBasicCategory(String deviceBasicCategory) {
         this.deviceBasicCategory = deviceBasicCategory;
     }
 
-    public Integer getDeviceBasicType() {
+    public String getDeviceBasicType() {
         return deviceBasicType;
     }
 
-    public void setDeviceBasicType(Integer deviceBasicType) {
+    public void setDeviceBasicType(String deviceBasicType) {
         this.deviceBasicType = deviceBasicType;
     }
 
@@ -113,11 +113,11 @@ public class DeviceBasic extends BaseModel {
         this.deviceBasicSite = deviceBasicSite == null ? null : deviceBasicSite.trim();
     }
 
-    public Integer getDeviceBasicStatus() {
+    public String getDeviceBasicStatus() {
         return deviceBasicStatus;
     }
 
-    public void setDeviceBasicStatus(Integer deviceBasicStatus) {
+    public void setDeviceBasicStatus(String deviceBasicStatus) {
         this.deviceBasicStatus = deviceBasicStatus;
     }
 

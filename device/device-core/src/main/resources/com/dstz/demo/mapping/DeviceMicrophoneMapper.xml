@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.DeviceMicrophoneDao">
+  <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceMicrophone">
+    <result column="device_microphone_id" jdbcType="VARCHAR" property="deviceMicrophoneId" />
+    <result column="device_basic_id" jdbcType="VARCHAR" property="deviceBasicId" />
+    <result column="device_microphone_power" jdbcType="VARCHAR" property="deviceMicrophonePower" />
+    <result column="device_microphone_stream" jdbcType="VARCHAR" property="deviceMicrophoneStream" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dstz.device.core.model.DeviceMicrophone">
+    <result column="device_microphone_remark" jdbcType="LONGVARCHAR" property="deviceMicrophoneRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    device_microphone_id, device_basic_id,device_microphone_power,device_microphone_stream
+  </sql>
+  <sql id="Blob_Column_List">
+    device_microphone_remark
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device_microphone
+    where device_microphone_id = #{deviceMicrophoneId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getByDeviceBaiscId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device_microphone
+    where device_basic_id = #{basicId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="create" parameterType="com.dstz.device.core.model.DeviceMicrophone">
+     insert into device_microphone (device_microphone_id, device_basic_id,
+      device_microphone_power, device_microphone_stream,
+      device_microphone_remark)
+    values (#{deviceMicrophoneId,jdbcType=VARCHAR}, #{deviceBasicId,jdbcType=VARCHAR},
+      #{deviceMicrophonePower,jdbcType=VARCHAR}, #{deviceMicrophoneStream,jdbcType=VARCHAR},
+      #{deviceMicrophoneRemark,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="update" parameterType="com.dstz.device.core.model.DeviceMicrophone">
+    update device_microphone
+    set device_basic_id = #{deviceBasicId,jdbcType=VARCHAR},
+        device_microphone_power = #{deviceMicrophonePower,jdbcType=VARCHAR},
+        device_microphone_stream = #{deviceMicrophoneStream,jdbcType=VARCHAR},
+        device_microphone_remark = #{deviceMicrophoneRemark,jdbcType=LONGVARCHAR}
+    where device_microphone_id = #{deviceMicrophoneId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM device_microphone
+    <where>
+      <if test="whereSql!=null">
+        ${whereSql}
+      </if>
+    </where>
+    <if test="orderBySql!=null">
+      ORDER BY ${orderBySql}
+    </if>
+    <if test="orderBySql==null">
+      ORDER BY device_microphone_id DESC
+    </if>
+  </select>
+
+  <delete id="remove" parameterType="java.lang.String">
+		DELETE FROM device_microphone
+		WHERE
+		device_microphone_id=#{id}
+	</delete>
+  <delete id="removeByBasicId" parameterType="java.lang.String">
+		DELETE FROM device_microphone
+		WHERE
+		device_basic_id = #{basicId,jdbcType=VARCHAR}
+	</delete>
+</mapper>

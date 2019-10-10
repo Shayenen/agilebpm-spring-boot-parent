@@ -3,16 +3,18 @@ package com.dstz.device.core.manager.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
-import com.dstz.device.core.dao.DeviceBasicDao;
-import com.dstz.device.core.dao.DeviceCameraDao;
+import com.dstz.device.core.dao.*;
 import com.dstz.device.core.manager.DeviceBasicManager;
 import com.dstz.device.core.model.DeviceBasic;
 import com.dstz.device.core.model.DeviceCamera;
+import com.dstz.device.core.model.DeviceLight;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
+
+import static com.dstz.device.core.utils.FileUtils.getFileByte;
 
 @Service("deviceBasicManager")
 public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> implements DeviceBasicManager {
@@ -20,6 +22,12 @@ public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> im
     DeviceBasicDao deviceBasicDao;
     @Resource
     DeviceCameraDao deviceCameraDao;
+    @Resource
+    DeviceLightDao deviceLightDao;
+    @Resource
+    DeviceMicrophoneDao deviceMicrophoneDao;
+    @Resource
+    DeviceSensorDao deviceSensorDao;
 
     /**
      * 视频设备保存
@@ -31,10 +39,7 @@ public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> im
     @Override
     public void createCamera(MultipartFile file, DeviceBasic deviceBasic, DeviceCamera deviceCamera) throws Exception {
         if (file!=null && !file.isEmpty()){
-            InputStream inputStream = file.getInputStream();
-            byte[] pictureData = new byte[(int) file.getSize()];
-            inputStream.read(pictureData);
-            deviceBasic.setDeviceBasicImg(pictureData);
+            deviceBasic.setDeviceBasicImg(getFileByte(file));
         }
         deviceBasic.setDeviceBasicId(IdUtil.getSuid());
         deviceCamera.setDeviceBasicId(deviceBasic.getDeviceBasicId());
@@ -56,10 +61,7 @@ public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> im
     @Override
     public void updateCamera(MultipartFile file, DeviceBasic deviceBasic, DeviceCamera deviceCamera) throws Exception {
         if (file!=null && !file.isEmpty()){
-            InputStream inputStream = file.getInputStream();
-            byte[] pictureData = new byte[(int) file.getSize()];
-            inputStream.read(pictureData);
-            deviceBasic.setDeviceBasicImg(pictureData);
+            deviceBasic.setDeviceBasicImg(getFileByte(file));
         }
         deviceBasicDao.update(deviceBasic);
         deviceCameraDao.update(deviceCamera);
@@ -77,13 +79,31 @@ public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> im
     }
 
     /**
-     * 摄像机删除
+     * 删除
      *
      * @param basicId
      */
     @Override
-    public void removeCamera(String basicId) {
-        deviceBasicDao.remove(basicId);
-        deviceCameraDao.removeByBasicId(basicId);
+    public void removeDevice(String basicId) {
+        DeviceBasic deviceBasic = deviceBasicDao.get(basicId);
+        if(deviceBasic!=null) {
+            deviceBasicDao.remove(basicId);
+            if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
+                //视频
+                deviceCameraDao.removeByBasicId(basicId);
+            }else if (deviceBasic.getDeviceBasicCategory().equals("ypsb")){
+                //音频设备
+                deviceMicrophoneDao.removeByBasicId(basicId);
+
+            }else if (deviceBasic.getDeviceBasicCategory().equals("cgqsb")){
+                //传感器设备
+                deviceSensorDao.removeByBasicId(basicId);
+
+            }else if (deviceBasic.getDeviceBasicCategory().equals("dgsb")){
+                //灯光设备
+                deviceLightDao.removeByBasicId(basicId);
+            }
+
+        }
     }
 }

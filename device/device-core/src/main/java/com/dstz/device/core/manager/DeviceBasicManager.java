@@ -32,8 +32,8 @@ public interface DeviceBasicManager extends Manager<String, DeviceBasic> {
     DeviceCamera getDeviceCamera(String id);
 
     /**
-     * 摄像机删除
+     * 删除
      * @param basicId
      */
-    void removeCamera(String basicId);
+    void removeDevice(String basicId);
 }
