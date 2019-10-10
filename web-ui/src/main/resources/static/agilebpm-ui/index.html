@@ -31,12 +31,12 @@
                   <li ng-repeat="item in memus" class="{{item.opened==1?'active':''}}" ng-if="item.enable">
                       <a href="javascript:void(0);" ng-click="menuClick(item)">
                           <i class="fa {{item.icon}}"></i>
-                          <span class="nav-label" style="font-size: 18px">{{item.name}}</span>
+                          <span class="nav-label" style="font-size: 16px">{{item.name}}</span>
                           <span class="fa arrow" ng-if="item.children.length" style="font-size: 20px"></span>
                       </a>
                       <ul class="nav nav-second-level" ng-if="item.children.length">
                           <li ng-repeat="second in item.children" ng-if="second.enable">
-                              <a class="J_menuItem" ng-click="menuClick(second)" style="font-size: 16px; color:#333;">
+                              <a class="J_menuItem" ng-click="menuClick(second)" style="font-size: 14px; color:#333;">
                               		{{second.name}}<span ng-if="second.children" class="fa arrow"></span>
                               </a>
                               <ul class="nav nav-third-level" ng-if="second.children.length">
