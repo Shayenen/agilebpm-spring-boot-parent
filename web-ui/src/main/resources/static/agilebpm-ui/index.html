@@ -22,21 +22,21 @@
               	<!-- 个人信息 -->
            		<li class="nav-header">
                      <div class="dropdown profile-element">
-                         <span><img alt="image"   src="./assets/img/logo/4.png" style="width: 166px; height: 57px;"/></span>
+                         <span><img alt="image"   src="./assets/img/logo/4.png" style="width: 186px; height: 28px;margin-left: 34px;margin-top: 34px"/></span>
                      </div>
-                     <div class="logo-element">AGILE-BPM
+                     <div class="logo-element">LINK-SOUL
                      </div>
                  </li>
          	<!--菜单 -->
                   <li ng-repeat="item in memus" class="{{item.opened==1?'active':''}}" ng-if="item.enable">
                       <a href="javascript:void(0);" ng-click="menuClick(item)">
                           <i class="fa {{item.icon}}"></i>
-                          <span class="nav-label">{{item.name}}</span>
-                          <span class="fa arrow" ng-if="item.children.length"></span>
+                          <span class="nav-label" style="font-size: 18px">{{item.name}}</span>
+                          <span class="fa arrow" ng-if="item.children.length" style="font-size: 20px"></span>
                       </a>
                       <ul class="nav nav-second-level" ng-if="item.children.length">
                           <li ng-repeat="second in item.children" ng-if="second.enable">
-                              <a class="J_menuItem" ng-click="menuClick(second)">
+                              <a class="J_menuItem" ng-click="menuClick(second)" style="font-size: 16px; color:#333;">
                               		{{second.name}}<span ng-if="second.children" class="fa arrow"></span>
                               </a>
                               <ul class="nav nav-third-level" ng-if="second.children.length">
@@ -62,11 +62,11 @@
 	<!--右侧部分开始-->
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header" style="width:80%">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;box-shadow: 0px 3px 10px rgba(71,3,4,0.16)">
+                    <div class="navbar-header" style="width:76%">
                    		<a ng-repeat="topMenu in userRes" ng-click="topClick(topMenu)" ab-tip title="{{topMenu.name}}"  ng-if="topMenu.enable"
-                   		 	class="navbar-minimalize minimalize-styl-2 btn btn-primary {{topMenu.active}}" href="javascript:void(0);">
-                   		  	<i class="fa fa-{{topMenu.icon ||'server'}} fa-2x" style="display: block;" ></i> {{topMenu.name}}
+                   		 	class="navbar-minimalize minimalize-styl-2 btn btn-primary {{topMenu.active}}" href="javascript:void(0);" style="display: block;width:116px;height:98px;margin: 0;padding: 0">
+                   		  	<i class="fa fa-{{topMenu.icon ||'server'}} fa-2x" style="display: block;margin-top: 20px;margin-bottom: 8px;" ></i> {{topMenu.name}}
                    		</a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
@@ -153,17 +153,17 @@
             
             <!-- TAB列 -->
             <div class="row content-tabs">
-                <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
-                </button>
+<!--                <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>-->
+<!--                </button>-->
                 <nav class="page-tabs J_menuTabs">
                     <div class="page-tabs-content">
                         <a ng-repeat="menu in openedMenu" id="{{menu.id}}" ng-click="menuClick(menu,true)" href="javascript:void(0);" class="{{menu.active}} J_menuTab">{{menu.name}}
-                        	<i ng-if="!menu.noclose" class="fa fa-times-circle" ng-click="closeTab(menu)"></i>
+                        	<i ng-if="!menu.noclose" class="fa fa-times-circle" ng-click="closeTab(menu)" style="margin-left: 5px"></i>
                         </a>
                     </div>
                 </nav>
-                <button class="roll-nav roll-right J_tabRight" ><i class="fa fa-forward"></i>
-                </button>
+<!--                <button class="roll-nav roll-right J_tabRight" ><i class="fa fa-forward"></i>-->
+<!--                </button>-->
                 <div class="btn-group roll-nav roll-right" style="right: 0px;">
                     <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span></button>
                     <ul role="menu" class="dropdown-menu dropdown-menu-right">
@@ -184,7 +184,7 @@
             </div>
             
             <div class="footer">
-                <div class="pull-right">&copy; AGILE-BPM ©2018 版权所有 禁止用于商业用途 违者必究 </div>
+                <div class="pull-right" style="margin-top: 0px">&copy; LINK-SOUL ©2018 版权所有 禁止用于商业用途 违者必究 </div>
             </div>
         </div>
         <!--右侧部分结束-->
@@ -202,9 +202,9 @@
 }
 
 .nav-header{
-  height: 63px;
+  height: 98px;
   padding: 2px 12px;
-  border-bottom:1px solid #333;
+  /*border-bottom:1px solid #333;*/
 }
 
 .navbar-static-side{
@@ -221,18 +221,39 @@
     border-color: transparent;
     0color: #fff;
     background-color: transparent;
-    color: #609e94;
+    color: #ec1c24;
 }
 
 .btn-primary.menuActive{
-	background-color: #18a689;
-    border-color: #18a689;
+	background-color: #ec1c24;
+    border-color: #ec1c24;
     color: #fff;
 }
 
 
 .nav>li.active {
-    border-left: 4px solid #F0F0F0;
+    border-left: 4px solid #ec1c24;
     background: transparent;
+    color: #ec1c24;
+}
+    .J_menuItem:hover{
+        color: #fff !important;
+    }
+
+.page-tabs a{
+    position: relative;
+}
+
+.page-tabs a:before{
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ec1c24;
+    margin-right: 4px;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background-color: #eee;
 }
 </style>

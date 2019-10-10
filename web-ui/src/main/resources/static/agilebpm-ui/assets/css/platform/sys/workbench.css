@@ -24,7 +24,7 @@
 }
 
 .gray-bg {
-    background-color: #f3f3f4;
+    background-color: rgb(245,246,250);
 }
 html, body {
     height: 100%;
@@ -46,7 +46,7 @@ body {
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     background-color: #ffffff;
-    border-color: #e7eaec;
+    border-color: #fff;
     -webkit-border-image: none;
     -o-border-image: none;
     border-image: none;
