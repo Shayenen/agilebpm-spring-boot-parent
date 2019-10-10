@@ -32,7 +32,7 @@
 			 }
 			 
 			scope.add = function(type){
-				var url = "/agilebpm-ui/sys/dataDict/dataDictEdit.html?dictType="+type;
+				var url = "/sys/dataDict/dataDictEdit.html?dictType="+type;
 				if(type=="dict"){
 					url = url + "&typeId="+scope.typeId;
 				}
@@ -42,7 +42,7 @@
 			 }
 			
 			scope.edit = function(id){
-				var url = "/agilebpm-ui/sys/dataDict/dataDictEdit.html?id="+id;
+				var url = "/sys/dataDict/dataDictEdit.html?id="+id;
 				 var conf = {title:"修改数据字典",url:url,height:300,width:500};
 				 $.Dialog.open(conf);
 			 }
@@ -91,14 +91,14 @@
 			eval(item.name+"()");
 		};
 		function addNode(){
-			var url = "/agilebpm-ui/sys/dataDict/dataDictEdit.html?dictType=node&parentId={id}&dictKey={dictKey}";
+			var url = "/sys/dataDict/dataDictEdit.html?dictType=node&parentId={id}&dictKey={dictKey}";
 			url = url.format(curSelectNode);
 			var conf = {title:"修改数据字典",url:url,height:300,width:500};
 			$.Dialog.open(conf);
 		}
 		
 		function editNode(){
-			var url = "/agilebpm-ui/sys/dataDict/dataDictEdit.html?id="+curSelectNode.id;
+			var url = "/sys/dataDict/dataDictEdit.html?id="+curSelectNode.id;
 			var conf = {title:"修改数据字典",url:url,height:300,width:500};
 			$.Dialog.open(conf);
 		}

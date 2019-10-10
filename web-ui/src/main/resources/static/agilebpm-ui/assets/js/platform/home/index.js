@@ -199,7 +199,7 @@ app.controller("indexCtrl",['$scope','baseService',function(scope,baseService){
 	
 	// url特殊处理
 	window.setTimeout(function(){
-		$("#indexpageiframe").attr("src", "/agilebpm-ui/sys/workbenchPanel/myWorkbench.html");
+		$("#indexpageiframe").attr("src", "/sys/workbenchPanel/myWorkbench.html");
 	},10)
 	var userInfoTab = {
 			id:"userInfo",

@@ -57,7 +57,7 @@ $(function(){
 					<th data-field="duration" data-formatter="$.timeLag">持续时间</th>
 
 					<th data-formatter="innerHtmlFormatter" data-title="管理">
-						<a class="fa-detail btn btn-outline btn-primary btn-sm" iview="特殊标记" openDialog='流程实例详情 【{subject}】' qtip='详情11' url='/agilebpm-ui/bpm/instance/instanceDetail.html?id={id}'></a>
+						<a class="fa-detail btn btn-outline btn-primary btn-sm" iview="特殊标记" openDialog='流程实例详情 【{subject}】' qtip='详情11' url='/bpm/instance/instanceDetail.html?id={id}'></a>
 						<span class="fa-cogs btn btn-outline btn-primary btn-sm" openDialog='任务情况' qtip="流程实例任务情况【{subject}】" url="/bpm/instance/taskOpinionHistory.html?instanceId={id}"></span>
 						<span if="{isForbidden}===0 && '{status}' != 'end' && '{status}' != 'manualend'" class="fa-ban btn btn-outline btn-primary btn-sm" qtip='挂起' sendAction="挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=true"></span>
 						<span if="{isForbidden}===1" class="fa-undo btn btn-outline btn-primary btn-sm" qtip='取消挂起' sendAction="取消挂起" url="/bpm/instance/toForbidden?id={id}&forbidden=false"></span>

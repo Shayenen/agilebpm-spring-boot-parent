@@ -20,9 +20,9 @@ spring:
 logging:
   level:
     root: DEBUG
-server:
-  servlet:
-    context-path: /agile-bpm-platform
+#server:
+#  servlet:
+#    context-path: /agile-bpm-platform
 
 ## security:
 ##  ignored:  [/agilebpm-ui/** ,/css/**, /js/**,/images/**,/webjars/**,/**/favicon.ico]

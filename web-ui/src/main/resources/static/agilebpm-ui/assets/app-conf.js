@@ -1,6 +1,6 @@
 window.__ctx = "/";
 
-//__ctx = "/agile-bpm-platform";
+__ctx = "/";
 ////跨域时修改 此 ctx 
 //window.__ctx = "http://localhost:8080/agile-bpm-platform";
 console
