@@ -296,7 +296,7 @@ dialogHelper__.initCustDialogs = function(){
 			var conf = {
 					height:600,
 					width:800,  
-					url: "/form/formCustDialog/formCustDialogShowList.html?key="+key,// url不为空则使用iframe类型对话框
+					url: "/agilebpm-ui/form/formCustDialog/formCustDialogShowList.html?key="+key,// url不为空则使用iframe类型对话框
 					title:"",
 					topOpen:true,
 					btn:true, 
