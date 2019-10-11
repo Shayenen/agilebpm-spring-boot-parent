@@ -10,7 +10,6 @@
 	<script type="text/javascript">
 		var app = angular.module('app', ['baseDirective']);
 		app.controller("ctrl", [ '$scope', 'baseService' ,function($scope, baseService) {
-			//var params =['sblx','sbgl','sbzt','sbsybm']
 			$scope.data = {};
 			$.ajax({
 				type : "GET",
@@ -21,8 +20,11 @@
 				dataType : 'json',
 				
 				success : function(data) {
-					$scope.data.sbgl = data.data.sbgl
-					console.log('success:', $scope.data.sbgl);
+					$scope.data.sbgl = data.data.sbgl;
+					$scope.data.sblx = data.data.sblx;
+					$scope.data.sbsybm = data.data.sbsybm;
+					$scope.data.sbzt = data.data.sbzt;
+					$scope.$apply();
 				},
 				error : function(arg1, arg2, arg3) {
 					console.log(arg1 + "--" + arg2 + "--" + arg3);
@@ -31,11 +33,35 @@
 		}]);
 
 		function submit(){
-			// console.log(JSON.stringify(ngUtil.getScope().data))
-			var dataSource = ngUtil.getScope().data
+			var dataSource = ngUtil.getScope().data;
 			var params = {
-				"deviceBasic":dataSource,
-				"test":"ceshi"
+				"deviceBasic":dataSource
+			}
+			if(dataSource.deviceBasicCategory == 'spjksb'){//视频监控设备
+				params.deviceCamera = {
+					"deviceCameraShotNumber": dataSource.deviceCameraShotNumber,
+					"deviceCameraPx": dataSource.deviceCameraPx,
+					"deviceCameraSize": dataSource.deviceCameraSize,
+					"deviceCameraStream": dataSource.deviceCameraStream,
+					"deviceCameraRemark": dataSource.deviceCameraRemark
+				}
+			}else if(dataSource.deviceBasicCategory == 'ypsb'){//音频设备
+				params.deviceMicrophone = {
+					"deviceMicrophonePower": dataSource.deviceMicrophonePower,
+					"deviceMicrophoneStream": dataSource.deviceMicrophoneStream,
+					"deviceMicrophoneRemark": dataSource.deviceMicrophoneRemark
+				}
+			}else if(dataSource.deviceBasicCategory == 'cgqsb'){//传感器设备
+				params.deviceSensor = {
+					"deviceSensorRemark": dataSource.deviceSensorRemark
+				}
+			}else if(dataSource.deviceBasicCategory == 'dgsb'){//灯光设备
+				params.deviceLight = {
+					"deviceLightPower": dataSource.deviceLightPower,
+					"deviceLightLuminance": dataSource.deviceLightLuminance,
+					"deviceLightVoltage": dataSource.deviceLightVoltage,
+					"deviceLightRemark": dataSource.deviceLightRemark
+				}
 			}
 			$.ajax({
 				async : false,
@@ -47,8 +73,7 @@
 				contentType: false, //必须
 				processData: false, //必须
 				success : function(data) {
-					console.log('data:',data);
-					submitImg(data.data);
+					submitImg(data.data);//图片上传接口
 				},
 				error : function(arg1, arg2, arg3) {
 					console.log(arg1 + "--" + arg2 + "--" + arg3);
@@ -63,11 +88,10 @@
 				dataType: "json",
 				fileElementId:"file",  // 文件的id
 				success: function(d){
-					console.log(1111)
+					console.log('图片上传成功！');
 				},
 				error: function () {
-					// js.showMessage("上传失败");
-					console.log(2222)
+					alert('图片上传失败！');
 				},
 			});
 		}
@@ -118,7 +142,7 @@
 					<tr>								
 						<th><span>设备类别:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.dictKey as x.name for x in data.sbgl">
+							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.key as x.name for x in data.sbgl">
 <!--									<option ng-repeat="x in data.deviceBasicCategory" value="{{x.key}}">{{x.name}}</option>-->
 <!--								<option value="shipin">视屏监控设备</option>-->
 <!--								<option value="yinpin">音频设备</option>-->
@@ -128,9 +152,9 @@
 						</td>
 						<th><span>设备类型:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicType">
-								<option value="device">设备</option>
-								<option value="part">部件</option>
+							<select class="form-control" ng-model="data.deviceBasicType" ng-options = "x.key as x.name for x in data.sblx">
+<!--								<option value="device">设备</option>-->
+<!--								<option value="part">部件</option>-->
 							</select>
 						</td>
 						<th><span>上级设备:</span><span class="required">*</span></th>
@@ -142,11 +166,11 @@
 					<tr>
 						<th><span>设备状态:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicStatus">
-								<option value="on">运行</option>
-								<option value="off">故障</option>
-								<option value="stop">停用</option>
-								<option value="no">未安装</option>
+							<select class="form-control" ng-model="data.deviceBasicStatus" ng-options = "x.key as x.name for x in data.sbzt">
+<!--								<option value="on">运行</option>-->
+<!--								<option value="off">故障</option>-->
+<!--								<option value="stop">停用</option>-->
+<!--								<option value="no">未安装</option>-->
 							</select>
 						</td>
 						<th><span>安装位置:</span></th>
@@ -193,8 +217,8 @@
 						</td>
 						<th><span>使用部门:</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicUserDepartment">
-								<option value="safePart">安检部</option>
+							<select class="form-control" ng-model="data.deviceBasicUserDepartment" ng-options = "x.key as x.name for x in data.sbsybm">
+<!--								<option value="safePart">安检部</option>-->
 							</select>
 						</td>
 						<th><span>负责人:</span></th>
@@ -216,8 +240,8 @@
 
 				</table>
 			</form>
-	<h3>拓展信息</h3>
-	<div>
+	<h3 ng-show="data.deviceBasicCategory != ''">拓展信息</h3>
+	<div ng-show="data.deviceBasicCategory == 'spjksb'">
 		<h4>视频监控设备</h4>
 		<table class="form-table">
 			<tr>
@@ -248,7 +272,7 @@
 			</tr>
 		</table>
 	</div>
-	<div>
+	<div ng-show="data.deviceBasicCategory == 'ypsb'">
 		<h4>音频设备</h4>
 		<table class="form-table">
 			<tr>
@@ -269,7 +293,7 @@
 			</tr>
 		</table>
 	</div>
-	<div>
+	<div ng-show="data.deviceBasicCategory == 'cgqsb'">
 		<h4>传感器设备</h4>
 		<table class="form-table">
 			<tr>
@@ -280,7 +304,7 @@
 			</tr>
 		</table>
 	</div>
-	<div>
+	<div ng-show="data.deviceBasicCategory == 'dgsb'">
 		<h4>灯光设备</h4>
 		<table class="form-table">
 			<tr>
