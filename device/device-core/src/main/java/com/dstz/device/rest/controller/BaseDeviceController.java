@@ -160,7 +160,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	}
 
 	@RequestMapping("getDictData")
-	public ResultMsg<Map> getByDictKey(@RequestParam String[] dictKey, @RequestParam(defaultValue="false") Boolean hasRoot) throws Exception{
+	public ResultMsg<Map> getByDictKey(@RequestParam(value = "dictKey[]") String[] dictKey, @RequestParam(defaultValue="false") Boolean hasRoot) throws Exception{
 		if(dictKey.length==0) return null;
 		Map map = new HashMap();
 		for (int i=0;i<dictKey.length;i++){

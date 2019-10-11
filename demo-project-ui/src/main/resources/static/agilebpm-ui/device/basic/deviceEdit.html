@@ -9,16 +9,16 @@
 	<script type="text/javascript">
 		var app = angular.module('app', ['baseDirective']);
 		app.controller("ctrl", [ '$scope', 'baseService' ,function($scope, baseService) {
-			var params = {"dictKey": ['sblx','sbgl','sbzt','sbsybm']}
+			//var params =['sblx','sbgl','sbzt','sbsybm']
 			$.ajax({
-				async : false,
-				cache : false,
+
 				type : "GET",
-				data : JSON.stringify(params),
+				data:{
+					dictKey:['sblx','sbgl','sbzt','sbsybm']
+				},
 				url : '/basedevice/api/getDictData',
 				dataType : 'json',
-				contentType: false, //必须
-				processData: false, //必须
+				
 				success : function(data) {
 					console.log('success:', data);
 				},
