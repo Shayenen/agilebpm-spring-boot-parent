@@ -1,5 +1,7 @@
 package com.dstz.device.core.manager.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.manager.impl.BaseManager;
@@ -13,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.Random;
 
 import static com.dstz.device.core.utils.FileUtils.getFileByte;
 
@@ -106,4 +110,37 @@ public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> im
 
         }
     }
+
+    @Override
+    public Map getMap(String id) {
+        return deviceBasicDao.getMap(id);
+    }
+
+    @Override
+    public JSON getTestData() {
+
+        String json = "[[\"product\", \"视频监控\", \"音频\", \"传感器\"]," // 产品项
+                + "[\"2015\"," + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "], [\"2016\", " + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "],"
+                + "[\"2017\", " + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "], [\"2019\"," + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "]]";
+        JSONArray jsonArray = JSONArray.parseArray(json);
+
+        return jsonArray;
+    }
+
+    @Override
+    public JSON getTestData2() {
+
+        String json = "[[\"product\", \"视频监控\", \"音频\", \"传感器\"]," // 产品项
+                //+ "[\"2014\"," + 100 + "],"
+                + "[\"2015\"," + 100 + "], [\"2016\", " + 200+ "],"
+                + "[\"2017\", " + 260 + "], [\"2019\"," + 340 + "]]";
+        JSONArray jsonArray = JSONArray.parseArray(json);
+
+        return jsonArray;
+    }
+    private int getRandomInt() {
+        Random rand = new Random();
+        return rand.nextInt(6000);
+    }
+
 }

@@ -43,6 +43,12 @@
     from device_basic
     where device_basic_id = #{deviceBasicId,jdbcType=VARCHAR}
   </select>
+  <select id="getMap" parameterType="java.lang.String" resultType="java.util.Map">
+      select
+    <include refid="Blob_Column_List" />
+    from device_basic
+    where device_basic_id = #{deviceBasicId,jdbcType=VARCHAR}
+  </select>
 
   <insert id="create" parameterType="com.dstz.device.core.model.DeviceBasic">
      insert into device_basic (device_basic_id, device_basic_name, device_basic_bodyNumber,

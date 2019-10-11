@@ -1,6 +1,7 @@
 package com.dstz.device.rest.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dstz.base.api.aop.annotion.CatchErr;
 import com.dstz.base.api.query.QueryFilter;
@@ -28,9 +29,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.dstz.device.core.utils.FileUtils.getFileByte;
 
@@ -41,7 +44,7 @@ import static com.dstz.device.core.utils.FileUtils.getFileByte;
  *    
  */
 @RestController
-@RequestMapping("/basedevice/api/")
+@RequestMapping("/basedevice/")
 @Api(description = "基础设备管理")
 public class BaseDeviceController extends BaseController<DeviceBasic> {
 	@Resource
@@ -93,7 +96,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 
 		String id=deviceBasic.getId();
 		if(StringUtil.isEmpty(id)){
-			DeviceCamera deviceCamera =new DeviceCamera();
+			DeviceCamera deviceCamera = jsonObject.getObject("deviceCamera", DeviceCamera.class);
 			deviceBasic.setDeviceBasicId(IdUtil.getSuid());
 			deviceBasicManager.createCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
 			return  getSuccessResult(deviceBasic.getDeviceBasicId(),"添加设备信息成功");
@@ -103,7 +106,26 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 			return  getSuccessResult("更新设备信息成功");
 		}
 	}
-
+	@RequestMapping(value="/getFileById")
+	public void getPhotoById (@RequestParam("id") String id, final HttpServletResponse response) throws Exception{
+		Map map = deviceBasicManager.getMap(id);
+		//DeviceBasic deviceBasic = deviceBasicManager.get(id);
+		if(map!=null && map.size()>0 && map.get("device_basic_img")!=null) {
+			byte[] data = (byte[]) map.get("device_basic_img");
+			response.setContentType("image/jpeg");
+			response.setCharacterEncoding("UTF-8");
+			OutputStream outputSream = response.getOutputStream();
+			outputSream.write(data);
+			outputSream.flush();
+		}
+        /*InputStream in = new ByteArrayInputStream(data);
+        int len = 0;
+        byte[] buf = new byte[1024];
+        while ((len = in.read(buf, 0, 1024)) != -1) {
+            outputSream.write(buf, 0, len);
+        }
+        outputSream.close(); */
+    }
 	@RequestMapping("updateFile")
 	@CatchErr("对设备操作失败")
 	public ResultMsg<String> updateFile(@RequestParam(required = false) MultipartFile file,@RequestParam String id) throws Exception{
@@ -183,5 +205,20 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 		}
 
 		return getSuccessResult(map);
+	}
+
+	@RequestMapping("getTestData")
+	public JSON getTestData() {
+
+		String json = "[[\"product\", \"视频监控设备\", \"音频设备\", \"传感器设备\"]," // 产品项
+				+ "[\"2015\"," + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "], [\"2016\", " + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "],"
+				+ "[\"2017\", " + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "], [\"2018\"," + getRandomInt() + ", " + getRandomInt() + ", " + getRandomInt() + "]]";
+		JSONArray jsonArray = JSONArray.parseArray(json);
+
+		return jsonArray;
+	}
+	private int getRandomInt() {
+		Random rand = new Random();
+		return rand.nextInt(6000);
 	}
 }
