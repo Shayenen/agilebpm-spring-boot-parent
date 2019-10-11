@@ -94,6 +94,7 @@
                     $scope.data.startDatetime = datetimeRange[0];
                     $scope.data.endDatetime = datetimeRange[1];
                 }
+                ,trigger: 'click'
             });
 
             $scope.$on('beforeSaveEvent', function (event, data) {
