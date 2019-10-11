@@ -124,7 +124,7 @@
 <h4>设备台账录入</h4>
 <div class="baseInfo">基础信息(*必填)</div>
 <!--  ab-load 去controller 层获取业务数据  -->
-<form name="form" method="post" ab-load="/basedevice/api/get?id={id}" ng-model="data" enctype="multipart/form-data">
+<form name="form" method="post" ab-load="/basedevice/api/getDeviceInfo?id={id}" ng-model="data" enctype="multipart/form-data">
     <table class="form-table">
         <tr>
             <th><span>设备名称:</span><span class="required">*</span></th>
