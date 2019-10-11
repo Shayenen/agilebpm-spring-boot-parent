@@ -94,7 +94,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 		//  在转成不同的实体类
 		DeviceBasic deviceBasic = jsonObject.getObject("deviceBasic", DeviceBasic.class);
 
-		String id=deviceBasic.getId();
+		String id=deviceBasic.getDeviceBasicId();
 		if(StringUtil.isEmpty(id)){
 			deviceBasic.setDeviceBasicId(IdUtil.getSuid());
 			if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
