@@ -14,6 +14,8 @@ import com.dstz.device.core.manager.DeviceLightManager;
 import com.dstz.device.core.manager.DeviceMicrophoneManager;
 import com.dstz.device.core.manager.DeviceSensorManager;
 import com.dstz.device.core.model.*;
+import com.dstz.sys.core.manager.DataDictManager;
+import com.dstz.sys.core.model.DataDict;
 import com.github.pagehelper.Page;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import io.swagger.annotations.Api;
@@ -27,6 +29,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +50,10 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	DeviceMicrophoneManager deviceMicrophoneManager;
 	@Resource
 	DeviceSensorManager deviceSensorManager;
+
+	@Resource
+	DataDictManager dataDictManager;
+
 
 	@Override
 	protected String getModelDesc() {
@@ -80,9 +87,9 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 
 		JSONObject jsonObject = JSON.parseObject(json);
 		//  在转成不同的实体类
-		DeviceBasic user = jsonObject.getObject("deviceBasic", DeviceBasic.class);
+		DeviceBasic deviceBasic = jsonObject.getObject("deviceBasic", DeviceBasic.class);
 
-		/*String id=deviceBasic.getId();
+		String id=deviceBasic.getId();
 		if(StringUtil.isEmpty(id)){
 			DeviceCamera deviceCamera =new DeviceCamera();
 			deviceBasicManager.createCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
@@ -91,8 +98,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 			DeviceCamera deviceCamera =new DeviceCamera();
 			deviceBasicManager.updateCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
 			return  getSuccessResult("更新设备信息成功");
-		}*/
-		return getSuccessResult();
+		}
 	}
 
 	/**
@@ -151,5 +157,17 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	public ResultMsg<String> removeDevice(@RequestParam String id) throws Exception {
 		deviceBasicManager.removeDevice(id);
 		return this.getSuccessResult(String.format("删除%s成功", this.getModelDesc()));
+	}
+
+	@RequestMapping("getDictData")
+	public ResultMsg<Map> getByDictKey(@RequestParam String[] dictKey, @RequestParam(defaultValue="false") Boolean hasRoot) throws Exception{
+		if(dictKey.length==0) return null;
+		Map map = new HashMap();
+		for (int i=0;i<dictKey.length;i++){
+			List<DataDict> dict = dataDictManager.getDictNodeList(dictKey[i],hasRoot);
+			map.put(dictKey[i],dict);
+		}
+
+		return getSuccessResult(map);
 	}
 }
