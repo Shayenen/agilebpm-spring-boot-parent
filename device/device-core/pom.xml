@@ -45,6 +45,12 @@
 			<groupId>com.dstz.agilebpm</groupId>
 			<artifactId>wf-api</artifactId>
 		</dependency>
-		 
+        <dependency>
+            <groupId>com.dstz.agilebpm</groupId>
+            <artifactId>sys-core</artifactId>
+            <version>${agilebpm.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>
