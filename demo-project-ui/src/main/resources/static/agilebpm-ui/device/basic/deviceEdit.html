@@ -32,6 +32,21 @@
         });
     }]);
 
+    function imgChange(){
+        var input = $("#file");
+        var img = $("#showImg");
+        var imgFile = input.files[0];
+        if(imgFile) {
+            var fr = new FileReader();
+
+            fr.onload = function () {
+                img.src = fr.result;
+            };
+            // 注意要先设置回调再读取文件
+            fr.readAsDaraURL(imgFile);
+        }
+    }
+
     function submit() {
         var dataSource = ngUtil.getScope().data;
         var deviceCamera = ngUtil.getScope().deviceCamera;
@@ -78,6 +93,7 @@
             processData: false, //必须
             success: function (data) {
                 submitImg(data.data);//图片上传接口
+                $.Dialog.success("操作成功！");
             },
             error: function (arg1, arg2, arg3) {
                 console.log(arg1 + "--" + arg2 + "--" + arg3);
@@ -255,9 +271,9 @@
         <tr>
             <td colspan="6">
                 <h4>设备照片</h4>
-                <img ng-show="data.file.length>0" width="120px" height="100px" src="">
+                <img id="showImg" ng-show="false" width="120px" height="100px">
                 <img ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="120px" height="100px"/>
-                <input class="form-control" id="file" name="file" type="file" ng-model="data.file"/>
+                <input class="form-control" id="file" name="file" type="file" ng-model="data.file" onchange="imgChange()"/>
             </td>
         </tr>
 
