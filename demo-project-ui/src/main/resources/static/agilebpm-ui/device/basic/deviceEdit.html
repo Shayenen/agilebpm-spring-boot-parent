@@ -34,33 +34,37 @@
 
     function submit() {
         var dataSource = ngUtil.getScope().data;
+        var deviceCamera = ngUtil.getScope().deviceCamera;
+        var deviceMicrophone = ngUtil.getScope().deviceMicrophone;
+        var deviceSensor = ngUtil.getScope().deviceSensor;
+        var deviceLight = ngUtil.getScope().deviceLight;
         var params = {
             "deviceBasic": dataSource
         }
         if (dataSource.deviceBasicCategory == 'spjksb') {//视频监控设备
             params.deviceCamera = {
-                "deviceCameraShotNumber": dataSource.deviceCameraShotNumber,
-                "deviceCameraPx": dataSource.deviceCameraPx,
-                "deviceCameraSize": dataSource.deviceCameraSize,
-                "deviceCameraStream": dataSource.deviceCameraStream,
-                "deviceCameraRemark": dataSource.deviceCameraRemark
+                "deviceCameraShotNumber": deviceCamera.deviceCameraShotNumber,
+                "deviceCameraPx": deviceCamera.deviceCameraPx,
+                "deviceCameraSize": deviceCamera.deviceCameraSize,
+                "deviceCameraStream": deviceCamera.deviceCameraStream,
+                "deviceCameraRemark": deviceCamera.deviceCameraRemark
             }
         } else if (dataSource.deviceBasicCategory == 'ypsb') {//音频设备
             params.deviceMicrophone = {
-                "deviceMicrophonePower": dataSource.deviceMicrophonePower,
-                "deviceMicrophoneStream": dataSource.deviceMicrophoneStream,
-                "deviceMicrophoneRemark": dataSource.deviceMicrophoneRemark
+                "deviceMicrophonePower": deviceMicrophone.deviceMicrophonePower,
+                "deviceMicrophoneStream": deviceMicrophone.deviceMicrophoneStream,
+                "deviceMicrophoneRemark": deviceMicrophone.deviceMicrophoneRemark
             }
         } else if (dataSource.deviceBasicCategory == 'cgqsb') {//传感器设备
             params.deviceSensor = {
-                "deviceSensorRemark": dataSource.deviceSensorRemark
+                "deviceSensorRemark": deviceSensor.deviceSensorRemark
             }
         } else if (dataSource.deviceBasicCategory == 'dgsb') {//灯光设备
             params.deviceLight = {
-                "deviceLightPower": dataSource.deviceLightPower,
-                "deviceLightLuminance": dataSource.deviceLightLuminance,
-                "deviceLightVoltage": dataSource.deviceLightVoltage,
-                "deviceLightRemark": dataSource.deviceLightRemark
+                "deviceLightPower": deviceLight.deviceLightPower,
+                "deviceLightLuminance": deviceLight.deviceLightLuminance,
+                "deviceLightVoltage": deviceLight.deviceLightVoltage,
+                "deviceLightRemark": deviceLight.deviceLightRemark
             }
         }
         $.ajax({
@@ -124,7 +128,8 @@
 <h4>设备台账录入</h4>
 <div class="baseInfo">基础信息(*必填)</div>
 <!--  ab-load 去controller 层获取业务数据  -->
-<form name="form" method="post" ab-load="/basedevice/api/getDeviceInfo?id={id}" ng-model="data" enctype="multipart/form-data">
+<form name="form" method="post" ab-load="/basedevice/api/get?id={id}" ng-model="data" enctype="multipart/form-data"
+      id="form">
     <table class="form-table">
         <tr>
             <th><span>设备名称:</span><span class="required">*</span></th>
@@ -136,6 +141,7 @@
             <td>
                 <input class="form-control" type="text" ng-model="data.deviceBasicBodynumber"
                        ab-validate="{required:true,maxlength:192}"/>
+                <input ng-model="data.deviceBasicId" ng-show="false">
             </td>
             <th><span>设备型号:</span><span class="required">*</span></th>
             <td>
@@ -186,7 +192,8 @@
             </td>
             <th><span>安装时间:</span></th>
             <td>
-                <input class="form-control" id="deviceBasicSetupTime" autocomplete="off" ab-date="yyyy-MM-dd" type="text" ng-model="data.deviceBasicSetupTime"/>
+                <input class="form-control" id="deviceBasicSetupTime" autocomplete="off" ab-date="yyyy-MM-dd"
+                       type="text" ng-model="data.deviceBasicSetupTime"/>
             </td>
         </tr>
         <tr>
@@ -200,7 +207,8 @@
             </td>
             <th><span>采购时间:</span></th>
             <td>
-                <input class="form-control" ab-date="yyyy-MM-dd" autocomplete="off" id="deviceBasicPurchaseTime" type="text"
+                <input class="form-control" ab-date="yyyy-MM-dd" autocomplete="off" id="deviceBasicPurchaseTime"
+                       type="text"
                        ng-model="data.deviceBasicPurchaseTime"/>
             </td>
         </tr>
@@ -212,7 +220,8 @@
             </td>
             <th><span>出厂时间:</span></th>
             <td>
-                <input class="form-control" id="deviceBasicFactorydate" autocomplete="off" ab-date="yyyy-MM-dd" type="text"
+                <input class="form-control" id="deviceBasicFactorydate" autocomplete="off" ab-date="yyyy-MM-dd"
+                       type="text"
                        ng-model="data.deviceBasicFactorydate"/>
             </td>
             <th><span>采购价格:</span></th>
@@ -246,104 +255,124 @@
         <tr>
             <td colspan="6">
                 <h4>设备照片</h4>
+                <img ng-show="data.file.length>0" width="120px" height="100px" src="">
+                <img ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="120px" height="100px"/>
                 <input class="form-control" id="file" name="file" type="file" ng-model="data.file"/>
             </td>
         </tr>
 
     </table>
 </form>
-<h3 ng-show="data.deviceBasicCategory != ''">拓展信息</h3>
+<h3 ng-show="data.deviceBasicCategory != 'undefined'">拓展信息</h3>
 <div ng-show="data.deviceBasicCategory == 'spjksb'">
-    <h4>视频监控设备</h4>
-    <table class="form-table">
-        <tr>
-            <th><span>镜头数量:</span></th>
-            <td>
-                <input class="form-control" id="deviceCameraShotNumber" type="text"
-                       ng-model="data.deviceCameraShotNumber"/>
-            </td>
-            <th><span>像素:</span></th>
-            <td>
-                <input class="form-control" id="deviceCameraPx" type="text" ng-model="data.deviceCameraPx"/>
-            </td>
-            <th><span>存储大小:</span></th>
-            <td>
-                <input class="form-control" id="deviceCameraSize" type="text" ng-model="data.deviceCameraSize"/>
-            </td>
-        </tr>
-        <tr>
-            <th><span>主码流:</span></th>
-            <td colspan="6">
-                <input class="form-control" id="deviceCameraStream" type="text" ng-model="data.deviceCameraStream"/>
-            </td>
-        </tr>
-        <tr>
-            <th><span>备注:</span></th>
-            <td colspan="6">
-                <input class="form-control" id="deviceCameraRemark" type="text" ng-model="data.deviceCameraRemark"/>
-            </td>
-        </tr>
-    </table>
+    <form name="spForm" id="spForm" method="post" ab-load="/basedevice/api/getDeviceCameraInfo?id={id}"
+          ng-model="deviceCamera" enctype="multipart/form-data">
+        <h4>视频监控设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>镜头数量:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraShotNumber" type="text"
+                           ng-model="deviceCamera.deviceCameraShotNumber"/>
+                </td>
+                <th><span>像素:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraPx" type="text" ng-model="deviceCamera.deviceCameraPx"/>
+                </td>
+                <th><span>存储大小:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraSize" type="text"
+                           ng-model="deviceCamera.deviceCameraSize"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>主码流:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceCameraStream" type="text" ng-model="deviceCamera.deviceCameraStream"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceCameraRemark" type="text" ng-model="deviceCamera.deviceCameraRemark"/>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 <div ng-show="data.deviceBasicCategory == 'ypsb'">
-    <h4>音频设备</h4>
-    <table class="form-table">
-        <tr>
-            <th><span>功率:</span></th>
-            <td>
-                <input class="form-control" id="deviceMicrophonePower" type="text"
-                       ng-model="data.deviceMicrophonePower"/>
-            </td>
-            <th><span>主码流:</span></th>
-            <td>
-                <input class="form-control" id="deviceMicrophoneStream" type="text"
-                       ng-model="data.deviceMicrophoneStream"/>
-            </td>
-        </tr>
-        <tr>
-            <th><span>备注:</span></th>
-            <td colspan="6">
-                <input class="form-control" id="deviceMicrophoneRemark" type="text"
-                       ng-model="data.deviceMicrophoneRemark"/>
-            </td>
-        </tr>
-    </table>
+    <form name="ypForm" id="ypForm" method="post" ab-load="/basedevice/api/getDeviceMicrophoneInfo?id={id}"
+          ng-model="deviceMicrophone" enctype="multipart/form-data">
+        <h4>音频设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>功率:</span></th>
+                <td>
+                    <input class="form-control" id="deviceMicrophonePower" type="text"
+                           ng-model="deviceMicrophone.deviceMicrophonePower"/>
+                </td>
+                <th><span>主码流:</span></th>
+                <td>
+                    <input class="form-control" id="deviceMicrophoneStream" type="text"
+                           ng-model="deviceMicrophone.deviceMicrophoneStream"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceMicrophoneRemark" type="text"
+                           ng-model="deviceMicrophone.deviceMicrophoneRemark"/>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 <div ng-show="data.deviceBasicCategory == 'cgqsb'">
-    <h4>传感器设备</h4>
-    <table class="form-table">
-        <tr>
-            <th><span>备注:</span></th>
-            <td colspan="6">
-                <input class="form-control" id="deviceSensorRemark" type="text" ng-model="data.deviceSensorRemark"/>
-            </td>
-        </tr>
-    </table>
+    <form name="cgqForm" id="cgqForm" method="post" ab-load="/basedevice/api/getDeviceSensorInfo?id={id}"
+          ng-model="deviceSensor" enctype="multipart/form-data">
+        <h4>传感器设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceSensorRemark" type="text"
+                           ng-model="deviceSensor.deviceSensorRemark"/>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 <div ng-show="data.deviceBasicCategory == 'dgsb'">
-    <h4>灯光设备</h4>
-    <table class="form-table">
-        <tr>
-            <th><span>功率:</span></th>
-            <td>
-                <input class="form-control" id="deviceLightPower" type="text" ng-model="data.deviceLightPower"/>
-            </td>
-            <th><span>亮度:</span></th>
-            <td>
-                <input class="form-control" id="deviceLightLuminance" type="text" ng-model="data.deviceLightLuminance"/>
-            </td>
-            <th><span>电压:</span></th>
-            <td>
-                <input class="form-control" id="deviceLightVoltage" type="text" ng-model="data.deviceLightVoltage"/>
-            </td>
-        </tr>
-        <tr>
-            <th><span>备注:</span></th>
-            <td colspan="6">
-                <input class="form-control" id="deviceLightRemark" type="text" ng-model="data.deviceLightRemark"/>
-            </td>
-        </tr>
-    </table>
+    <form name="dgForm" id="dgForm" method="post" ab-load="/basedevice/api/getDeviceLightInfo?id={id}"
+          ng-model="deviceLight" enctype="multipart/form-data">
+        <h4>灯光设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>功率:</span></th>
+                <td>
+                    <input class="form-control" id="deviceLightPower" type="text"
+                           ng-model="deviceLight.deviceLightPower"/>
+                </td>
+                <th><span>亮度:</span></th>
+                <td>
+                    <input class="form-control" id="deviceLightLuminance" type="text"
+                           ng-model="deviceLight.deviceLightLuminance"/>
+                </td>
+                <th><span>电压:</span></th>
+                <td>
+                    <input class="form-control" id="deviceLightVoltage" type="text"
+                           ng-model="deviceLight.deviceLightVoltage"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceLightRemark" type="text"
+                           ng-model="deviceLight.deviceLightRemark"/>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 </body>
 <style>
