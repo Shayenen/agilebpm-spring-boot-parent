@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.dstz.device.core.utils.FileUtils.getFileByte;
+
 /**
  * 设备管理 控制器类<br/>
  * 
@@ -92,8 +94,9 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 		String id=deviceBasic.getId();
 		if(StringUtil.isEmpty(id)){
 			DeviceCamera deviceCamera =new DeviceCamera();
+			deviceBasic.setDeviceBasicId(IdUtil.getSuid());
 			deviceBasicManager.createCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
-			return  getSuccessResult("添加设备信息成功");
+			return  getSuccessResult(deviceBasic.getDeviceBasicId(),"添加设备信息成功");
 		}else{
 			DeviceCamera deviceCamera =new DeviceCamera();
 			deviceBasicManager.updateCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
@@ -101,6 +104,17 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 		}
 	}
 
+	@RequestMapping("updateFile")
+	@CatchErr("对设备操作失败")
+	public ResultMsg<String> updateFile(@RequestParam(required = false) MultipartFile file,@RequestParam String id) throws Exception{
+
+		DeviceBasic deviceBasic = deviceBasicManager.get(id);
+		if (file!=null && !file.isEmpty()){
+			deviceBasic.setDeviceBasicImg(getFileByte(file));
+		}
+		deviceBasicManager.update(deviceBasic);
+		return  getSuccessResult("图片更新信息成功");
+	}
 	/**
 	 * 获取设备信息详情
 	 * @param id

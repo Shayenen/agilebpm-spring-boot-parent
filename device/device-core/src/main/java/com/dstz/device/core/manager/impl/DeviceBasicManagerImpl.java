@@ -41,7 +41,7 @@ public class DeviceBasicManagerImpl  extends BaseManager<String, DeviceBasic> im
         if (file!=null && !file.isEmpty()){
             deviceBasic.setDeviceBasicImg(getFileByte(file));
         }
-        deviceBasic.setDeviceBasicId(IdUtil.getSuid());
+
         deviceCamera.setDeviceBasicId(deviceBasic.getDeviceBasicId());
         deviceCamera.setDeviceCameraId(IdUtil.getSuid());
         deviceBasicDao.create(deviceBasic);
