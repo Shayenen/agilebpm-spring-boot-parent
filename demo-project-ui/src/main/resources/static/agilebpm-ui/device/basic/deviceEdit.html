@@ -10,8 +10,8 @@
 		var app = angular.module('app', ['baseDirective']);
 		app.controller("ctrl", [ '$scope', 'baseService' ,function($scope, baseService) {
 			//var params =['sblx','sbgl','sbzt','sbsybm']
+			$scope.data = {};
 			$.ajax({
-
 				type : "GET",
 				data:{
 					dictKey:['sblx','sbgl','sbzt','sbsybm']
@@ -20,7 +20,8 @@
 				dataType : 'json',
 				
 				success : function(data) {
-					console.log('success:', data);
+					$scope.data.deviceBasicCategory = data.data.sbgl
+					console.log('success:', $scope.data.deviceBasicCategory);
 				},
 				error : function(arg1, arg2, arg3) {
 					console.log(arg1 + "--" + arg2 + "--" + arg3);
@@ -99,11 +100,12 @@
 					<tr>								
 						<th><span>设备类别:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicCategory">
-								<option value="shipin">视屏监控设备</option>
-								<option value="yinpin">音频设备</option>
-								<option value="chuanganqi">传感器设备</option>
-								<option value="dengguang">灯光设备</option>
+							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.key as x.name for x in data.deviceBasicCategory">
+<!--									<option ng-repeat="x in data.deviceBasicCategory" value="{{x.key}}">{{x.name}}</option>-->
+<!--								<option value="shipin">视屏监控设备</option>-->
+<!--								<option value="yinpin">音频设备</option>-->
+<!--								<option value="chuanganqi">传感器设备</option>-->
+<!--								<option value="dengguang">灯光设备</option>-->
 							</select>
 						</td>
 						<th><span>设备类型:</span><span class="required">*</span></th>
