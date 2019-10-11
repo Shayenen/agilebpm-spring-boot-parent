@@ -5,6 +5,7 @@
 		<link href="../../build/common/base.css" rel="stylesheet">
 		<script type="text/javascript" src="../../build/common/base.js"></script>
 		<script type="text/javascript" src="../../build/common/ngEdit.js"></script>
+		<script type="text/javascript" src="../../build/common/ajaxfileupload.js"></script>
 	</head>
 	<script type="text/javascript">
 		var app = angular.module('app', ['baseDirective']);
@@ -20,8 +21,8 @@
 				dataType : 'json',
 				
 				success : function(data) {
-					$scope.data.deviceBasicCategory = data.data.sbgl
-					console.log('success:', $scope.data.deviceBasicCategory);
+					$scope.data.sbgl = data.data.sbgl
+					console.log('success:', $scope.data.sbgl);
 				},
 				error : function(arg1, arg2, arg3) {
 					console.log(arg1 + "--" + arg2 + "--" + arg3);
@@ -30,7 +31,7 @@
 		}]);
 
 		function submit(){
-			console.log(JSON.stringify(ngUtil.getScope().data))
+			// console.log(JSON.stringify(ngUtil.getScope().data))
 			var dataSource = ngUtil.getScope().data
 			var params = {
 				"deviceBasic":dataSource,
@@ -45,12 +46,29 @@
 				dataType : 'json',
 				contentType: false, //必须
 				processData: false, //必须
-				success : function() {
-					console.log('success');
+				success : function(data) {
+					console.log('data:',data);
+					submitImg(data.data);
 				},
 				error : function(arg1, arg2, arg3) {
 					console.log(arg1 + "--" + arg2 + "--" + arg3);
 				}
+			});
+		}
+
+		function submitImg(data){
+			$.ajaxFileUpload({
+				type: "POST",
+				url:"/basedevice/api/updateFile?id=" + data,//后台接口
+				dataType: "json",
+				fileElementId:"file",  // 文件的id
+				success: function(d){
+					console.log(1111)
+				},
+				error: function () {
+					// js.showMessage("上传失败");
+					console.log(2222)
+				},
 			});
 		}
 		
@@ -100,7 +118,7 @@
 					<tr>								
 						<th><span>设备类别:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.key as x.name for x in data.deviceBasicCategory">
+							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.dictKey as x.name for x in data.sbgl">
 <!--									<option ng-repeat="x in data.deviceBasicCategory" value="{{x.key}}">{{x.name}}</option>-->
 <!--								<option value="shipin">视屏监控设备</option>-->
 <!--								<option value="yinpin">音频设备</option>-->
