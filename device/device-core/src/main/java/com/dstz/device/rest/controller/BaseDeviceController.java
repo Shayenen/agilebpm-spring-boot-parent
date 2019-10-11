@@ -96,15 +96,44 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 
 		String id=deviceBasic.getId();
 		if(StringUtil.isEmpty(id)){
-			DeviceCamera deviceCamera = jsonObject.getObject("deviceCamera", DeviceCamera.class);
 			deviceBasic.setDeviceBasicId(IdUtil.getSuid());
-			deviceBasicManager.createCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
-			return  getSuccessResult(deviceBasic.getDeviceBasicId(),"添加设备信息成功");
+			if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
+				DeviceCamera deviceCamera = jsonObject.getObject("deviceCamera", DeviceCamera.class);
+				deviceBasicManager.createCamera(deviceBasic.getFile(), deviceBasic, deviceCamera);
+				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加视频监控信息成功");
+			}else if (deviceBasic.getDeviceBasicCategory().equals("ypsb")){
+				DeviceMicrophone deviceMicrophone = jsonObject.getObject("deviceMicrophone", DeviceMicrophone.class);
+				deviceMicrophoneManager.createMicrophone(deviceBasic.getFile(), deviceBasic,deviceMicrophone);
+				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加音频信息成功");
+			}else if (deviceBasic.getDeviceBasicCategory().equals("cgqsb")){
+				DeviceSensor deviceSensor = jsonObject.getObject("deviceSensor", DeviceSensor.class);
+				deviceSensorManager.createSensor(deviceBasic.getFile(), deviceBasic,deviceSensor);
+				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加传感器信息成功");
+			}else if (deviceBasic.getDeviceBasicCategory().equals("dgsb")){
+				DeviceLight deviceLight = jsonObject.getObject("deviceLight", DeviceLight.class);
+				deviceLightManager.createLight(deviceBasic.getFile(), deviceBasic,deviceLight);
+				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加灯光信息成功");
+			}
 		}else{
-			DeviceCamera deviceCamera =new DeviceCamera();
-			deviceBasicManager.updateCamera(deviceBasic.getFile(),deviceBasic,deviceCamera);
-			return  getSuccessResult("更新设备信息成功");
+			if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
+				DeviceCamera deviceCamera = jsonObject.getObject("deviceCamera", DeviceCamera.class);
+				deviceBasicManager.updateCamera(deviceBasic.getFile(), deviceBasic, deviceCamera);
+				return getSuccessResult("更新视频监控信息成功");
+			}else if (deviceBasic.getDeviceBasicCategory().equals("ypsb")){
+				DeviceMicrophone deviceMicrophone = jsonObject.getObject("deviceMicrophone", DeviceMicrophone.class);
+				deviceMicrophoneManager.updateMicrophone(deviceBasic.getFile(), deviceBasic, deviceMicrophone);
+				return getSuccessResult("更新音频信息成功");
+			}else if (deviceBasic.getDeviceBasicCategory().equals("cgqsb")){
+				DeviceSensor deviceSensor = jsonObject.getObject("deviceSensor", DeviceSensor.class);
+				deviceSensorManager.updateSensor(deviceBasic.getFile(), deviceBasic,deviceSensor);
+				return getSuccessResult("更新传感器信息成功");
+			}else if (deviceBasic.getDeviceBasicCategory().equals("dgsb")){
+				DeviceLight deviceLight = jsonObject.getObject("deviceLight", DeviceLight.class);
+				deviceLightManager.updateLight(deviceBasic.getFile(), deviceBasic,deviceLight);
+				return getSuccessResult("更新灯光信息成功");
+			}
 		}
+		return getWarnResult("位置错误");
 	}
 	@RequestMapping(value="/getFileById")
 	public void getPhotoById (@RequestParam("id") String id, final HttpServletResponse response) throws Exception{
@@ -137,49 +166,56 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 		deviceBasicManager.update(deviceBasic);
 		return  getSuccessResult("图片更新信息成功");
 	}
+
 	/**
-	 * 获取设备信息详情
+	 * 获取视频子设备信息
 	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("getDeviceInfo")
-	public ResultMsg<Map> getDeviceInfo(@RequestParam String id) throws Exception {
+	@RequestMapping("getDeviceCameraInfo")
+	public ResultMsg<DeviceCamera> getDeviceCameraInfo(@RequestParam String id) throws Exception {
+		DeviceCamera deviceCamera = deviceBasicManager.getDeviceCamera(id);
+		return  getSuccessResult(deviceCamera);
+	}
+	/**
+	 * 获取音频子设备信息
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("getDeviceMicrophoneInfo")
+	public ResultMsg<DeviceMicrophone> getDeviceMicrophoneInfo(@RequestParam String id) throws Exception {
 
-		DeviceBasic deviceBasic = deviceBasicManager.get(id);
-		Map resultMap = new HashMap();
-		if (deviceBasic == null){
-			resultMap.put("deviceType","error");
-			return  getSuccessResult(resultMap);
-		}
 
-		resultMap.put("deviceBasic",deviceBasic);
-		if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
-			//视频
-			resultMap.put("deviceType","spjksb");
-			DeviceCamera deviceCamera = deviceBasicManager.getDeviceCamera(id);
-			resultMap.put("deviceCamera", deviceCamera);
-		}else if (deviceBasic.getDeviceBasicCategory().equals("ypsb")){
-			//音频设备
-			resultMap.put("deviceType","ypsb");
 			DeviceMicrophone deviceMicrophone = deviceMicrophoneManager.getDeviceMicrophone(id);
-			resultMap.put("deviceMicrophone", deviceMicrophone);
 
-		}else if (deviceBasic.getDeviceBasicCategory().equals("cgqsb")){
-			//传感器设备
-			resultMap.put("deviceType","cgqsb");
+		return  getSuccessResult(deviceMicrophone);
+	}
+	/**
+	 * 获取传感器子设备信息
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("getDeviceSensorInfo")
+	public ResultMsg<DeviceSensor> getDeviceSensorInfo(@RequestParam String id) throws Exception {
+
 			DeviceSensor deviceSensor = deviceSensorManager.getDeviceSensor(id);
-			resultMap.put("deviceSensor", deviceSensor);
 
-		}else if (deviceBasic.getDeviceBasicCategory().equals("dgsb")){
-			//灯光设备
-			resultMap.put("deviceType","dgsb");
-			DeviceLight deviceLight = deviceLightManager.getDeviceLight(id);
-			resultMap.put("deviceLight", deviceLight);
-		}else{
-			resultMap.put("deviceType","other");
-		}
-		return  getSuccessResult(resultMap);
+		return  getSuccessResult(deviceSensor);
+	}
+	/**
+	 * 获取视频子设备信息
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("getDeviceLightInfo")
+	public ResultMsg<DeviceLight> getDeviceLightInfo(@RequestParam String id) throws Exception {
+		DeviceLight deviceLight = deviceLightManager.getDeviceLight(id);
+
+		return  getSuccessResult(deviceLight);
 	}
 
 	/**
