@@ -10,7 +10,7 @@
 	<script type="text/javascript">
 		var app = angular.module('app', ['baseDirective']);
 		app.controller("ctrl", [ '$scope', 'baseService' ,function($scope, baseService) {
-			$scope.data = {};
+			$scope.device = {};
 			$.ajax({
 				type : "GET",
 				data:{
@@ -20,10 +20,10 @@
 				dataType : 'json',
 				
 				success : function(data) {
-					$scope.data.sbgl = data.data.sbgl;
-					$scope.data.sblx = data.data.sblx;
-					$scope.data.sbsybm = data.data.sbsybm;
-					$scope.data.sbzt = data.data.sbzt;
+					$scope.device.sbgl = data.data.sbgl;
+					$scope.device.sblx = data.data.sblx;
+					$scope.device.sbsybm = data.data.sbsybm;
+					$scope.device.sbzt = data.data.sbzt;
 					$scope.$apply();
 				},
 				error : function(arg1, arg2, arg3) {
@@ -142,7 +142,7 @@
 					<tr>								
 						<th><span>设备类别:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.key as x.name for x in data.sbgl">
+							<select class="form-control" ng-model="data.deviceBasicCategory" ng-options = "x.key as x.name for x in device.sbgl">
 <!--									<option ng-repeat="x in data.deviceBasicCategory" value="{{x.key}}">{{x.name}}</option>-->
 <!--								<option value="shipin">视屏监控设备</option>-->
 <!--								<option value="yinpin">音频设备</option>-->
@@ -152,7 +152,7 @@
 						</td>
 						<th><span>设备类型:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicType" ng-options = "x.key as x.name for x in data.sblx">
+							<select class="form-control" ng-model="data.deviceBasicType" ng-options = "x.key as x.name for x in device.sblx">
 <!--								<option value="device">设备</option>-->
 <!--								<option value="part">部件</option>-->
 							</select>
@@ -166,7 +166,7 @@
 					<tr>
 						<th><span>设备状态:</span><span class="required">*</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicStatus" ng-options = "x.key as x.name for x in data.sbzt">
+							<select class="form-control" ng-model="data.deviceBasicStatus" ng-options = "x.key as x.name for x in device.sbzt">
 <!--								<option value="on">运行</option>-->
 <!--								<option value="off">故障</option>-->
 <!--								<option value="stop">停用</option>-->
@@ -217,7 +217,7 @@
 						</td>
 						<th><span>使用部门:</span></th>
 						<td>
-							<select class="form-control" ng-model="data.deviceBasicUserDepartment" ng-options = "x.key as x.name for x in data.sbsybm">
+							<select class="form-control" ng-model="data.deviceBasicUserDepartment" ng-options = "x.key as x.name for x in device.sbsybm">
 <!--								<option value="safePart">安检部</option>-->
 							</select>
 						</td>
