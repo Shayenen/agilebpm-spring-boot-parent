@@ -44,7 +44,7 @@ import static com.dstz.device.core.utils.FileUtils.getFileByte;
  *    
  */
 @RestController
-@RequestMapping("/basedevice/")
+@RequestMapping("/basedevice/api/")
 @Api(description = "基础设备管理")
 public class BaseDeviceController extends BaseController<DeviceBasic> {
 	@Resource
