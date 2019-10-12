@@ -330,17 +330,16 @@
             <td colspan="6">
                 <h4>设备照片</h4>
                 <img id="showImg" ng-show="false" width="120px" height="100px">
-                <img ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="120px"
-                     height="100px"/>
-                <input class="form-control" id="file" name="file" type="file" ng-model="data.file"
+                <img ng-show="data.deviceBasicId" class="showImg" ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="220px"
+                     height="200px"/>
+                <input class="form-control fileInput" id="file" name="file" type="file" ng-model="data.file"
                        onchange="imgChange()"/>
             </td>
         </tr>
         <input type="button" onclick="getEdit()" ng-show="false">
-
     </table>
 </form>
-<h3 ng-show="data.deviceBasicCategory != 'undefined'">拓展信息</h3>
+<h3 ng-show="data.deviceBasicCategory != undefined">拓展信息</h3>
 <div ng-show="data.deviceBasicCategory == 'spjksb'">
     <form name="spForm" id="spForm" method="post" ab-load="/basedevice/api/getDeviceCameraInfo?id={id}"
           ng-model="deviceCamera" enctype="multipart/form-data">
@@ -479,6 +478,23 @@
     .baseInfo {
         width: 100%;
         text-align: center;
+    }
+
+    .form-control {
+        display: inline-block;
+    }
+
+    .showImg {
+        display: inherit;
+        margin: 0 auto;
+    }
+
+    .fileInput {
+        display: block !important;
+        margin: 0 auto;
+        padding: 10px;
+        height: 48px;
+        margin-top: 20px;
     }
 </style>
 
