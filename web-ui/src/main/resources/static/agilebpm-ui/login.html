@@ -5,37 +5,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  	<link href="./build/common/base.css" rel="stylesheet">
-  	<link href="./assets/css/login.css" rel="stylesheet">
-  	
-  	<script type="text/javascript" src="./build/common/base.js"></script>
-	<script type="text/javascript" src="./build/common/ngEdit.js"></script>
+    <link href="./build/common/base.css" rel="stylesheet">
+    <link href="./assets/css/login.css" rel="stylesheet">
+
+    <script type="text/javascript" src="./build/common/base.js"></script>
+    <script type="text/javascript" src="./build/common/ngEdit.js"></script>
     <script>
         if (window.top !== window.self) {
             window.top.location = window.location;
         }
-        
+
         var app = angular.module('app', ['baseDirective']);
-		 app.controller("ctrl", [ '$scope', 'baseService', function($scope, baseService) {
-			 
-			 $scope.user = {password:"1",account:"admin"};
-			 console.log(__ctx);
-		 	 $scope.login = function(){
-		 	     console.log(__ctx);
-		 		var post = baseService.postForm(__ctx+"/org/login/valid",$scope.user);
-		 		 $.getResultData(post,function(){
-		 			window.location = "index.html";
-		 		})
-		 	 }
-		 	 
-		 }]);
+        app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
+
+            $scope.user = {password: "1", account: "admin"};
+            console.log(__ctx);
+            $scope.login = function () {
+                console.log(__ctx);
+                var post = baseService.postForm(__ctx + "/org/login/valid", $scope.user);
+                $.getResultData(post, function () {
+                    window.location = "index.html";
+                })
+            }
+
+        }]);
 
     </script>
     <style type="text/css">
-    	.layui-layer-content {
-    		color: black;
-    	}
-        .row{
+        .layui-layer-content {
+            color: black;
+        }
+
+        .row {
             height: 100%;
             margin: 16px 20px;
         }
@@ -49,23 +50,23 @@
         <div>AI重新定义生活</div>
     </div>
 </header>
-    <div class="signinpanel">
-        <div class="loginTitle">LINKSOUL融合平台</div>
-        <div class="row">
-            <div>
-                <form>
-                    <input type="text" class="form-control uname" ng-model="user.account"  placeholder="输入用户名" />
-                    <input type="password" class="form-control pword m-b" ng-model="user.password" placeholder="输入密码" />
-                    <span class="btn btn-success btn-block" ng-click="login()">登录</span>
-                </form>
-            </div>
+<div class="signinpanel">
+    <div class="loginTitle">LINKSOUL融合平台</div>
+    <div class="row">
+        <div>
+            <form>
+                <input type="text" class="form-control uname" ng-model="user.account" placeholder="输入用户名"/>
+                <input type="password" class="form-control pword m-b" ng-model="user.password" placeholder="输入密码"/>
+                <span class="btn btn-success btn-block" ng-click="login()">登录</span>
+            </form>
         </div>
-<!--        <div class="signup-footer">-->
-<!--            <div class="pull-left">-->
-<!--                &copy; 2018 All Rights Reserved. AGILE-BPM-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
+    <!--        <div class="signup-footer">-->
+    <!--            <div class="pull-left">-->
+    <!--                &copy; 2018 All Rights Reserved. AGILE-BPM-->
+    <!--            </div>-->
+    <!--        </div>-->
+</div>
 </body>
 
 </html>

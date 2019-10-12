@@ -34,10 +34,10 @@
             }
         });
 
-        $scope.$watch('data.deviceBasicCategory',function(newValue,oldValue) {
+        $scope.$watch('data.deviceBasicCategory', function (newValue, oldValue) {
 
             var E = window.wangEditor;
-            if (newValue == 'spjksb'){
+            if (newValue == 'spjksb') {
                 //视频设备
                 editor = new E('#spjkEditor');
                 editor.customConfig.uploadImgShowBase64 = true;
@@ -45,21 +45,21 @@
                 editor.create();
                 //console.log(document.getElementById("deviceCameraRemark").value);
                 editor.txt.html(document.getElementById("deviceCameraRemark").value);
-            }else if (newValue == 'ypsb') {
+            } else if (newValue == 'ypsb') {
                 //音频
                 editor = new E('#ypEditor');
                 editor.customConfig.uploadImgShowBase64 = true;
                 editor.customConfig.pasteFilterStyle = false;
                 editor.create();
                 editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
-            }else if (newValue == 'cgqsb'){
+            } else if (newValue == 'cgqsb') {
                 //传感器
                 editor = new E('#cgqEditor');
                 editor.customConfig.uploadImgShowBase64 = true;
                 editor.customConfig.pasteFilterStyle = false;
                 editor.create();
                 editor.txt.html(document.getElementById("deviceSensorRemark").value);
-            } else if (newValue == 'dgsb'){
+            } else if (newValue == 'dgsb') {
                 //灯光
                 editor = new E('#dgEditor');
                 editor.customConfig.uploadImgShowBase64 = true;
@@ -73,24 +73,24 @@
 
     }]);
 
-    function initEditor(editor,type){
+    function initEditor(editor, type) {
         console.log(document.getElementById("deviceCameraRemark").value);
         editor.txt.html(document.getElementById("deviceCameraRemark").value);
     }
 
-    function imgChange(){
-        var input = $("#file");
-        var img = $("#showImg");
-        var imgFile = input.files[0];
-        if(imgFile) {
-            var fr = new FileReader();
-
-            fr.onload = function () {
-                img.src = fr.result;
-            };
-            // 注意要先设置回调再读取文件
-            fr.readAsDaraURL(imgFile);
-        }
+    function imgChange() {
+        // var input = $("#file");
+        // var img = $("#showImg");
+        // var imgFile = input.files[0];
+        // if(imgFile) {
+        //     var fr = new FileReader();
+        //
+        //     fr.onload = function () {
+        //         img.src = fr.result;
+        //     };
+        //     // 注意要先设置回调再读取文件
+        //     fr.readAsDaraURL(imgFile);
+        // }
     }
 
     function submit() {
@@ -104,40 +104,40 @@
         }
         if (dataSource.deviceBasicCategory == 'spjksb') {//视频监控设备
             params.deviceCamera = {
-                "deviceCameraShotNumber": deviceCamera.deviceCameraShotNumber,
-                "deviceCameraPx": deviceCamera.deviceCameraPx,
-                "deviceCameraSize": deviceCamera.deviceCameraSize,
-                "deviceCameraStream": deviceCamera.deviceCameraStream,
-                "deviceCameraId": deviceCamera.deviceCameraId,
-                "deviceBasicId": deviceCamera.deviceBasicId,
+                "deviceCameraShotNumber": (deviceCamera && deviceCamera.deviceCameraShotNumber !== undefined) ? deviceCamera.deviceCameraShotNumber : "",
+                "deviceCameraPx": (deviceCamera && deviceCamera.deviceCameraPx !== undefined) ? deviceCamera.deviceCameraPx : "",
+                "deviceCameraSize": (deviceCamera && deviceCamera.deviceCameraSize !== undefined) ? deviceCamera.deviceCameraSize : "",
+                "deviceCameraStream": (deviceCamera && deviceCamera.deviceCameraStream !== undefined) ? deviceCamera.deviceCameraStream : "",
+                "deviceCameraId": (deviceCamera && deviceCamera.deviceCameraId !== undefined) ? deviceCamera.deviceCameraId : "",
+                "deviceBasicId": (deviceCamera && deviceCamera.deviceBasicId !== undefined) ? deviceCamera.deviceBasicId : "",
                 "deviceCameraRemark": editor.txt.html()//deviceCamera.deviceCameraRemark
             }
         } else if (dataSource.deviceBasicCategory == 'ypsb') {//音频设备
             params.deviceMicrophone = {
-                "deviceMicrophonePower": deviceMicrophone.deviceMicrophonePower,
-                "deviceMicrophoneStream": deviceMicrophone.deviceMicrophoneStream,
-                "deviceMicrophoneId": deviceMicrophone.deviceMicrophoneId,
-                "deviceBasicId": deviceMicrophone.deviceBasicId,
+                "deviceMicrophonePower": (deviceMicrophone && deviceMicrophone.deviceMicrophonePower !== undefined) ? deviceMicrophone.deviceMicrophonePower : "",
+                "deviceMicrophoneStream": (deviceMicrophone && deviceMicrophone.deviceMicrophoneStream !== undefined) ? deviceMicrophone.deviceMicrophoneStream : "",
+                "deviceMicrophoneId": (deviceMicrophone && deviceMicrophone.deviceMicrophoneId !== undefined) ? deviceMicrophone.deviceMicrophoneId : "",
+                "deviceBasicId": (deviceMicrophone && deviceMicrophone.deviceBasicId !== undefined) ? deviceMicrophone.deviceBasicId : "",
                 "deviceMicrophoneRemark": editor.txt.html()//deviceMicrophone.deviceMicrophoneRemark
             }
         } else if (dataSource.deviceBasicCategory == 'cgqsb') {//传感器设备
             params.deviceSensor = {
-                "deviceSensorId": deviceSensor.deviceSensorId,
-                "deviceBasicId": deviceSensor.deviceBasicId,
+                "deviceSensorId": (deviceSensor && deviceSensor.deviceSensorId !== undefined) ? deviceSensor.deviceSensorId : "",
+                "deviceBasicId": (deviceSensor && deviceSensor.deviceBasicId !== undefined) ? deviceSensor.deviceBasicId : "",
                 "deviceSensorRemark": editor.txt.html()//deviceSensor.deviceSensorRemark
             }
         } else if (dataSource.deviceBasicCategory == 'dgsb') {//灯光设备
             params.deviceLight = {
-                "deviceLightPower": deviceLight.deviceLightPower,
-                "deviceLightLuminance": deviceLight.deviceLightLuminance,
-                "deviceLightVoltage": deviceLight.deviceLightVoltage,
-                "deviceLightId": deviceLight.deviceLightId,
-                "deviceBasicId": deviceLight.deviceBasicId,
+                "deviceLightPower": (deviceLight && deviceLight.deviceLightPower !== undefined) ? deviceLight.deviceLightPower : "",
+                "deviceLightLuminance": (deviceLight && deviceLight.deviceLightLuminance !== undefined) ? deviceLight.deviceLightLuminance : "",
+                "deviceLightVoltage": (deviceLight && deviceLight.deviceLightVoltage !== undefined) ? deviceLight.deviceLightVoltage : "",
+                "deviceLightId": (deviceLight && deviceLight.deviceLightId !== undefined) ? deviceLight.deviceLightId : "",
+                "deviceBasicId": (deviceLight && deviceLight.deviceBasicId !== undefined) ? deviceLight.deviceBasicId : "",
                 "deviceLightRemark": editor.txt.html()//deviceLight.deviceLightRemark
             }
         }
         console.log(JSON.stringify(params));
-        //return false;
+
         $.ajax({
             async: false,
             cache: false,
@@ -171,11 +171,6 @@
             },
         });
     }
-
-    // function changeEditor(v) {
-    //     var dataSource = ngUtil.getScope().data;
-    //     console.log(v);
-    // }
 
     /* 获取URL表单的 JSON 数据  必须以 getData为方法名*/
     function getData() {
@@ -335,11 +330,13 @@
             <td colspan="6">
                 <h4>设备照片</h4>
                 <img id="showImg" ng-show="false" width="120px" height="100px">
-                <img ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="120px" height="100px"/>
-                <input class="form-control" id="file" name="file" type="file" ng-model="data.file" onchange="imgChange()"/>
+                <img ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="120px"
+                     height="100px"/>
+                <input class="form-control" id="file" name="file" type="file" ng-model="data.file"
+                       onchange="imgChange()"/>
             </td>
         </tr>
-        <input type="button" onclick="getEdit()">
+        <input type="button" onclick="getEdit()" ng-show="false">
 
     </table>
 </form>
@@ -370,14 +367,16 @@
             <tr>
                 <th><span>主码流:</span></th>
                 <td colspan="6">
-                    <input class="form-control" id="deviceCameraStream" type="text" ng-model="deviceCamera.deviceCameraStream"/>
+                    <input class="form-control" id="deviceCameraStream" type="text"
+                           ng-model="deviceCamera.deviceCameraStream"/>
                 </td>
             </tr>
             <tr>
                 <th><span>备注:</span></th>
                 <td colspan="6">
-                    <input class="form-control" id="deviceCameraRemark" type="text" ng-show="false" ng-model="deviceCamera.deviceCameraRemark"/>
-					<div id="spjkEditor"></div>
+                    <input class="form-control" id="deviceCameraRemark" type="text" ng-show="false"
+                           ng-model="deviceCamera.deviceCameraRemark"/>
+                    <div id="spjkEditor"></div>
                 </td>
             </tr>
         </table>
@@ -485,7 +484,7 @@
 
 <script type="text/javascript" src="../../ckeditor/wangEditor.js"></script>
 <script type="text/javascript">
-    window.onload=function(){
+    window.onload = function () {
         //console.log(document.getElementById("deviceCameraRemark").value);
         var spjksb = document.getElementById("deviceCameraRemark").value;
         var dgsb = document.getElementById("deviceLightRemark").value;
@@ -493,27 +492,28 @@
         var ypsb = document.getElementById("deviceMicrophoneRemark").value;
         if (!isEmpty(spjksb)) {
             editor.txt.html(spjksb);
-        }else  if (!isEmpty(dgsb)) {
+        } else if (!isEmpty(dgsb)) {
             editor.txt.html(dgsb);
-        }else  if (!isEmpty(cgqsb)) {
+        } else if (!isEmpty(cgqsb)) {
             editor.txt.html(cgqsb);
-        }else  if (!isEmpty(ypsb)) {
+        } else if (!isEmpty(ypsb)) {
             editor.txt.html(ypsb);
         }
 
     };
-    function isEmpty(value){
-        if(value == null || value == "" || value == "undefined" || value == undefined || value == "null"){
+
+    function isEmpty(value) {
+        if (value == null || value == "" || value == "undefined" || value == undefined || value == "null") {
             return true;
-        }
-        else{
-            value = value.replace(/\s/g,"");
-            if(value == ""){
+        } else {
+            value = value.replace(/\s/g, "");
+            if (value == "") {
                 return true;
             }
             return false;
         }
     }
+
     function getEdit() {
         console.log(editor.txt.html());
     }
