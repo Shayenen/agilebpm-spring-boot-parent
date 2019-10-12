@@ -40,7 +40,7 @@
             if (newValue == 'spjksb') {
                 //视频设备
                 editor = new E('#spjkEditor');
-                editor.customConfig.uploadImgShowBase64 = true;
+                //editor.customConfig.uploadImgShowBase64 = true;
                 editor.customConfig.pasteFilterStyle = false;
                 editor.create();
                 //console.log(document.getElementById("deviceCameraRemark").value);
@@ -48,21 +48,21 @@
             } else if (newValue == 'ypsb') {
                 //音频
                 editor = new E('#ypEditor');
-                editor.customConfig.uploadImgShowBase64 = true;
+                //editor.customConfig.uploadImgShowBase64 = true;
                 editor.customConfig.pasteFilterStyle = false;
                 editor.create();
                 editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
             } else if (newValue == 'cgqsb') {
                 //传感器
                 editor = new E('#cgqEditor');
-                editor.customConfig.uploadImgShowBase64 = true;
+               // editor.customConfig.uploadImgShowBase64 = true;
                 editor.customConfig.pasteFilterStyle = false;
                 editor.create();
                 editor.txt.html(document.getElementById("deviceSensorRemark").value);
             } else if (newValue == 'dgsb') {
                 //灯光
                 editor = new E('#dgEditor');
-                editor.customConfig.uploadImgShowBase64 = true;
+               // editor.customConfig.uploadImgShowBase64 = true;
                 editor.customConfig.pasteFilterStyle = false;
                 editor.create();
                 console.log(document.getElementById("deviceLightRemark").value);
@@ -77,6 +77,7 @@
         console.log(document.getElementById("deviceCameraRemark").value);
         editor.txt.html(document.getElementById("deviceCameraRemark").value);
     }
+
 
     function imgChange() {
         // var input = $("#file");
@@ -148,7 +149,10 @@
             contentType: false, //必须
             processData: false, //必须
             success: function (data) {
-                submitImg(data.data);//图片上传接口
+                if(document.getElementById("file").value!=""){
+                    submitImg(data.data);//图片上传接口
+                }
+
                 $.Dialog.success("操作成功！");
             },
             error: function (arg1, arg2, arg3) {
