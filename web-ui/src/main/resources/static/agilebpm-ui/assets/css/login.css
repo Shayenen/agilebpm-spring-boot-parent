@@ -1,8 +1,8 @@
-html{height: 100%;}
+html{height: 100%;font-family: "Microsoft YaHei UI";}
 body.signin {
     background: #18c8f6;
     height: auto;
-    background:url("../img/login-background.jpg") no-repeat center fixed;
+    background:url("../img/login-background.png") no-repeat center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -11,8 +11,16 @@ body.signin {
 }
 
 .signinpanel {
-    width: 750px;
-    margin: 10% auto 0 auto;
+    position: relative;
+    width: 570px;
+    height: 392px;
+    margin: 15% auto 0 auto;
+    background: url("../img/loginBoxBg.png") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: auto;
+    color: rgba(255,255,255,.95);
 }
 
 .signinpanel .logopanel {
@@ -30,31 +38,86 @@ body.signin {
 
 .signinpanel .form-control {
     display: block;
-    margin-top: 15px;
+    margin-bottom: 30px;
 }
 
 .signinpanel .uname {
-    background: #fff url(../img/user.png) no-repeat 95% center;color:#333;
+    height: 52px;
+    background: #fff url(../img/login_user.png) no-repeat 20px center;
+    background-size: 24px 28px;
+    border: none;
+    border-bottom: 1px solid #ccc6;
+    padding-left: 64px;
+    font-size: 16px;
+    color: #999;
+    box-shadow: none;
 }
 
 .signinpanel .pword {
-    background: #fff url(../img/locked.png) no-repeat 95% center;color:#333;
+    height: 52px;
+    background: #fff url(../img/login_pwd.png) no-repeat 20px center;
+    background-size: 24px 28px;
+    border: none;
+    border-bottom: 1px solid #ccc6;
+    font-size: 16px;
+    color: #999;
+    padding-left: 64px;
+    box-shadow: none;
 }
 
 .signinpanel .btn {
-    margin-top: 15px;
+    margin-top: 6px;
+    height: 56px;
+    line-height: 56px;
+    padding: 0;
+    width: 340px;
+    background: #ec1c24;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 2px;
 }
 
 .signinpanel form {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255,255,255,.3);
+    display: block;
+    height: 360px;
+    width: auto;
+    background-color: #fff;
     -moz-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
-    -webkit-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
-    box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    padding: 30px;
+    padding: 56px 95px;
+    margin-top: 16px;
+}
+
+.loginTitle{
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: -70px;
+    font-size: 32px;
+    color: #244368;
+}
+
+.logo{
+    position: absolute;
+    width: 240px;
+    height: 36px;
+    background: url(../img/login_logo.png) no-repeat center center;
+    background-size: contain;
+    top: 2%;
+    left: 1%;
+}
+
+.logo div{
+    width: 100%;
+    color: #244368;
+    font-size: 28px;
+    position: absolute;
+    top: 45px;
+    left: 110px;
 }
 
 .signup-footer{border-top: solid 1px rgba(255,255,255,.3);margin:20px 0;padding-top: 15px;}
