@@ -156,6 +156,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	 * @return
 	 * @throws Exception
 	 */
+	@RequestMapping("getDeviceSensorInfo")
 	public ResultMsg<DeviceSensor> getDeviceSensorInfo(@RequestParam String id) throws Exception {
 
 			DeviceSensor deviceSensor = deviceSensorManager.getDeviceSensor(id);
