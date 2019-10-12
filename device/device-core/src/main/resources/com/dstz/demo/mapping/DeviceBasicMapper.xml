@@ -92,8 +92,10 @@
       device_basic_setup_time = #{deviceBasicSetupTime,jdbcType=TIMESTAMP},
       device_basic_brand = #{deviceBasicBrand,jdbcType=VARCHAR},
       device_basic_provider = #{deviceBasicProvider,jdbcType=VARCHAR},
-      device_basic_purchase_time = #{deviceBasicPurchaseTime,jdbcType=VARCHAR},
-      device_basic_img = #{deviceBasicImg,jdbcType=LONGVARBINARY}
+      device_basic_purchase_time = #{deviceBasicPurchaseTime,jdbcType=VARCHAR}
+      <if test="deviceBasicImg !='' and deviceBasicImg !=null">
+        ,device_basic_img = #{deviceBasicImg,jdbcType=LONGVARBINARY}
+      </if>
     where device_basic_id = #{deviceBasicId,jdbcType=VARCHAR}
   </update>
 
