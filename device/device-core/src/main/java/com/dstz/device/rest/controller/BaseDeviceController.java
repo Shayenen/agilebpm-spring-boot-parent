@@ -90,50 +90,8 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	@CatchErr("对设备操作失败")
 	public ResultMsg<String> saveDeviceCamera(@RequestBody String json) throws Exception{
 
-		JSONObject jsonObject = JSON.parseObject(json);
-		//  在转成不同的实体类
-		DeviceBasic deviceBasic = jsonObject.getObject("deviceBasic", DeviceBasic.class);
-
-		String id=deviceBasic.getDeviceBasicId();
-		if(StringUtil.isEmpty(id)){
-			deviceBasic.setDeviceBasicId(IdUtil.getSuid());
-			if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
-				DeviceCamera deviceCamera = jsonObject.getObject("deviceCamera", DeviceCamera.class);
-				deviceBasicManager.createCamera(deviceBasic.getFile(), deviceBasic, deviceCamera);
-				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加视频监控信息成功");
-			}else if (deviceBasic.getDeviceBasicCategory().equals("ypsb")){
-				DeviceMicrophone deviceMicrophone = jsonObject.getObject("deviceMicrophone", DeviceMicrophone.class);
-				deviceMicrophoneManager.createMicrophone(deviceBasic.getFile(), deviceBasic,deviceMicrophone);
-				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加音频信息成功");
-			}else if (deviceBasic.getDeviceBasicCategory().equals("cgqsb")){
-				DeviceSensor deviceSensor = jsonObject.getObject("deviceSensor", DeviceSensor.class);
-				deviceSensorManager.createSensor(deviceBasic.getFile(), deviceBasic,deviceSensor);
-				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加传感器信息成功");
-			}else if (deviceBasic.getDeviceBasicCategory().equals("dgsb")){
-				DeviceLight deviceLight = jsonObject.getObject("deviceLight", DeviceLight.class);
-				deviceLightManager.createLight(deviceBasic.getFile(), deviceBasic,deviceLight);
-				return getSuccessResult(deviceBasic.getDeviceBasicId(), "添加灯光信息成功");
-			}
-		}else{
-			if (deviceBasic.getDeviceBasicCategory().equals("spjksb")) {
-				DeviceCamera deviceCamera = jsonObject.getObject("deviceCamera", DeviceCamera.class);
-				deviceBasicManager.updateCamera(deviceBasic.getFile(), deviceBasic, deviceCamera);
-				return getSuccessResult("更新视频监控信息成功");
-			}else if (deviceBasic.getDeviceBasicCategory().equals("ypsb")){
-				DeviceMicrophone deviceMicrophone = jsonObject.getObject("deviceMicrophone", DeviceMicrophone.class);
-				deviceMicrophoneManager.updateMicrophone(deviceBasic.getFile(), deviceBasic, deviceMicrophone);
-				return getSuccessResult("更新音频信息成功");
-			}else if (deviceBasic.getDeviceBasicCategory().equals("cgqsb")){
-				DeviceSensor deviceSensor = jsonObject.getObject("deviceSensor", DeviceSensor.class);
-				deviceSensorManager.updateSensor(deviceBasic.getFile(), deviceBasic,deviceSensor);
-				return getSuccessResult("更新传感器信息成功");
-			}else if (deviceBasic.getDeviceBasicCategory().equals("dgsb")){
-				DeviceLight deviceLight = jsonObject.getObject("deviceLight", DeviceLight.class);
-				deviceLightManager.updateLight(deviceBasic.getFile(), deviceBasic,deviceLight);
-				return getSuccessResult("更新灯光信息成功");
-			}
-		}
-		return getWarnResult("位置错误");
+		String id = deviceBasicManager.createOrUpdateDevice(json);
+		return getSuccessResult(id,"保存成功");
 	}
 	@RequestMapping(value="/getFileById")
 	public void getPhotoById (@RequestParam("id") String id, final HttpServletResponse response) throws Exception{
@@ -198,7 +156,6 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("getDeviceSensorInfo")
 	public ResultMsg<DeviceSensor> getDeviceSensorInfo(@RequestParam String id) throws Exception {
 
 			DeviceSensor deviceSensor = deviceSensorManager.getDeviceSensor(id);

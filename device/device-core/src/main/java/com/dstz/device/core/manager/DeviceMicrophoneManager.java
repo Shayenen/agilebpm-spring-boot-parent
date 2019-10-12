@@ -8,22 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface DeviceMicrophoneManager extends Manager<String, DeviceMicrophone> {
 
-    /**
-     * 音频设备保存
-     * @param file
-     * @param deviceBasic
-     * @param deviceMicrophone
-     */
-    void createMicrophone(MultipartFile file, DeviceBasic deviceBasic, DeviceMicrophone deviceMicrophone) throws Exception;
-
-    /**
-     * 修改音频设备
-     * @param file
-     * @param deviceBasic
-     * @param deviceMicrophone
-     * @throws Exception
-     */
-    void updateMicrophone(MultipartFile file, DeviceBasic deviceBasic, DeviceMicrophone deviceMicrophone) throws Exception;
 
     /**
      * 音频详情

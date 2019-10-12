@@ -20,48 +20,10 @@ import static com.dstz.device.core.utils.FileUtils.getFileByte;
 
 @Service("deviceSensorManager")
 public class DeviceSensorManagerImpl extends BaseManager<String, DeviceSensor> implements DeviceSensorManager {
-    @Resource
-    DeviceBasicDao deviceBasicDao;
+
     @Resource
     DeviceSensorDao deviceSensorDao;
 
-    /**
-     * 传感器设备保存
-     *
-     * @param file
-     * @param deviceBasic
-     * @param deviceSensor
-     */
-    @Override
-    public void createSensor(MultipartFile file, DeviceBasic deviceBasic, DeviceSensor deviceSensor) throws Exception {
-        if (file!=null && !file.isEmpty()){
-            deviceBasic.setDeviceBasicImg(getFileByte(file));
-        }
-        deviceBasic.setDeviceBasicId(IdUtil.getSuid());
-        deviceSensor.setDeviceBasicId(deviceBasic.getDeviceBasicId());
-        deviceSensor.setDeviceSensorId(IdUtil.getSuid());
-        deviceBasicDao.create(deviceBasic);
-        System.out.println(JSONObject.toJSONString(deviceBasic));
-        System.out.println(JSONObject.toJSONString(deviceSensor));
-        deviceSensorDao.create(deviceSensor);
-    }
-
-    /**
-     * 修改传感器设备
-     *
-     * @param file
-     * @param deviceBasic
-     * @param deviceSensor
-     * @throws Exception
-     */
-    @Override
-    public void updateSensor(MultipartFile file, DeviceBasic deviceBasic, DeviceSensor deviceSensor) throws Exception {
-        if (file!=null && !file.isEmpty()){
-            deviceBasic.setDeviceBasicImg(getFileByte(file));
-        }
-        deviceBasicDao.update(deviceBasic);
-        deviceSensorDao.update(deviceSensor);
-    }
 
     /**
      * 传感器详情

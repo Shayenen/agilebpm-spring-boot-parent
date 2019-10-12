@@ -10,22 +10,14 @@ import java.util.Map;
 
 public interface DeviceBasicManager extends Manager<String, DeviceBasic> {
 
-    /**
-     * 视频设备保存
-     * @param file
-     * @param deviceBasic
-     * @param deviceCamera
-     */
-    void createCamera(MultipartFile file, DeviceBasic deviceBasic, DeviceCamera deviceCamera) throws Exception;
 
     /**
-     * 修改视频设备
-     * @param file
-     * @param deviceBasic
-     * @param deviceCamera
+     * 新增或修改设备信息
+     * @param json
+     * @return
      * @throws Exception
      */
-    void updateCamera(MultipartFile file, DeviceBasic deviceBasic, DeviceCamera deviceCamera) throws Exception;
+    String createOrUpdateDevice(String json) throws Exception;
 
     /**
      * 摄像机详情

@@ -2,13 +2,16 @@
 <html ng-app="app">
 <head>
     <meta http-equiv="Content-Type" content="multipart/form-data; charset=UTF-8">
+    <link href="../../ckeditor/sample/css/sample.css" rel="stylesheet">
     <link href="../../build/common/base.css" rel="stylesheet">
     <script type="text/javascript" src="../../build/common/base.js"></script>
     <script type="text/javascript" src="../../build/common/ngEdit.js"></script>
     <script type="text/javascript" src="../../build/common/ajaxfileupload.js"></script>
+
 </head>
 <script type="text/javascript">
     var app = angular.module('app', ['baseDirective']);
+    var editor;
     app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
         $scope.device = {};
         $.ajax({
@@ -30,7 +33,50 @@
                 console.log(arg1 + "--" + arg2 + "--" + arg3);
             }
         });
+
+        $scope.$watch('data.deviceBasicCategory',function(newValue,oldValue) {
+
+            var E = window.wangEditor;
+            if (newValue == 'spjksb'){
+                //视频设备
+                editor = new E('#spjkEditor');
+                editor.customConfig.uploadImgShowBase64 = true;
+                editor.customConfig.pasteFilterStyle = false;
+                editor.create();
+                //console.log(document.getElementById("deviceCameraRemark").value);
+                editor.txt.html(document.getElementById("deviceCameraRemark").value);
+            }else if (newValue == 'ypsb') {
+                //音频
+                editor = new E('#ypEditor');
+                editor.customConfig.uploadImgShowBase64 = true;
+                editor.customConfig.pasteFilterStyle = false;
+                editor.create();
+                editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
+            }else if (newValue == 'cgqsb'){
+                //传感器
+                editor = new E('#cgqEditor');
+                editor.customConfig.uploadImgShowBase64 = true;
+                editor.customConfig.pasteFilterStyle = false;
+                editor.create();
+                editor.txt.html(document.getElementById("deviceSensorRemark").value);
+            } else if (newValue == 'dgsb'){
+                //灯光
+                editor = new E('#dgEditor');
+                editor.customConfig.uploadImgShowBase64 = true;
+                editor.customConfig.pasteFilterStyle = false;
+                editor.create();
+                console.log(document.getElementById("deviceLightRemark").value);
+                editor.txt.html(document.getElementById("deviceLightRemark").value);
+            }
+        });
+
+
     }]);
+
+    function initEditor(editor,type){
+        console.log(document.getElementById("deviceCameraRemark").value);
+        editor.txt.html(document.getElementById("deviceCameraRemark").value);
+    }
 
     function imgChange(){
         var input = $("#file");
@@ -62,26 +108,36 @@
                 "deviceCameraPx": deviceCamera.deviceCameraPx,
                 "deviceCameraSize": deviceCamera.deviceCameraSize,
                 "deviceCameraStream": deviceCamera.deviceCameraStream,
-                "deviceCameraRemark": deviceCamera.deviceCameraRemark
+                "deviceCameraId": deviceCamera.deviceCameraId,
+                "deviceBasicId": deviceCamera.deviceBasicId,
+                "deviceCameraRemark": editor.txt.html()//deviceCamera.deviceCameraRemark
             }
         } else if (dataSource.deviceBasicCategory == 'ypsb') {//音频设备
             params.deviceMicrophone = {
                 "deviceMicrophonePower": deviceMicrophone.deviceMicrophonePower,
                 "deviceMicrophoneStream": deviceMicrophone.deviceMicrophoneStream,
-                "deviceMicrophoneRemark": deviceMicrophone.deviceMicrophoneRemark
+                "deviceMicrophoneId": deviceMicrophone.deviceMicrophoneId,
+                "deviceBasicId": deviceMicrophone.deviceBasicId,
+                "deviceMicrophoneRemark": editor.txt.html()//deviceMicrophone.deviceMicrophoneRemark
             }
         } else if (dataSource.deviceBasicCategory == 'cgqsb') {//传感器设备
             params.deviceSensor = {
-                "deviceSensorRemark": deviceSensor.deviceSensorRemark
+                "deviceSensorId": deviceSensor.deviceSensorId,
+                "deviceBasicId": deviceSensor.deviceBasicId,
+                "deviceSensorRemark": editor.txt.html()//deviceSensor.deviceSensorRemark
             }
         } else if (dataSource.deviceBasicCategory == 'dgsb') {//灯光设备
             params.deviceLight = {
                 "deviceLightPower": deviceLight.deviceLightPower,
                 "deviceLightLuminance": deviceLight.deviceLightLuminance,
                 "deviceLightVoltage": deviceLight.deviceLightVoltage,
-                "deviceLightRemark": deviceLight.deviceLightRemark
+                "deviceLightId": deviceLight.deviceLightId,
+                "deviceBasicId": deviceLight.deviceBasicId,
+                "deviceLightRemark": editor.txt.html()//deviceLight.deviceLightRemark
             }
         }
+        console.log(JSON.stringify(params));
+        //return false;
         $.ajax({
             async: false,
             cache: false,
@@ -116,6 +172,11 @@
         });
     }
 
+    // function changeEditor(v) {
+    //     var dataSource = ngUtil.getScope().data;
+    //     console.log(v);
+    // }
+
     /* 获取URL表单的 JSON 数据  必须以 getData为方法名*/
     function getData() {
         return AngularUtil.getScope().data;
@@ -136,6 +197,8 @@
         }
         return true;
     }
+
+
 </script>
 <body class="panel success" ng-controller="ctrl">
 <a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" onclick="submit()">保存</a>
@@ -276,6 +339,7 @@
                 <input class="form-control" id="file" name="file" type="file" ng-model="data.file" onchange="imgChange()"/>
             </td>
         </tr>
+        <input type="button" onclick="getEdit()">
 
     </table>
 </form>
@@ -290,6 +354,8 @@
                 <td>
                     <input class="form-control" id="deviceCameraShotNumber" type="text"
                            ng-model="deviceCamera.deviceCameraShotNumber"/>
+                    <input ng-model="deviceCamera.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceCamera.deviceCameraId" ng-show="false">
                 </td>
                 <th><span>像素:</span></th>
                 <td>
@@ -310,7 +376,8 @@
             <tr>
                 <th><span>备注:</span></th>
                 <td colspan="6">
-                    <input class="form-control" id="deviceCameraRemark" type="text" ng-model="deviceCamera.deviceCameraRemark"/>
+                    <input class="form-control" id="deviceCameraRemark" type="text" ng-show="false" ng-model="deviceCamera.deviceCameraRemark"/>
+					<div id="spjkEditor"></div>
                 </td>
             </tr>
         </table>
@@ -326,6 +393,8 @@
                 <td>
                     <input class="form-control" id="deviceMicrophonePower" type="text"
                            ng-model="deviceMicrophone.deviceMicrophonePower"/>
+                    <input ng-model="deviceMicrophone.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceMicrophone.deviceMicrophoneId" ng-show="false">
                 </td>
                 <th><span>主码流:</span></th>
                 <td>
@@ -336,8 +405,9 @@
             <tr>
                 <th><span>备注:</span></th>
                 <td colspan="6">
-                    <input class="form-control" id="deviceMicrophoneRemark" type="text"
+                    <input class="form-control" id="deviceMicrophoneRemark" ng-show="false" type="text"
                            ng-model="deviceMicrophone.deviceMicrophoneRemark"/>
+                    <div id="ypEditor"></div>
                 </td>
             </tr>
         </table>
@@ -351,8 +421,11 @@
             <tr>
                 <th><span>备注:</span></th>
                 <td colspan="6">
-                    <input class="form-control" id="deviceSensorRemark" type="text"
+                    <input class="form-control" id="deviceSensorRemark" ng-show="false" type="text"
                            ng-model="deviceSensor.deviceSensorRemark"/>
+                    <input ng-model="deviceSensor.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceSensor.deviceSensorId" ng-show="false">
+                    <div id="cgqEditor"></div>
                 </td>
             </tr>
         </table>
@@ -368,6 +441,8 @@
                 <td>
                     <input class="form-control" id="deviceLightPower" type="text"
                            ng-model="deviceLight.deviceLightPower"/>
+                    <input ng-model="deviceLight.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceLight.deviceLightId" ng-show="false">
                 </td>
                 <th><span>亮度:</span></th>
                 <td>
@@ -383,8 +458,9 @@
             <tr>
                 <th><span>备注:</span></th>
                 <td colspan="6">
-                    <input class="form-control" id="deviceLightRemark" type="text"
+                    <input class="form-control" id="deviceLightRemark" ng-show="false" type="text"
                            ng-model="deviceLight.deviceLightRemark"/>
+                    <div id="dgEditor"></div>
                 </td>
             </tr>
         </table>
@@ -406,4 +482,40 @@
         text-align: center;
     }
 </style>
+
+<script type="text/javascript" src="../../ckeditor/wangEditor.js"></script>
+<script type="text/javascript">
+    window.onload=function(){
+        //console.log(document.getElementById("deviceCameraRemark").value);
+        var spjksb = document.getElementById("deviceCameraRemark").value;
+        var dgsb = document.getElementById("deviceLightRemark").value;
+        var cgqsb = document.getElementById("deviceSensorRemark").value;
+        var ypsb = document.getElementById("deviceMicrophoneRemark").value;
+        if (!isEmpty(spjksb)) {
+            editor.txt.html(spjksb);
+        }else  if (!isEmpty(dgsb)) {
+            editor.txt.html(dgsb);
+        }else  if (!isEmpty(cgqsb)) {
+            editor.txt.html(cgqsb);
+        }else  if (!isEmpty(ypsb)) {
+            editor.txt.html(ypsb);
+        }
+
+    };
+    function isEmpty(value){
+        if(value == null || value == "" || value == "undefined" || value == undefined || value == "null"){
+            return true;
+        }
+        else{
+            value = value.replace(/\s/g,"");
+            if(value == ""){
+                return true;
+            }
+            return false;
+        }
+    }
+    function getEdit() {
+        console.log(editor.txt.html());
+    }
+</script>
 </html>

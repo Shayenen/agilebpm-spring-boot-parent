@@ -22,47 +22,9 @@ import static com.dstz.device.core.utils.FileUtils.getFileByte;
 @Service("deviceLightManager")
 public class DeviceLightManagerImpl extends BaseManager<String, DeviceLight> implements DeviceLightManager {
     @Resource
-    DeviceBasicDao deviceBasicDao;
-    @Resource
     DeviceLightDao deviceLightDao;
 
-    /**
-     * 灯光设备保存
-     *
-     * @param file
-     * @param deviceBasic
-     * @param deviceLight
-     */
-    @Override
-    public void createLight(MultipartFile file, DeviceBasic deviceBasic, DeviceLight deviceLight) throws Exception {
-        if (file!=null && !file.isEmpty()){
-            deviceBasic.setDeviceBasicImg(getFileByte(file));
-        }
-        deviceBasic.setDeviceBasicId(IdUtil.getSuid());
-        deviceLight.setDeviceBasicId(deviceBasic.getDeviceBasicId());
-        deviceLight.setDeviceLightId(IdUtil.getSuid());
-        deviceBasicDao.create(deviceBasic);
-        System.out.println(JSONObject.toJSONString(deviceBasic));
-        System.out.println(JSONObject.toJSONString(deviceLight));
-        deviceLightDao.create(deviceLight);
-    }
 
-    /**
-     * 修改灯光设备
-     *
-     * @param file
-     * @param deviceBasic
-     * @param deviceLight
-     * @throws Exception
-     */
-    @Override
-    public void updateLight(MultipartFile file, DeviceBasic deviceBasic, DeviceLight deviceLight) throws Exception {
-        if (file!=null && !file.isEmpty()){
-            deviceBasic.setDeviceBasicImg(getFileByte(file));
-        }
-        deviceBasicDao.update(deviceBasic);
-        deviceLightDao.update(deviceLight);
-    }
 
     /**
      * 灯光详情

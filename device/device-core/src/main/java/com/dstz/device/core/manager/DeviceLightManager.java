@@ -8,22 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface DeviceLightManager extends Manager<String, DeviceLight> {
 
-    /**
-     * 灯光设备保存
-     * @param file
-     * @param deviceBasic
-     * @param deviceLight
-     */
-    void createLight(MultipartFile file, DeviceBasic deviceBasic, DeviceLight deviceLight) throws Exception;
-
-    /**
-     * 修改视频设备
-     * @param file
-     * @param deviceBasic
-     * @param deviceLight
-     * @throws Exception
-     */
-    void updateLight(MultipartFile file, DeviceBasic deviceBasic,DeviceLight deviceLight) throws Exception;
 
     /**
      * 灯光详情

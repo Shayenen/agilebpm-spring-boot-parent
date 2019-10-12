@@ -26,7 +26,7 @@
     where device_light_id = #{deviceCameraId,jdbcType=VARCHAR}
   </select>
 
-  <select id="getByDeviceBaiscId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="getByDeviceBaiscId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,

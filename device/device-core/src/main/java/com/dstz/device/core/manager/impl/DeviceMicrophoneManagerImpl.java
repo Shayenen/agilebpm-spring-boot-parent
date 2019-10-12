@@ -20,48 +20,10 @@ import static com.dstz.device.core.utils.FileUtils.getFileByte;
 
 @Service("deviceMicrophoneManager")
 public class DeviceMicrophoneManagerImpl extends BaseManager<String, DeviceMicrophone> implements DeviceMicrophoneManager {
-    @Resource
-    DeviceBasicDao deviceBasicDao;
+
     @Resource
     DeviceMicrophoneDao deviceMicrophoneDao;
 
-    /**
-     * 音频设备保存
-     *
-     * @param file
-     * @param deviceBasic
-     * @param deviceMicrophone
-     */
-    @Override
-    public void createMicrophone(MultipartFile file, DeviceBasic deviceBasic, DeviceMicrophone deviceMicrophone) throws Exception {
-        if (file!=null && !file.isEmpty()){
-            deviceBasic.setDeviceBasicImg(getFileByte(file));
-        }
-        deviceBasic.setDeviceBasicId(IdUtil.getSuid());
-        deviceMicrophone.setDeviceBasicId(deviceBasic.getDeviceBasicId());
-        deviceMicrophone.setDeviceMicrophoneId(IdUtil.getSuid());
-        deviceBasicDao.create(deviceBasic);
-        System.out.println(JSONObject.toJSONString(deviceBasic));
-        System.out.println(JSONObject.toJSONString(deviceMicrophone));
-        deviceMicrophoneDao.create(deviceMicrophone);
-    }
-
-    /**
-     * 修改传感器设备
-     *
-     * @param file
-     * @param deviceBasic
-     * @param deviceMicrophone
-     * @throws Exception
-     */
-    @Override
-    public void updateMicrophone(MultipartFile file, DeviceBasic deviceBasic, DeviceMicrophone deviceMicrophone) throws Exception {
-        if (file!=null && !file.isEmpty()){
-            deviceBasic.setDeviceBasicImg(getFileByte(file));
-        }
-        deviceBasicDao.update(deviceBasic);
-        deviceMicrophoneDao.update(deviceMicrophone);
-    }
 
     /**
      * 传感器详情
