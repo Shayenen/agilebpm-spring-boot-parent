@@ -11,13 +11,13 @@
     <result column="device_basic_parent_equipment" jdbcType="VARCHAR" property="deviceBasicParentEquipment" />
     <result column="device_basic_site" jdbcType="VARCHAR" property="deviceBasicSite" />
     <result column="device_basic_status" jdbcType="VARCHAR" property="deviceBasicStatus" />
-    <result column="device_basic_factorydate" jdbcType="TIMESTAMP" property="deviceBasicFactorydate" />
+    <result column="device_basic_factorydate" jdbcType="VARCHAR" property="deviceBasicFactorydate" />
     <result column="device_basic_factory_number" jdbcType="VARCHAR" property="deviceBasicFactoryNumber" />
     <result column="device_basic_purchase_amount" jdbcType="VARCHAR" property="deviceBasicPurchaseAmount" />
     <result column="device_basic_save_place" jdbcType="VARCHAR" property="deviceBasicSavePlace" />
     <result column="device_basic_user_department" jdbcType="VARCHAR" property="deviceBasicUserDepartment" />
     <result column="device_basic_leader" jdbcType="VARCHAR" property="deviceBasicLeader" />
-    <result column="device_basic_setup_time" jdbcType="TIMESTAMP" property="deviceBasicSetupTime" />
+    <result column="device_basic_setup_time" jdbcType="VARCHAR" property="deviceBasicSetupTime" />
     <result column="device_basic_brand" jdbcType="VARCHAR" property="deviceBasicBrand" />
     <result column="device_basic_provider" jdbcType="VARCHAR" property="deviceBasicProvider" />
     <result column="device_basic_purchase_time" jdbcType="VARCHAR" property="deviceBasicPurchaseTime" />

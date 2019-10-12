@@ -1,6 +1,7 @@
 package com.dstz.device.core.model;
 
 import com.dstz.base.core.model.BaseModel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -25,7 +26,7 @@ public class DeviceBasic extends BaseModel {
 
     private String deviceBasicStatus;
 
-    private Date deviceBasicFactorydate;
+    private String deviceBasicFactorydate;
 
     private String deviceBasicFactoryNumber;
 
@@ -37,7 +38,7 @@ public class DeviceBasic extends BaseModel {
 
     private String deviceBasicLeader;
 
-    private Date deviceBasicSetupTime;
+    private String deviceBasicSetupTime;
 
     private String deviceBasicBrand;
 
@@ -121,11 +122,11 @@ public class DeviceBasic extends BaseModel {
         this.deviceBasicStatus = deviceBasicStatus;
     }
 
-    public Date getDeviceBasicFactorydate() {
+    public String getDeviceBasicFactorydate() {
         return deviceBasicFactorydate;
     }
 
-    public void setDeviceBasicFactorydate(Date deviceBasicFactorydate) {
+    public void setDeviceBasicFactorydate(String deviceBasicFactorydate) {
         this.deviceBasicFactorydate = deviceBasicFactorydate;
     }
 
@@ -169,11 +170,11 @@ public class DeviceBasic extends BaseModel {
         this.deviceBasicLeader = deviceBasicLeader == null ? null : deviceBasicLeader.trim();
     }
 
-    public Date getDeviceBasicSetupTime() {
+    public String getDeviceBasicSetupTime() {
         return deviceBasicSetupTime;
     }
 
-    public void setDeviceBasicSetupTime(Date deviceBasicSetupTime) {
+    public void setDeviceBasicSetupTime(String deviceBasicSetupTime) {
         this.deviceBasicSetupTime = deviceBasicSetupTime;
     }
 
