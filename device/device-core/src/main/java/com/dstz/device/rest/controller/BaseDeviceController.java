@@ -20,6 +20,8 @@ import com.dstz.sys.core.model.DataDict;
 import com.github.pagehelper.Page;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import io.swagger.annotations.Api;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +31,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static com.dstz.device.core.utils.FileUtils.getFileByte;
 
@@ -105,13 +108,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 			outputSream.write(data);
 			outputSream.flush();
 		}
-        /*InputStream in = new ByteArrayInputStream(data);
-        int len = 0;
-        byte[] buf = new byte[1024];
-        while ((len = in.read(buf, 0, 1024)) != -1) {
-            outputSream.write(buf, 0, len);
-        }
-        outputSream.close(); */
+
     }
 	@RequestMapping("updateFile")
 	@CatchErr("对设备操作失败")
@@ -176,6 +173,45 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 		return  getSuccessResult(deviceLight);
 	}
 
+	@RequestMapping("uploadFileNew")
+	public WangEditor uploadFileNew(@RequestParam("myFile") MultipartFile multipartFile,
+								HttpServletRequest request) throws Exception {
+		try {
+			// 获取项目路径
+			String realPath = request.getSession().getServletContext()
+					.getRealPath("");
+			InputStream inputStream = multipartFile.getInputStream();
+			String contextPath = request.getContextPath();
+			// 服务器根目录的路径
+			String path = "d:/images/";//realPath.replace(contextPath.substring(1), "");
+			// 根目录下新建文件夹upload，存放上传图片
+			String uploadPath = path + "upload";
+			// 获取文件名称
+			String filename = getFileName();
+			// 将文件上传的服务器根目录下的upload文件夹
+			File file = new File(uploadPath, filename);
+			FileUtils.copyInputStreamToFile(inputStream, file);
+			// 返回图片访问路径
+			String url = request.getScheme() + "://" + request.getServerName()
+					+ ":" + request.getServerPort() + "/upload/" + filename;
+
+			String[] str = { url };
+			WangEditor we = new WangEditor(str);
+			return we;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return  null;
+	}
+	public String getFileName() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String timeStr = sdf.format(new Date());
+		String str = RandomStringUtils.random(5,
+				"abcdefghijklmnopqrstuvwxyz1234567890");
+		String name = timeStr + str + ".jpg";
+		return name;
+	}
 	/**
 	 * 删除设备信息
 	 * @param id

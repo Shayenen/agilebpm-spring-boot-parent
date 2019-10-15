@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.List;
  *
  */
 @Configuration
-public class WebMvcConfigurers {
+public class WebMvcConfigurers extends WebMvcConfigurerAdapter {
 	
 	//自定义字符串转换器
 	@Bean
@@ -50,6 +52,9 @@ public class WebMvcConfigurers {
 	    return new HttpMessageConverters(converter);
 
 	}
-	
-	
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:///" + "D:/images/upload/");
+	}
 }

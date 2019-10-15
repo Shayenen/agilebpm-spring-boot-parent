@@ -35,49 +35,115 @@
         });
 
         $scope.$watch('data.deviceBasicCategory', function (newValue, oldValue) {
+            initEditor(newValue);
 
-            var E = window.wangEditor;
-            if (newValue == 'spjksb') {
-                //视频设备
-                editor = new E('#spjkEditor');
-                //editor.customConfig.uploadImgShowBase64 = true;
-                editor.customConfig.pasteFilterStyle = false;
-                editor.create();
-                //console.log(document.getElementById("deviceCameraRemark").value);
-                editor.txt.html(document.getElementById("deviceCameraRemark").value);
-            } else if (newValue == 'ypsb') {
-                //音频
-                editor = new E('#ypEditor');
-                //editor.customConfig.uploadImgShowBase64 = true;
-                editor.customConfig.pasteFilterStyle = false;
-                editor.create();
-                editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
-            } else if (newValue == 'cgqsb') {
-                //传感器
-                editor = new E('#cgqEditor');
-               // editor.customConfig.uploadImgShowBase64 = true;
-                editor.customConfig.pasteFilterStyle = false;
-                editor.create();
-                editor.txt.html(document.getElementById("deviceSensorRemark").value);
-            } else if (newValue == 'dgsb') {
-                //灯光
-                editor = new E('#dgEditor');
-               // editor.customConfig.uploadImgShowBase64 = true;
-                editor.customConfig.pasteFilterStyle = false;
-                editor.create();
-                console.log(document.getElementById("deviceLightRemark").value);
-                editor.txt.html(document.getElementById("deviceLightRemark").value);
-            }
         });
 
 
     }]);
 
-    function initEditor(editor, type) {
-        console.log(document.getElementById("deviceCameraRemark").value);
-        editor.txt.html(document.getElementById("deviceCameraRemark").value);
+    function initEditor(newValue) {
+        var E = window.wangEditor;
+        if (newValue == 'spjksb') {
+            //视频设备
+            editor = new E('#spjkEditor');
+            initEditorFile(editor);
+            editor.create();
+
+            editor.txt.html(document.getElementById("deviceCameraRemark").value);
+        } else if (newValue == 'ypsb') {
+            //音频
+            editor = new E('#ypEditor');
+            initEditorFile(editor);
+            editor.create();
+            editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
+        } else if (newValue == 'cgqsb') {
+            //传感器
+            editor = new E('#cgqEditor');
+            initEditorFile(editor);
+            editor.create();
+            editor.txt.html(document.getElementById("deviceSensorRemark").value);
+        } else if (newValue == 'dgsb') {
+            //灯光
+            editor = new E('#dgEditor');
+            initEditorFile(editor);
+            editor.create();
+            editor.txt.html(document.getElementById("deviceLightRemark").value);
+        }
     }
 
+    function initEditorFile(editor) {
+        editor.customConfig.menus=[
+
+            'head', // 标题
+
+            'bold', // 粗体
+
+            'fontSize', // 字号
+
+            'fontName', // 字体
+
+            'italic', // 斜体
+
+            'underline', // 下划线
+
+            'strikeThrough', // 删除线
+
+            'foreColor', // 文字颜色
+
+            'backColor', // 背景颜色
+
+            'link', // 插入链接
+
+            'list', // 列表
+
+            'justify', // 对齐方式
+
+            'quote', // 引用
+
+            'emoticon', // 表情
+
+            'image', // 插入图片
+
+            'table', // 表格
+
+            //'video', // 插入视频
+
+            'code', // 插入代码
+
+            'undo', // 撤销
+
+            'redo' // 重复
+
+        ]
+
+        //editor.customConfig.uploadImgShowBase64 = true;
+        editor.customConfig.pasteFilterStyle = false;
+        //editor.customConfig.uploadImgServer = '/basedevice/api/uploadFileNew';
+
+        // 上传图片到服务器
+        editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+        editor.customConfig.uploadImgServer = '/basedevice/api/uploadFileNew'; //设置上传文件的服务器路径
+        editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+        //自定义上传图片事件
+        editor.customConfig.uploadImgHooks = {
+            before : function(xhr, editor, files) {
+
+            },
+            success : function(xhr, editor, result) {
+                console.log("上传成功");
+            },
+            fail : function(xhr, editor, result) {
+                console.log("上传失败,原因是"+result);
+            },
+            error : function(xhr, editor) {
+                console.log("上传出错");
+            },
+            timeout : function(xhr, editor) {
+                console.log("上传超时");
+            }
+        }
+    }
 
     function imgChange() {
         // var input = $("#file");
