@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.DeviceElaryWarningDao">
+  <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceElaryWarning">
+    <id column="device_elary_warning_id" jdbcType="VARCHAR" property="deviceElaryWarningId" />
+    <result column="device_elary_warning_number" jdbcType="VARCHAR" property="deviceElaryWarningNumber" />
+    <result column="device_elary_warning_time" jdbcType="TIMESTAMP" property="deviceElaryWarningTime" />
+    <result column="device_elary_warning_defence_area" jdbcType="VARCHAR" property="deviceElaryWarningDefenceArea" />
+    <result column="device_elary_warning_node" jdbcType="VARCHAR" property="deviceElaryWarningNode" />
+    <result column="device_elary_warning_column_number" jdbcType="VARCHAR" property="deviceElaryWarningColumnNumber" />
+    <result column="device_elary_warning_type" jdbcType="VARCHAR" property="deviceElaryWarningType" />
+    <result column="device_elary_warning_decide" jdbcType="VARCHAR" property="deviceElaryWarningDecide" />
+    <result column="device_elary_warning_handle" jdbcType="VARCHAR" property="deviceElaryWarningHandle" />
+    <result column="device_elary_warning_status" jdbcType="VARCHAR" property="deviceElaryWarningStatus" />
+    <result column="device_elary_warning_handel_time" jdbcType="TIMESTAMP" property="deviceElaryWarningHandelTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    device_elary_warning_id, device_elary_warning_number, device_elary_warning_time,
+    device_elary_warning_defence_area, device_elary_warning_node, device_elary_warning_column_number,
+    device_elary_warning_type, device_elary_warning_decide, device_elary_warning_handle,device_elary_warning_status,
+    device_elary_warning_handel_time
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from device_elary_warning
+    where device_elary_warning_id = #{deviceElaryWarningId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="create" parameterType="com.dstz.device.core.model.DeviceElaryWarning">
+    insert into device_elary_warning (device_elary_warning_id, device_elary_warning_number,
+      device_elary_warning_time, device_elary_warning_defence_area,
+      device_elary_warning_node, device_elary_warning_column_number,
+      device_elary_warning_type, device_elary_warning_decide,
+      device_elary_warning_handle, device_elary_warning_handel_time,device_elary_warning_status
+      )
+    values (#{deviceElaryWarningId,jdbcType=VARCHAR}, #{deviceElaryWarningNumber,jdbcType=VARCHAR},
+      #{deviceElaryWarningTime,jdbcType=TIMESTAMP}, #{deviceElaryWarningDefenceArea,jdbcType=VARCHAR},
+      #{deviceElaryWarningNode,jdbcType=VARCHAR}, #{deviceElaryWarningColumnNumber,jdbcType=VARCHAR},
+      #{deviceElaryWarningType,jdbcType=VARCHAR}, #{deviceElaryWarningDecide,jdbcType=VARCHAR},
+      #{deviceElaryWarningHandle,jdbcType=VARCHAR}, #{deviceElaryWarningHandelTime,jdbcType=TIMESTAMP},
+      #{deviceElaryWarningStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="update" parameterType="com.dstz.device.core.model.DeviceElaryWarning">
+    update device_elary_warning
+    <set>
+      <if test="deviceElaryWarningStatus != null">
+        device_elary_warning_status = #{deviceElaryWarningStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningNumber != null">
+        device_elary_warning_number = #{deviceElaryWarningNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningTime != null">
+        device_elary_warning_time = #{deviceElaryWarningTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceElaryWarningDefenceArea != null">
+        device_elary_warning_defence_area = #{deviceElaryWarningDefenceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningNode != null">
+        device_elary_warning_node = #{deviceElaryWarningNode,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningColumnNumber != null">
+        device_elary_warning_column_number = #{deviceElaryWarningColumnNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningType != null">
+        device_elary_warning_type = #{deviceElaryWarningType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningDecide != null">
+        device_elary_warning_decide = #{deviceElaryWarningDecide,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningHandle != null">
+        device_elary_warning_handle = #{deviceElaryWarningHandle,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceElaryWarningHandelTime != null">
+        device_elary_warning_handel_time = #{deviceElaryWarningHandelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where device_elary_warning_id = #{deviceElaryWarningId,jdbcType=VARCHAR}
+  </update>
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    device_elary_warning_id, device_elary_warning_number, device_elary_warning_time,
+    device_elary_warning_defence_area, device_elary_warning_node, device_elary_warning_column_number,
+    (select name_ from sys_data_dict where key_=device_elary_warning_status and dict_key_='bjzt') device_elary_warning_status,
+    (select name_ from sys_data_dict where key_=device_elary_warning_type and dict_key_='bjfl') device_elary_warning_type,
+    device_elary_warning_decide, device_elary_warning_handle,
+    device_elary_warning_handel_time
+
+    FROM device_elary_warning
+    <where>
+      <if test="whereSql!=null">
+        ${whereSql}
+      </if>
+    </where>
+    <if test="orderBySql!=null">
+      ORDER BY ${orderBySql}
+    </if>
+    <if test="orderBySql==null">
+      ORDER BY device_elary_warning_time DESC
+    </if>
+  </select>
+
+  <delete id="remove" parameterType="java.lang.String">
+		DELETE FROM device_elary_warning
+		WHERE
+		device_elary_warning_id=#{id}
+	</delete>
+</mapper>
