@@ -16,9 +16,9 @@ body.signin {
 
 .signinpanel {
     position: relative;
-    width: 570px;
-    height: 392px;
-    margin: 15% auto 0 auto;
+    width: 470px;
+    height: 292px;
+    margin: 14% auto 0 auto;
     background: url("../img/loginBoxBg.png") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -46,7 +46,7 @@ body.signin {
 }
 
 .signinpanel .uname {
-    height: 52px;
+    height: 40px;
     background: #fff url(../img/login_user.png) no-repeat 20px center;
     background-size: 24px 28px;
     border: none;
@@ -58,7 +58,7 @@ body.signin {
 }
 
 .signinpanel .pword {
-    height: 52px;
+    height: 40px;
     background: #fff url(../img/login_pwd.png) no-repeat 20px center;
     background-size: 24px 28px;
     border: none;
@@ -71,10 +71,10 @@ body.signin {
 
 .signinpanel .btn {
     margin-top: 6px;
-    height: 56px;
-    line-height: 56px;
+    height: 45px;
+    line-height: 45px;
     padding: 0;
-    width: 340px;
+    width: 320px;
     background: #ec1c24;
     border: none;
     color: #fff;
@@ -85,14 +85,14 @@ body.signin {
 
 .signinpanel form {
     display: block;
-    height: 360px;
+    height: 258px;
     width: auto;
     background-color: #fff;
     -moz-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    padding: 56px 95px;
+    padding: 26px 55px;
     margin-top: 16px;
 }
 
@@ -100,15 +100,15 @@ body.signin {
     width: 100%;
     text-align: center;
     position: absolute;
-    top: -70px;
-    font-size: 32px;
+    top: -52px;
+    font-size: 24px;
     color: #244368;
 }
 
 .logo {
     position: absolute;
-    width: 240px;
-    height: 36px;
+    width: 200px;
+    height: 28px;
     background: url(../img/login_logo.png) no-repeat center center;
     background-size: contain;
     top: 2%;
@@ -118,10 +118,10 @@ body.signin {
 .logo div {
     width: 100%;
     color: #244368;
-    font-size: 28px;
+    font-size: 20px;
     position: absolute;
-    top: 45px;
-    left: 110px;
+    top: 35px;
+    left: 92px;
 }
 
 .signup-footer {

@@ -73,7 +73,7 @@
     }
 
     function initEditorFile(editor) {
-        editor.customConfig.menus=[
+        editor.customConfig.menus = [
 
             'head', // 标题
 
@@ -127,19 +127,19 @@
         editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
         //自定义上传图片事件
         editor.customConfig.uploadImgHooks = {
-            before : function(xhr, editor, files) {
+            before: function (xhr, editor, files) {
 
             },
-            success : function(xhr, editor, result) {
+            success: function (xhr, editor, result) {
                 console.log("上传成功");
             },
-            fail : function(xhr, editor, result) {
-                console.log("上传失败,原因是"+result);
+            fail: function (xhr, editor, result) {
+                console.log("上传失败,原因是" + result);
             },
-            error : function(xhr, editor) {
+            error: function (xhr, editor) {
                 console.log("上传出错");
             },
-            timeout : function(xhr, editor) {
+            timeout: function (xhr, editor) {
                 console.log("上传超时");
             }
         }
@@ -215,7 +215,7 @@
             contentType: false, //必须
             processData: false, //必须
             success: function (data) {
-                if(document.getElementById("file").value!=""){
+                if (document.getElementById("file").value != "") {
                     submitImg(data.data);//图片上传接口
                 }
 
@@ -269,7 +269,7 @@
 <a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" onclick="submit()">保存</a>
 <a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">取消</a>
 
-<h4>设备台账录入</h4>
+<h3>设备台账录入</h3>
 <div class="baseInfo">基础信息(*必填)</div>
 <!--  ab-load 去controller 层获取业务数据  -->
 <form name="form" method="post" ab-load="/basedevice/api/get?id={id}" ng-model="data" enctype="multipart/form-data"
@@ -287,29 +287,25 @@
                        ab-validate="{required:true,maxlength:192}"/>
                 <input ng-model="data.deviceBasicId" ng-show="false">
             </td>
+        </tr>
+        <tr>
             <th><span>设备型号:</span><span class="required">*</span></th>
             <td>
                 <input class="form-control" type="text" ng-model="data.deviceBasicVerson"
                        ab-validate="{required:true,maxlength:192}"/>
             </td>
-        </tr>
-        <tr>
             <th><span>设备类别:</span><span class="required">*</span></th>
             <td>
                 <select class="form-control" ng-model="data.deviceBasicCategory"
                         ng-options="x.key as x.name for x in device.sbgl">
-                    <!--								<option value="shipin">视屏监控设备</option>-->
-                    <!--								<option value="yinpin">音频设备</option>-->
-                    <!--								<option value="chuanganqi">传感器设备</option>-->
-                    <!--								<option value="dengguang">灯光设备</option>-->
                 </select>
             </td>
+        </tr>
+        <tr>
             <th><span>设备类型:</span><span class="required">*</span></th>
             <td>
                 <select class="form-control" ng-model="data.deviceBasicType"
                         ng-options="x.key as x.name for x in device.sblx">
-                    <!--								<option value="device">设备</option>-->
-                    <!--								<option value="part">部件</option>-->
                 </select>
             </td>
             <th><span>上级设备:</span><span class="required">*</span></th>
@@ -318,33 +314,30 @@
                        ng-model="data.deviceBasicParentEquipment"/>
             </td>
         </tr>
-
         <tr>
             <th><span>设备状态:</span><span class="required">*</span></th>
             <td>
                 <select class="form-control" ng-model="data.deviceBasicStatus"
                         ng-options="x.key as x.name for x in device.sbzt">
-                    <!--								<option value="on">运行</option>-->
-                    <!--								<option value="off">故障</option>-->
-                    <!--								<option value="stop">停用</option>-->
-                    <!--								<option value="no">未安装</option>-->
                 </select>
             </td>
             <th><span>安装位置:</span></th>
             <td>
                 <input class="form-control" id="deviceBasicSite" type="text" ng-model="data.deviceBasicSite"/>
             </td>
+        </tr>
+        <tr>
             <th><span>安装时间:</span></th>
             <td>
                 <input class="form-control" id="deviceBasicSetupTime" autocomplete="off" ab-date="yyyy-MM-dd"
                        type="text" ng-model="data.deviceBasicSetupTime"/>
             </td>
-        </tr>
-        <tr>
             <th><span>设备品牌:</span><span class="required">*</span></th>
             <td>
                 <input class="form-control" id="deviceBasicBrand" type="text" ng-model="data.deviceBasicBrand"/>
             </td>
+        </tr>
+        <tr>
             <th><span>供应商:</span></th>
             <td>
                 <input class="form-control" id="deviceBasicProvider" type="text" ng-model="data.deviceBasicProvider"/>
@@ -368,22 +361,23 @@
                        type="text"
                        ng-model="data.deviceBasicFactorydate"/>
             </td>
+        </tr>
+        <tr>
             <th><span>采购价格:</span></th>
             <td>
                 <input class="form-control" id="deviceBasicPurchaseAmount" type="text"
                        ng-model="data.deviceBasicPurchaseAmount"/>
             </td>
-        </tr>
-        <tr>
             <th><span>存放位置:</span></th>
             <td>
                 <input class="form-control" id="deviceBasicSavePlace" type="text" ng-model="data.deviceBasicSavePlace"/>
             </td>
+        </tr>
+        <tr>
             <th><span>使用部门:</span></th>
             <td>
                 <select class="form-control" ng-model="data.deviceBasicUserDepartment"
                         ng-options="x.key as x.name for x in device.sbsybm">
-                    <!--								<option value="safePart">安检部</option>-->
                 </select>
             </td>
             <th><span>负责人:</span></th>
@@ -396,16 +390,16 @@
         <!--							<textarea ab-editor config="editorConfig" ng-model="data.deviceCameraRemark"></textarea>-->
         <!--						</td>-->
         <!--					</tr>-->
-        <tr>
-            <td colspan="6">
-                <h4>设备照片</h4>
-                <img id="showImg" ng-show="false" width="120px" height="100px">
-                <img ng-show="data.deviceBasicId" class="showImg" ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="220px"
-                     height="200px"/>
-                <input class="form-control fileInput" id="file" name="file" type="file" ng-model="data.file"
-                       onchange="imgChange()"/>
-            </td>
-        </tr>
+        <!--        <tr>-->
+        <!--            <td colspan="6">-->
+        <!--                <h4>设备照片</h4>-->
+        <!--                <img id="showImg" ng-show="false" width="120px" height="100px">-->
+        <!--                <img ng-show="data.deviceBasicId" class="showImg" ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="220px"-->
+        <!--                     height="200px"/>-->
+        <!--                <input class="form-control fileInput" id="file" name="file" type="file" ng-model="data.file"-->
+        <!--                       onchange="imgChange()"/>-->
+        <!--            </td>-->
+        <!--        </tr>-->
         <input type="button" onclick="getEdit()" ng-show="false">
     </table>
 </form>
@@ -427,17 +421,17 @@
                 <td>
                     <input class="form-control" id="deviceCameraPx" type="text" ng-model="deviceCamera.deviceCameraPx"/>
                 </td>
+            </tr>
+            <tr>
+                <th><span>主码流:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraStream" type="text"
+                           ng-model="deviceCamera.deviceCameraStream"/>
+                </td>
                 <th><span>存储大小:</span></th>
                 <td>
                     <input class="form-control" id="deviceCameraSize" type="text"
                            ng-model="deviceCamera.deviceCameraSize"/>
-                </td>
-            </tr>
-            <tr>
-                <th><span>主码流:</span></th>
-                <td colspan="6">
-                    <input class="form-control" id="deviceCameraStream" type="text"
-                           ng-model="deviceCamera.deviceCameraStream"/>
                 </td>
             </tr>
             <tr>
@@ -517,6 +511,8 @@
                     <input class="form-control" id="deviceLightLuminance" type="text"
                            ng-model="deviceLight.deviceLightLuminance"/>
                 </td>
+            </tr>
+            <tr>
                 <th><span>电压:</span></th>
                 <td>
                     <input class="form-control" id="deviceLightVoltage" type="text"
@@ -567,7 +563,7 @@
         margin-top: 20px;
     }
 
-    h3{
+    h3 {
         /*text-align: center;*/
     }
 </style>
