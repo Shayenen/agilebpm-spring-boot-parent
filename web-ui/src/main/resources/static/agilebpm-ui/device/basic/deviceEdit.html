@@ -189,6 +189,8 @@
             }
         } else if (dataSource.deviceBasicCategory == 'cgqsb') {//传感器设备
             params.deviceSensor = {
+                "deviceSensorNode": (deviceSensor && deviceSensor.deviceSensorNode !== undefined) ? deviceSensor.deviceSensorNode : "",
+                "deviceSensorDefenceArea": (deviceSensor && deviceSensor.deviceSensorDefenceArea !== undefined) ? deviceSensor.deviceSensorDefenceArea : "",
                 "deviceSensorId": (deviceSensor && deviceSensor.deviceSensorId !== undefined) ? deviceSensor.deviceSensorId : "",
                 "deviceBasicId": (deviceSensor && deviceSensor.deviceBasicId !== undefined) ? deviceSensor.deviceBasicId : "",
                 "deviceSensorRemark": editor.txt.html()//deviceSensor.deviceSensorRemark
@@ -266,7 +268,8 @@
 
 </script>
 <body class="panel success" ng-controller="ctrl">
-<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" onclick="submit()">保存</a>
+<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" onclick="submit()"
+   style="margin: 10px 15px 10px 0px">保存</a>
 <a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">取消</a>
 
 <h3>设备台账录入</h3>
@@ -385,6 +388,27 @@
                 <input class="form-control" id="deviceBasicLeader" type="text" ng-model="data.deviceBasicLeader"/>
             </td>
         </tr>
+        <tr>
+            <th><span>围段:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicEnclosure" type="text" ng-model="data.deviceBasicEnclosure"/>
+            </td>
+            <th><span>IP:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicIp" type="text" ng-model="data.deviceBasicIp"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>立柱号:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicColumnNumber" type="text"
+                       ng-model="data.deviceBasicColumnNumber"/>
+            </td>
+            <th><span>网片号:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicMesh" type="text" ng-model="data.deviceBasicMesh"/>
+            </td>
+        </tr>
         <!--					<tr>-->
         <!--						<td colspan="6">-->
         <!--							<textarea ab-editor config="editorConfig" ng-model="data.deviceCameraRemark"></textarea>-->
@@ -480,6 +504,18 @@
           ng-model="deviceSensor" enctype="multipart/form-data">
         <h4>传感器设备</h4>
         <table class="form-table">
+            <tr>
+                <th><span>相关节点:</span></th>
+                <td>
+                    <input class="form-control" id="deviceSensorNode" type="text"
+                           ng-model="deviceSensor.deviceSensorNode"/>
+                </td>
+                <th><span>防区编号:</span></th>
+                <td>
+                    <input class="form-control" id="deviceSensorDefenceArea" type="text"
+                           ng-model="deviceSensor.deviceSensorDefenceArea"/>
+                </td>
+            </tr>
             <tr>
                 <th><span>备注:</span></th>
                 <td colspan="6">
