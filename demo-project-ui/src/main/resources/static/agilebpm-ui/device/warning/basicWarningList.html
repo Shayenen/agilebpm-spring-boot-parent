@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html ng-app="app">
 <head>
 <title>DEMO MODULE</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -6,7 +7,17 @@
 	<script type="text/javascript" src="../../build/common/base.js"></script>
 	<script type="text/javascript" src="../../build/common/gridList.js"></script>
 </head>
-<body class="panel-body">
+<script type="text/javascript">
+    var app = angular.module('app', ['baseDirective']);
+    app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
+        console.log($scope.data)
+    }]);
+
+    function checkOut(){
+        console.log(ngUtil.getScope().data)
+    }
+</script>
+<body class="panel-body" ng-controller="ctrl">
 	<div class="panel panel-default search-panel">
          <div class="panel-heading">
          	<a href="javascript:void(0)" class="pull-right">　<i class="fa  fa-angle-double-up" toggle-collapse="#searchForm"></i> </a>
@@ -25,7 +36,7 @@
                      <div class="col-sm-3" style="text-align:left;">
                          <button type="button" style="margin-left:40px" class="btn btn-primary fa-search">查询</button>
                          <button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
-                         <!--<button type="button" style="margin-left:40px" class="btn btn-primary fa-download">导出</button>-->
+                         <button type="button" style="margin-left:40px" class="btn btn-primary fa-download" onclick="checkOut()">导出</button>
                      </div>
                  </div>
              </form>
