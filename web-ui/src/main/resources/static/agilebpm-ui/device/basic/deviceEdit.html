@@ -1,0 +1,607 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=UTF-8">
+    <link href="../../ckeditor/sample/css/sample.css" rel="stylesheet">
+    <link href="../../build/common/base.css" rel="stylesheet">
+    <script type="text/javascript" src="../../build/common/base.js"></script>
+    <script type="text/javascript" src="../../build/common/ngEdit.js"></script>
+    <script type="text/javascript" src="../../build/common/ajaxfileupload.js"></script>
+
+</head>
+<script type="text/javascript">
+    var app = angular.module('app', ['baseDirective']);
+    var editor;
+    app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
+        $scope.device = {};
+        $.ajax({
+            type: "GET",
+            data: {
+                dictKey: ['sblx', 'sbgl', 'sbzt', 'sbsybm']
+            },
+            url: '/basedevice/api/getDictData',
+            dataType: 'json',
+
+            success: function (data) {
+                $scope.device.sbgl = data.data.sbgl;
+                $scope.device.sblx = data.data.sblx;
+                $scope.device.sbsybm = data.data.sbsybm;
+                $scope.device.sbzt = data.data.sbzt;
+                $scope.$apply();
+            },
+            error: function (arg1, arg2, arg3) {
+                console.log(arg1 + "--" + arg2 + "--" + arg3);
+            }
+        });
+
+        $scope.$watch('data.deviceBasicCategory', function (newValue, oldValue) {
+            initEditor(newValue);
+
+        });
+
+
+    }]);
+
+    function initEditor(newValue) {
+        var E = window.wangEditor;
+        if (newValue == 'spjksb') {
+            //视频设备
+            editor = new E('#spjkEditor');
+            initEditorFile(editor);
+            editor.create();
+
+            editor.txt.html(document.getElementById("deviceCameraRemark").value);
+        } else if (newValue == 'ypsb') {
+            //音频
+            editor = new E('#ypEditor');
+            initEditorFile(editor);
+            editor.create();
+            editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
+        } else if (newValue == 'cgqsb') {
+            //传感器
+            editor = new E('#cgqEditor');
+            initEditorFile(editor);
+            editor.create();
+            editor.txt.html(document.getElementById("deviceSensorRemark").value);
+        } else if (newValue == 'dgsb') {
+            //灯光
+            editor = new E('#dgEditor');
+            initEditorFile(editor);
+            editor.create();
+            editor.txt.html(document.getElementById("deviceLightRemark").value);
+        }
+    }
+
+    function initEditorFile(editor) {
+        editor.customConfig.menus = [
+
+            'head', // 标题
+
+            'bold', // 粗体
+
+            'fontSize', // 字号
+
+            'fontName', // 字体
+
+            'italic', // 斜体
+
+            'underline', // 下划线
+
+            'strikeThrough', // 删除线
+
+            'foreColor', // 文字颜色
+
+            'backColor', // 背景颜色
+
+            'link', // 插入链接
+
+            'list', // 列表
+
+            'justify', // 对齐方式
+
+            'quote', // 引用
+
+            'emoticon', // 表情
+
+            'image', // 插入图片
+
+            'table', // 表格
+
+            //'video', // 插入视频
+
+            'code', // 插入代码
+
+            'undo', // 撤销
+
+            'redo' // 重复
+
+        ]
+
+        //editor.customConfig.uploadImgShowBase64 = true;
+        editor.customConfig.pasteFilterStyle = false;
+        //editor.customConfig.uploadImgServer = '/basedevice/api/uploadFileNew';
+
+        // 上传图片到服务器
+        editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+        editor.customConfig.uploadImgServer = '/basedevice/api/uploadFileNew'; //设置上传文件的服务器路径
+        editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+        //自定义上传图片事件
+        editor.customConfig.uploadImgHooks = {
+            before: function (xhr, editor, files) {
+
+            },
+            success: function (xhr, editor, result) {
+                console.log("上传成功");
+            },
+            fail: function (xhr, editor, result) {
+                console.log("上传失败,原因是" + result);
+            },
+            error: function (xhr, editor) {
+                console.log("上传出错");
+            },
+            timeout: function (xhr, editor) {
+                console.log("上传超时");
+            }
+        }
+    }
+
+    function imgChange() {
+        // var input = $("#file");
+        // var img = $("#showImg");
+        // var imgFile = input.files[0];
+        // if(imgFile) {
+        //     var fr = new FileReader();
+        //
+        //     fr.onload = function () {
+        //         img.src = fr.result;
+        //     };
+        //     // 注意要先设置回调再读取文件
+        //     fr.readAsDaraURL(imgFile);
+        // }
+    }
+
+    function submit() {
+        var dataSource = ngUtil.getScope().data;
+        var deviceCamera = ngUtil.getScope().deviceCamera;
+        var deviceMicrophone = ngUtil.getScope().deviceMicrophone;
+        var deviceSensor = ngUtil.getScope().deviceSensor;
+        var deviceLight = ngUtil.getScope().deviceLight;
+        var params = {
+            "deviceBasic": dataSource
+        }
+        if (dataSource.deviceBasicCategory == 'spjksb') {//视频监控设备
+            params.deviceCamera = {
+                "deviceCameraShotNumber": (deviceCamera && deviceCamera.deviceCameraShotNumber !== undefined) ? deviceCamera.deviceCameraShotNumber : "",
+                "deviceCameraPx": (deviceCamera && deviceCamera.deviceCameraPx !== undefined) ? deviceCamera.deviceCameraPx : "",
+                "deviceCameraSize": (deviceCamera && deviceCamera.deviceCameraSize !== undefined) ? deviceCamera.deviceCameraSize : "",
+                "deviceCameraStream": (deviceCamera && deviceCamera.deviceCameraStream !== undefined) ? deviceCamera.deviceCameraStream : "",
+                "deviceCameraId": (deviceCamera && deviceCamera.deviceCameraId !== undefined) ? deviceCamera.deviceCameraId : "",
+                "deviceBasicId": (deviceCamera && deviceCamera.deviceBasicId !== undefined) ? deviceCamera.deviceBasicId : "",
+                "deviceCameraRemark": editor.txt.html()//deviceCamera.deviceCameraRemark
+            }
+        } else if (dataSource.deviceBasicCategory == 'ypsb') {//音频设备
+            params.deviceMicrophone = {
+                "deviceMicrophonePower": (deviceMicrophone && deviceMicrophone.deviceMicrophonePower !== undefined) ? deviceMicrophone.deviceMicrophonePower : "",
+                "deviceMicrophoneStream": (deviceMicrophone && deviceMicrophone.deviceMicrophoneStream !== undefined) ? deviceMicrophone.deviceMicrophoneStream : "",
+                "deviceMicrophoneId": (deviceMicrophone && deviceMicrophone.deviceMicrophoneId !== undefined) ? deviceMicrophone.deviceMicrophoneId : "",
+                "deviceBasicId": (deviceMicrophone && deviceMicrophone.deviceBasicId !== undefined) ? deviceMicrophone.deviceBasicId : "",
+                "deviceMicrophoneRemark": editor.txt.html()//deviceMicrophone.deviceMicrophoneRemark
+            }
+        } else if (dataSource.deviceBasicCategory == 'cgqsb') {//传感器设备
+            params.deviceSensor = {
+                "deviceSensorId": (deviceSensor && deviceSensor.deviceSensorId !== undefined) ? deviceSensor.deviceSensorId : "",
+                "deviceBasicId": (deviceSensor && deviceSensor.deviceBasicId !== undefined) ? deviceSensor.deviceBasicId : "",
+                "deviceSensorRemark": editor.txt.html()//deviceSensor.deviceSensorRemark
+            }
+        } else if (dataSource.deviceBasicCategory == 'dgsb') {//灯光设备
+            params.deviceLight = {
+                "deviceLightPower": (deviceLight && deviceLight.deviceLightPower !== undefined) ? deviceLight.deviceLightPower : "",
+                "deviceLightLuminance": (deviceLight && deviceLight.deviceLightLuminance !== undefined) ? deviceLight.deviceLightLuminance : "",
+                "deviceLightVoltage": (deviceLight && deviceLight.deviceLightVoltage !== undefined) ? deviceLight.deviceLightVoltage : "",
+                "deviceLightId": (deviceLight && deviceLight.deviceLightId !== undefined) ? deviceLight.deviceLightId : "",
+                "deviceBasicId": (deviceLight && deviceLight.deviceBasicId !== undefined) ? deviceLight.deviceBasicId : "",
+                "deviceLightRemark": editor.txt.html()//deviceLight.deviceLightRemark
+            }
+        }
+        console.log(JSON.stringify(params));
+
+        $.ajax({
+            async: false,
+            cache: false,
+            type: "post",
+            data: JSON.stringify(params),
+            url: '/basedevice/api/saveDeviceCamera',
+            dataType: 'json',
+            contentType: false, //必须
+            processData: false, //必须
+            success: function (data) {
+                if (document.getElementById("file").value != "") {
+                    submitImg(data.data);//图片上传接口
+                }
+
+                $.Dialog.success("操作成功！");
+            },
+            error: function (arg1, arg2, arg3) {
+                console.log(arg1 + "--" + arg2 + "--" + arg3);
+            }
+        });
+    }
+
+    function submitImg(data) {
+        $.ajaxFileUpload({
+            type: "POST",
+            url: "/basedevice/api/updateFile?id=" + data,//后台接口
+            dataType: "json",
+            fileElementId: "file",  // 文件的id
+            success: function (d) {
+                console.log('图片上传成功！');
+            },
+            error: function () {
+                $.Dialog.error('图片上传失败！');
+            },
+        });
+    }
+
+    /* 获取URL表单的 JSON 数据  必须以 getData为方法名*/
+    function getData() {
+        return AngularUtil.getScope().data;
+    }
+
+    /* 获取URL表单的校验情况，必须以isValid 为方法名 */
+    function isValid() {
+        //校验表单 ab-validate的 校验
+        if (!ngUtil.getScope().form.$valid) {
+            $.Dialog.error("表单校验不通过！");
+            return false;
+        }
+
+        // 您可以自由的去做特殊业务逻辑的校验
+        if (!ngUtil.getScope().data.ah) {
+            $.Dialog.error("爱好不可为空！");
+            return false;
+        }
+        return true;
+    }
+
+
+</script>
+<body class="panel success" ng-controller="ctrl">
+<a class="btn btn-primary fa-save" href="javascript:void(0)" ng-model="data" onclick="submit()">保存</a>
+<a href="javascript:void(0)" class="btn btn-primary fa-reply" onclick="javascript:$.Dialog.close(window);">取消</a>
+
+<h3>设备台账录入</h3>
+<div class="baseInfo">基础信息(*必填)</div>
+<!--  ab-load 去controller 层获取业务数据  -->
+<form name="form" method="post" ab-load="/basedevice/api/get?id={id}" ng-model="data" enctype="multipart/form-data"
+      id="form">
+    <table class="form-table">
+        <tr>
+            <th><span>设备名称:</span><span class="required">*</span></th>
+            <td>
+                <input class="form-control" type="text" ng-model="data.deviceBasicName"
+                       ab-validate="{required:true,maxlength:192}"/>
+            </td>
+            <th><span>设备编号:</span><span class="required">*</span></th>
+            <td>
+                <input class="form-control" type="text" ng-model="data.deviceBasicBodynumber"
+                       ab-validate="{required:true,maxlength:192}"/>
+                <input ng-model="data.deviceBasicId" ng-show="false">
+            </td>
+        </tr>
+        <tr>
+            <th><span>设备型号:</span><span class="required">*</span></th>
+            <td>
+                <input class="form-control" type="text" ng-model="data.deviceBasicVerson"
+                       ab-validate="{required:true,maxlength:192}"/>
+            </td>
+            <th><span>设备类别:</span><span class="required">*</span></th>
+            <td>
+                <select class="form-control" ng-model="data.deviceBasicCategory"
+                        ng-options="x.key as x.name for x in device.sbgl">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span>设备类型:</span><span class="required">*</span></th>
+            <td>
+                <select class="form-control" ng-model="data.deviceBasicType"
+                        ng-options="x.key as x.name for x in device.sblx">
+                </select>
+            </td>
+            <th><span>上级设备:</span><span class="required">*</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicParentEquipment" type="text"
+                       ng-model="data.deviceBasicParentEquipment"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>设备状态:</span><span class="required">*</span></th>
+            <td>
+                <select class="form-control" ng-model="data.deviceBasicStatus"
+                        ng-options="x.key as x.name for x in device.sbzt">
+                </select>
+            </td>
+            <th><span>安装位置:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicSite" type="text" ng-model="data.deviceBasicSite"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>安装时间:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicSetupTime" autocomplete="off" ab-date="yyyy-MM-dd"
+                       type="text" ng-model="data.deviceBasicSetupTime"/>
+            </td>
+            <th><span>设备品牌:</span><span class="required">*</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicBrand" type="text" ng-model="data.deviceBasicBrand"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>供应商:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicProvider" type="text" ng-model="data.deviceBasicProvider"/>
+            </td>
+            <th><span>采购时间:</span></th>
+            <td>
+                <input class="form-control" ab-date="yyyy-MM-dd" autocomplete="off" id="deviceBasicPurchaseTime"
+                       type="text"
+                       ng-model="data.deviceBasicPurchaseTime"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>出厂编号:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicFactoryNumber" type="text"
+                       ng-model="data.deviceBasicFactoryNumber"/>
+            </td>
+            <th><span>出厂时间:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicFactorydate" autocomplete="off" ab-date="yyyy-MM-dd"
+                       type="text"
+                       ng-model="data.deviceBasicFactorydate"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>采购价格:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicPurchaseAmount" type="text"
+                       ng-model="data.deviceBasicPurchaseAmount"/>
+            </td>
+            <th><span>存放位置:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicSavePlace" type="text" ng-model="data.deviceBasicSavePlace"/>
+            </td>
+        </tr>
+        <tr>
+            <th><span>使用部门:</span></th>
+            <td>
+                <select class="form-control" ng-model="data.deviceBasicUserDepartment"
+                        ng-options="x.key as x.name for x in device.sbsybm">
+                </select>
+            </td>
+            <th><span>负责人:</span></th>
+            <td>
+                <input class="form-control" id="deviceBasicLeader" type="text" ng-model="data.deviceBasicLeader"/>
+            </td>
+        </tr>
+        <!--					<tr>-->
+        <!--						<td colspan="6">-->
+        <!--							<textarea ab-editor config="editorConfig" ng-model="data.deviceCameraRemark"></textarea>-->
+        <!--						</td>-->
+        <!--					</tr>-->
+        <!--        <tr>-->
+        <!--            <td colspan="6">-->
+        <!--                <h4>设备照片</h4>-->
+        <!--                <img id="showImg" ng-show="false" width="120px" height="100px">-->
+        <!--                <img ng-show="data.deviceBasicId" class="showImg" ng-src='/basedevice/api/getFileById?id={{data.deviceBasicId}}' ng-model="data" width="220px"-->
+        <!--                     height="200px"/>-->
+        <!--                <input class="form-control fileInput" id="file" name="file" type="file" ng-model="data.file"-->
+        <!--                       onchange="imgChange()"/>-->
+        <!--            </td>-->
+        <!--        </tr>-->
+        <input type="button" onclick="getEdit()" ng-show="false">
+    </table>
+</form>
+<h3 ng-show="data.deviceBasicCategory != undefined">拓展信息</h3>
+<div ng-show="data.deviceBasicCategory == 'spjksb'">
+    <form name="spForm" id="spForm" method="post" ab-load="/basedevice/api/getDeviceCameraInfo?id={id}"
+          ng-model="deviceCamera" enctype="multipart/form-data">
+        <h4>视频监控设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>镜头数量:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraShotNumber" type="text"
+                           ng-model="deviceCamera.deviceCameraShotNumber"/>
+                    <input ng-model="deviceCamera.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceCamera.deviceCameraId" ng-show="false">
+                </td>
+                <th><span>像素:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraPx" type="text" ng-model="deviceCamera.deviceCameraPx"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>主码流:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraStream" type="text"
+                           ng-model="deviceCamera.deviceCameraStream"/>
+                </td>
+                <th><span>存储大小:</span></th>
+                <td>
+                    <input class="form-control" id="deviceCameraSize" type="text"
+                           ng-model="deviceCamera.deviceCameraSize"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceCameraRemark" type="text" ng-show="false"
+                           ng-model="deviceCamera.deviceCameraRemark"/>
+                    <div id="spjkEditor"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div ng-show="data.deviceBasicCategory == 'ypsb'">
+    <form name="ypForm" id="ypForm" method="post" ab-load="/basedevice/api/getDeviceMicrophoneInfo?id={id}"
+          ng-model="deviceMicrophone" enctype="multipart/form-data">
+        <h4>音频设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>功率:</span></th>
+                <td>
+                    <input class="form-control" id="deviceMicrophonePower" type="text"
+                           ng-model="deviceMicrophone.deviceMicrophonePower"/>
+                    <input ng-model="deviceMicrophone.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceMicrophone.deviceMicrophoneId" ng-show="false">
+                </td>
+                <th><span>主码流:</span></th>
+                <td>
+                    <input class="form-control" id="deviceMicrophoneStream" type="text"
+                           ng-model="deviceMicrophone.deviceMicrophoneStream"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceMicrophoneRemark" ng-show="false" type="text"
+                           ng-model="deviceMicrophone.deviceMicrophoneRemark"/>
+                    <div id="ypEditor"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div ng-show="data.deviceBasicCategory == 'cgqsb'">
+    <form name="cgqForm" id="cgqForm" method="post" ab-load="/basedevice/api/getDeviceSensorInfo?id={id}"
+          ng-model="deviceSensor" enctype="multipart/form-data">
+        <h4>传感器设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceSensorRemark" ng-show="false" type="text"
+                           ng-model="deviceSensor.deviceSensorRemark"/>
+                    <input ng-model="deviceSensor.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceSensor.deviceSensorId" ng-show="false">
+                    <div id="cgqEditor"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div ng-show="data.deviceBasicCategory == 'dgsb'">
+    <form name="dgForm" id="dgForm" method="post" ab-load="/basedevice/api/getDeviceLightInfo?id={id}"
+          ng-model="deviceLight" enctype="multipart/form-data">
+        <h4>灯光设备</h4>
+        <table class="form-table">
+            <tr>
+                <th><span>功率:</span></th>
+                <td>
+                    <input class="form-control" id="deviceLightPower" type="text"
+                           ng-model="deviceLight.deviceLightPower"/>
+                    <input ng-model="deviceLight.deviceBasicId" ng-show="false">
+                    <input ng-model="deviceLight.deviceLightId" ng-show="false">
+                </td>
+                <th><span>亮度:</span></th>
+                <td>
+                    <input class="form-control" id="deviceLightLuminance" type="text"
+                           ng-model="deviceLight.deviceLightLuminance"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>电压:</span></th>
+                <td>
+                    <input class="form-control" id="deviceLightVoltage" type="text"
+                           ng-model="deviceLight.deviceLightVoltage"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span>备注:</span></th>
+                <td colspan="6">
+                    <input class="form-control" id="deviceLightRemark" ng-show="false" type="text"
+                           ng-model="deviceLight.deviceLightRemark"/>
+                    <div id="dgEditor"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+<style>
+    h4 {
+        width: 100%;
+        /*text-align: center;*/
+    }
+
+    .form-table th {
+        width: 10%;
+    }
+
+    .baseInfo {
+        width: 100%;
+        /*text-align: center;*/
+    }
+
+    .form-control {
+        display: inline-block;
+    }
+
+    .showImg {
+        display: inherit;
+        /*margin: 0 auto;*/
+    }
+
+    .fileInput {
+        display: block !important;
+        /*margin: 0 auto;*/
+        padding: 10px;
+        height: 48px;
+        margin-top: 20px;
+    }
+
+    h3 {
+        /*text-align: center;*/
+    }
+</style>
+
+<script type="text/javascript" src="../../ckeditor/wangEditor.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        //console.log(document.getElementById("deviceCameraRemark").value);
+        var spjksb = document.getElementById("deviceCameraRemark").value;
+        var dgsb = document.getElementById("deviceLightRemark").value;
+        var cgqsb = document.getElementById("deviceSensorRemark").value;
+        var ypsb = document.getElementById("deviceMicrophoneRemark").value;
+        if (!isEmpty(spjksb)) {
+            editor.txt.html(spjksb);
+        } else if (!isEmpty(dgsb)) {
+            editor.txt.html(dgsb);
+        } else if (!isEmpty(cgqsb)) {
+            editor.txt.html(cgqsb);
+        } else if (!isEmpty(ypsb)) {
+            editor.txt.html(ypsb);
+        }
+
+    };
+
+    function isEmpty(value) {
+        if (value == null || value == "" || value == "undefined" || value == undefined || value == "null") {
+            return true;
+        } else {
+            value = value.replace(/\s/g, "");
+            if (value == "") {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    function getEdit() {
+        console.log(editor.txt.html());
+    }
+</script>
+</html>

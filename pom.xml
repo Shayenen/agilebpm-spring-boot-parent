@@ -13,7 +13,7 @@
 		<!--  案例 代码模块 -->
 		<module>device</module>
 		<!--  案例 前端代码 -->
-		<module>demo-project-ui</module>
+		<!--<module>demo-project-ui</module>-->
 		<module>web-ui</module>
 
 	</modules>

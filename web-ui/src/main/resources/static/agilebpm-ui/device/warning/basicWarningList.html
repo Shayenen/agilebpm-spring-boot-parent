@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>DEMO MODULE</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="../../build/common/base.css" rel="stylesheet">
+	<script type="text/javascript" src="../../build/common/base.js"></script>
+	<script type="text/javascript" src="../../build/common/gridList.js"></script>
+</head>
+<body class="panel-body">
+	<div class="panel panel-default search-panel">
+         <div class="panel-heading">
+         	<a href="javascript:void(0)" class="pull-right">　<i class="fa  fa-angle-double-up" toggle-collapse="#searchForm"></i> </a>
+         </div>
+         <div class="panel-body">
+             <form id="searchForm" class="form-horizontal">
+                 <div class="form-group">
+                     <label class="control-label col-sm-1" for="device_elary_warning_number^VLK">报警编号</label>
+                     <div class="col-sm-2">
+                         <input type="text" class="form-control" id="device_elary_warning_number^VLK">
+                     </div>
+                     <label class="control-label col-sm-1" for="device_elary_warning_defence_area^VLK">防区</label>
+                     <div class="col-sm-2">
+                         <input type="text" class="form-control" id="device_elary_warning_defence_area^VLK">
+                     </div>
+                     <div class="col-sm-3" style="text-align:left;">
+                         <button type="button" style="margin-left:40px" class="btn btn-primary fa-search">查询</button>
+                         <button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
+                         <!--<button type="button" style="margin-left:40px" class="btn btn-primary fa-download">导出</button>-->
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div>
+	 <!--<div class="btn-group toolbar">
+		  <button class="btn btn-outline btn-primary fa-plus" openDialog="新增设备信息" url="/device/basic/deviceEdit.html?key=deviceBasic">新增 </button>
+     </div>-->
+     <table ab-grid data-id-field="id" data-url="/elaryWarning/api/listJson">
+         <thead>
+         <tr>
+             <th data-checkbox="true">deviceElaryWarningId</th>
+             <th data-field="deviceElaryWarningNumber">报警编号</th>
+             <th data-field="deviceElaryWarningTime" >报警时间</th>
+             <th data-field="deviceElaryWarningDefenceArea">报警防区</th>
+             <th data-field="deviceElaryWarningNode" >相关节点</th>
+             <th data-field="deviceElaryWarningColumnNumber" >立柱号</th>
+             <th data-field="deviceElaryWarningType" >报警类型</th>
+             <th data-field="deviceElaryWarningDecide" >报警判断</th>
+             <th data-field="deviceElaryWarningHandle" >处理人</th>
+             <th data-field="deviceElaryWarningHandelTime" >处理时间</th>
+             <th data-field="id" data-formatter="innerHtmlFormatter" data-title="操作">
+                 回放
+             	<!--<a class='btn btn-outline btn-primary fa fa-edit' openDialog='回放' qtip='编辑' url='/agilebpm-ui/device/basic/deviceEdit.html?key=demo&id={deviceBasicId}'></a>
+				<a class='btn btn-outline btn-primary fa  fa-trash' sendAction='记录' qtip='此处删除可能影响流程数据，请注意' url='/basedevice/api/removeDevice?id={deviceBasicId}'></a>-->
+             </th>
+         </tr>
+         </thead>
+     </table>
+
+</body>
+</html>
