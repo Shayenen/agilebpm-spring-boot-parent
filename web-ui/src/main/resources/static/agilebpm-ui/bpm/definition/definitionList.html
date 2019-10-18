@@ -8,13 +8,13 @@
 <script type="text/javascript" src="../../build/common/easyLayout.js"></script>
 </head>
 <body class="easy-layout">
-	<div data-options="region:'west',split:true,border:true,title:'分类'" style="width: 150px;">
+	<div class="panel-body" data-options="region:'west',split:true,border:true,title:'分类'" style="width: 150px;">
 		<div sysTreeGroup treeKey="flow" groupColumn="type_id_"></div>
 	</div>
 
 	<div data-options="region:'center',border:false">
 		<!--搜索 .search-panel 必须 -->
-		<div class=" search-panel">
+		<div class="panel panel-default search-panel">
 			<div class="panel-heading">
 				查询条件
 				<a 　href="javascript:void(0)" class="pull-right">
@@ -25,15 +25,15 @@
 				<form id="searchForm" class="form-horizontal">
 					<div class="form-group" style="margin-right: 0px;">
 						<label class="control-label col-sm-1" for="name_^VLK">流程名字</label>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<input type="text" class="form-control" id="name_^VLK">
 						</div>
 						<label class="control-label col-sm-1" for="subject">流程KEY</label>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<input type="text" class="form-control" id="key_^VLK">
 							<input class="inputText" type="hidden" id="type_id_$VEQ" />
 						</div>
-						<div class="col-sm-4" style="text-align: left;">
+						<div class="col-sm-3" style="text-align: left;">
 							<button type="button" style="margin-left: 40px" class="btn btn-primary fa-search">查询</button>
 							<button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
 						</div>
@@ -94,4 +94,19 @@ $(function(){
 		window.open(__ctx + "/bpm/overallView/exportBpmDefinition?rand=" + Math.random() + "&defIds=" + ids.join(","));
 	}
 </script>
+<style>
+	.panel-body {
+		padding: 15px;
+	}
+
+	.col-sm-1 {
+		width: 7.33333%;
+	}
+
+	.panel-default > .panel-heading {
+		color: #333;
+		background-color: #f5f5f5;
+		border: 1px solid #ddd;
+	}
+</style>
 </html>
