@@ -1,0 +1,95 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=UTF-8">
+    <link href="../build/common/base.css" rel="stylesheet">
+    <script type="text/javascript" src="../build/common/base.js"></script>
+    <!--    <script type="text/javascript" src="../build/common/ngEdit.js"></script>-->
+    <script type="text/javascript" src="../assets/js/plugins/echarts/echarts.js"></script>
+</head>
+<body class="panel success" ng-controller="ctrl">
+<div style="text-align: center;font-size: 20px;padding-top: 20px;">传感器报警数</div>
+<div style="width: 900px;height: 400px;margin: 0 auto; padding-top: 40px" id="chart"></div>
+</body>
+<script>
+    $(function () {
+        var chart = echarts.init(document.getElementById('chart'));
+        var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                top: 'bottom',
+                data: ['传感器报警数']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {
+                    lineStyle: {
+                        color: '#999',
+                        width: 1, //这里是为了突出显示加上的
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#999'],
+                        width: 0,
+                        type: 'solid'
+                    }
+                },
+                data: ['2:00', '4:00', '6:00', '8:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
+            },
+            yAxis: {
+                type: 'value',
+                axisLine:
+                    {
+                        lineStyle: {
+                            color: '#999',
+                            width: 1, //这里是为了突出显示加上的
+                        }
+                    }
+                ,
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#eee'],
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+            }
+            ,
+            color: ['#2f62bb'],
+            series:
+                [{
+                    data: [20, 31, 55, 5, 16, 10, 60, 55, 62, 45, 30, 39],
+                    type: 'line',
+                    name: '传感器报警数',
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, //开启显示
+                                position: 'top', //在上方显示
+                                textStyle: { //数值样式
+                                    color: '#999',
+                                    fontSize: 14
+                                }
+                            },
+                        }
+                    },
+                }],
+            grid: {
+                top: '3%',
+                left: '3%',
+                right: '2%',
+                bottom: '5%',
+                containLabel: true
+            },
+        };
+
+        chart.setOption(option);
+    });
+</script>
+</html>

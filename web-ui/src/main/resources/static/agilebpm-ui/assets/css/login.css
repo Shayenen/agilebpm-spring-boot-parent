@@ -83,6 +83,10 @@ body.signin {
     border-radius: 2px;
 }
 
+.signinpanel .btn:active {
+    background: #f04950;
+}
+
 .signinpanel form {
     display: block;
     height: 258px;

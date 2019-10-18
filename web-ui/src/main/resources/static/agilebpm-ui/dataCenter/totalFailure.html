@@ -1,0 +1,140 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=UTF-8">
+    <link href="../build/common/base.css" rel="stylesheet">
+    <script type="text/javascript" src="../build/common/base.js"></script>
+    <!--    <script type="text/javascript" src="../build/common/ngEdit.js"></script>-->
+    <script type="text/javascript" src="../assets/js/plugins/echarts/echarts.js"></script>
+</head>
+<body class="panel success" ng-controller="ctrl">
+<div style="text-align: center;font-size: 20px;padding-top: 20px;">今日故障总数</div>
+<div style="width: 900px;height: 400px;margin: 0 auto; padding-top: 40px" id="chart"></div>
+</body>
+<script>
+    $(function () {
+        var chart = echarts.init(document.getElementById('chart'));
+        var option = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                top: 'bottom',
+                data:['传感器故障总数','摄像机故障总数']
+            },
+            xAxis: {
+                type: 'category',
+                data: ['B1', 'B2', 'B3', 'N1', 'N2', 'N3', 'S', 'Z'],
+                axisLine: {
+                    lineStyle: {
+                        color: '#999',
+                        width: 1, //这里是为了突出显示加上的
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#999'],
+                        width: 0,
+                        type: 'solid'
+                    }
+                },
+            },
+            yAxis: {
+                type: 'value',
+                axisLine:
+                    {
+                        lineStyle: {
+                            color: '#999',
+                            width: 1, //这里是为了突出显示加上的
+                        }
+                    }
+                ,
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: ['#eee'],
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+            },
+            color: ['#2f62bb', '#e86e1a'],
+            // color: function (params) {
+            //
+            //     //我这边就两个柱子，大体就两个柱子颜色渐变，所以数组只有两个值，多个颜色就多个值
+            //     var colorList = [
+            //
+            //         ['#5985de', '#2f62bb'],
+            //
+            //         ['#f18b53', '#e86e1a'],
+            //
+            //         ['#bbbccf', '#9195aa'],
+            //
+            //         ['#ffc745', '#e6b600']
+            //
+            //     ];
+            //
+            //     var index = params.dataIndex;
+            //     if (params.dataIndex >= colorList.length) {
+            //         index = params.dataIndex - colorList.length;
+            //     }
+            //
+            //     return new echarts.graphic.LinearGradient(0, 0, 0, 1,
+            //         [
+            //             {offset: 0, color: colorList[index][0]},
+            //             {offset: 1, color: colorList[index][1]}
+            //         ]);
+            // },
+            series: [
+                {
+                    name: '传感器故障总数',
+                    data: [10, 15, 23, 20, 2, 16, 19, 11],
+                    type: 'bar',
+                    barWidth: 30,//柱图宽度
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, //开启显示
+                                position: 'top', //在上方显示
+                                textStyle: { //数值样式
+                                    color: '#999',
+                                    fontSize: 14
+                                }
+                            },
+                        }
+                    },
+                },
+                {
+                    name: '摄像机故障总数',
+                    data: [2, 2, 3, 5, 0, 4, 1, 2],
+                    type: 'bar',
+                    barWidth: 30,//柱图宽度
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, //开启显示
+                                position: 'top', //在上方显示
+                                textStyle: { //数值样式
+                                    color: '#999',
+                                    fontSize: 14
+                                }
+                            },
+                        }
+                    },
+
+                }
+            ],
+            grid: {
+                top: '3%',
+                left: '3%',
+                right: '2%',
+                bottom: '5%',
+                containLabel: true
+            },
+        };
+
+        chart.setOption(option);
+    });
+</script>
+</html>

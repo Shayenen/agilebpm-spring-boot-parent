@@ -222,7 +222,7 @@ bpmModel.factory('bpmService', ['$rootScope','baseService','ArrayToolService', f
 					<div ng-if="button.alias==\'reject2Start\'" buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,300,500)" 	class="btn btn-danger fa fa-lastfm">{{button.name}}</div>\
 					<div ng-if="button.alias==\'lock\'" 		buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false)" 			class="btn btn-primary fa fa-lock">锁定</div>\
 					<div ng-if="button.alias==\'unlock\'" 		buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false)" 			class="btn btn-primary fa fa-unlock">解锁</div>\
-					<div ng-if="button.alias==\'taskOpinion\'" 	buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,500,900)" 	class="btn btn-primary fa fa-navicon">审批历史</div>\
+					<div ng-if="button.alias==\'taskOpinion\'" 	buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,550,900)" 	class="btn btn-primary fa fa-navicon">审批历史</div>\
 					<div ng-if="button.alias==\'flowImage\'" 	buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,600,800)" 	class="btn btn-primary fa fa-image">流程图</div>\
 			        <div ng-if="button.alias==\'manualEnd\'" 	buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false,300,500)" 	class="btn btn-danger fa fa-ioxhost">人工终止</div>\
 					<div ng-if="button.alias==\'print\'" 		buttonAlias="{{button.alias}}"   	ng-click="buttonClick(false)" 			class="btn btn-primary fa fa-print">打印</div>\
