@@ -3348,7 +3348,7 @@ select[multiple].input-lg, textarea.input-lg {
 
 .btn {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 7px 12px;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
@@ -3449,9 +3449,9 @@ a.btn.disabled, fieldset[disabled] a.btn {
 }
 
 .btn-primary.active, .btn-primary:active, .btn-primary:hover, .open > .dropdown-toggle.btn-primary {
+    background-color: #ec1c24;
+    border-color: #ec1c24;
     color: #fff;
-    background-color: #286090;
-    border-color: #204d74
 }
 
 .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
@@ -3803,7 +3803,7 @@ tbody.collapse.in {
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
     color: #fff;
     text-decoration: none;
-    background-color: #337ab7;
+    background-color: #ec1c24;
     outline: 0
 }
 
@@ -3927,7 +3927,7 @@ tbody.collapse.in {
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    height: 29px;
+    height: 30.5px;
 }
 
 .btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
@@ -4430,7 +4430,7 @@ select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm
 
 .navbar {
     position: relative;
-    min-height: 98px;
+    min-height: 88px;
     margin-bottom: 20px;
     border: 1px solid transparent
 }
@@ -7132,7 +7132,7 @@ button.close {
 }
 
 .fa-2x {
-    font-size: 2.8em
+    font-size: 2.5em
 }
 
 .fa-3x {
@@ -16143,7 +16143,7 @@ code {
     border-style: solid solid none;
     border-width: 4px 0 0;
     margin-bottom: 0;
-    padding: 14px 15px 7px;
+    padding: 14px 20px 7px;
     min-height: 48px
 }
 
@@ -20326,8 +20326,8 @@ html #layui_layer_skinlayercss {
 }
 
 .layui-layer-btn .layui-layer-btn0 {
-    border-color: #4898d5;
-    background-color: #2e8ded;
+    border-color: #fde8e9;
+    background-color: #ec1c24;
     color: #fff
 }
 

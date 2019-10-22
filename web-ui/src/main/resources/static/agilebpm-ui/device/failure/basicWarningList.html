@@ -15,26 +15,13 @@
     app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
         console.log($scope.data)
     }]);
-    downExcelurl='/basicWarning/api/excel';
-    function uploadExcel() {
-        $.ajaxFileUpload({
-            type: "POST",
-            url: "/equipmentLinkage/api/importExcel",//后台接口
-            dataType: "json",
-            fileElementId: "file",  // 文件的id
-            success: function (d) {
-                $.Dialog.error('导入成功！');
-            },
-            error: function () {
-                $.Dialog.error('导入失败！');
-            },
-        });
-    }
+    downExcelurl = '/basicWarning/api/excel';
 </script>
 <body class="panel-body" ng-controller="ctrl">
 <div class="panel panel-default search-panel">
     <div class="panel-heading">查询条件
-        <a href="javascript:void(0)" class="pull-right">　<i class="fa  fa-angle-double-up" toggle-collapse="#searchForm"></i> </a>
+        <a href="javascript:void(0)" class="pull-right">　<i class="fa  fa-angle-double-up"
+                                                            toggle-collapse="#searchForm"></i> </a>
     </div>
     <div class="panel-body">
         <form id="searchForm" class="form-horizontal">
@@ -47,12 +34,21 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="device_warning_defence_area^VLK">
                 </div>
-                <div class="col-sm-3" style="text-align:left;">
+                <div class="col-sm-3" style="text-align:left;width: 50%;">
                     <button type="button" style="margin-left:40px" class="btn btn-primary fa-search">查询</button>
                     <button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
-                    <button type="button" style="margin-left:40px" class="btn btn-primary fa-download fa-download-excel"  >导出</button>
-                    <input type="file" id="file" name="file" style="margin-left:40px" class="btn btn-primary fa-upload" onchange="uploadExcel()" value="导入关系">
-
+                    <button type="button" style="margin-left:40px"
+                            class="btn btn-primary fa-download fa-download-excel">导出
+                    </button>
+                    <button type="button" style="margin-left:40px"
+                            class="btn btn-primary fa-download fa-download-excel">
+                        <a href="javascript:;" class="file">选择文件
+                            <input type="file" id="file" name="file"
+                                   style="margin-left:40px;width:180px;display: inline-block"
+                                   value="导入关系">
+                        </a>
+                    </button>
+                    <span class="showFileName"></span>
                 </div>
             </div>
         </form>
@@ -66,14 +62,14 @@
     <tr>
         <th data-checkbox="true">deviceWarningId</th>
         <th data-field="deviceBasicName">报警编号</th>
-        <th data-field="deviceWarningTime" >报警时间</th>
+        <th data-field="deviceWarningTime">报警时间</th>
         <th data-field="deviceWarningDeviceName">设备名称</th>
-        <th data-field="deviceWarningDeviceNumber" >设备编号</th>
-        <th data-field="deviceWarningDefenceArea" >设备防区</th>
-        <th data-field="deviceWarningDeviceModel" >设备型号</th>
-        <th data-field="deviceWarningDeviceType" >设备类型</th>
-        <th data-field="deviceWarningDetail" >情况描述</th>
-        <th data-field="deviceWarningStatus" >报警状态</th>
+        <th data-field="deviceWarningDeviceNumber">设备编号</th>
+        <th data-field="deviceWarningDefenceArea">设备防区</th>
+        <th data-field="deviceWarningDeviceModel">设备型号</th>
+        <th data-field="deviceWarningDeviceType">设备类型</th>
+        <th data-field="deviceWarningDetail">情况描述</th>
+        <th data-field="deviceWarningStatus">报警状态</th>
         <th data-field="deviceWarningStatus"></th>
         <th data-field="id" data-formatter="innerHtmlFormatter" data-title="操作">
             回放
@@ -85,4 +81,62 @@
 </table>
 
 </body>
+<style>
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #ec1c24;
+        /* border: 1px solid #99D3F5; */
+        border-radius: 4px;
+        /* padding: 4px 12px; */
+        overflow: hidden;
+        color: #fff;
+        /* line-height: 20px; */
+        border: none;
+        margin-bottom: 0px;
+        margin-right: 0px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #ec1c24;
+        border-color: #ec1c24;
+        color: #FFF;
+        text-decoration: none;
+    }
+
+    .search-panel .panel-body {
+        padding: 10px 2px 10px;
+    }
+</style>
+<script>
+    $(function () {
+
+        $(".file").on('change', "input[type='file']", function () {
+            var filePath = $(this).val();
+            var arr = filePath.split('\\');
+            var fileName = arr[arr.length - 1];
+            $(".showFileName").html(fileName);
+            $.ajaxFileUpload({
+                type: "POST",
+                url: "/equipmentLinkage/api/importExcel",//后台接口
+                dataType: "json",
+                fileElementId: "file",  // 文件的id
+                success: function (d) {
+                    $.Dialog.error('导入成功！');
+                },
+                error: function () {
+                    $.Dialog.error('导入失败！');
+                }
+            });
+        });
+    });
+</script>
 </html>
