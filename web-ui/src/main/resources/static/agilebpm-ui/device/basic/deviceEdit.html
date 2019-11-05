@@ -44,26 +44,26 @@
 
     function initEditor(newValue) {
         var E = window.wangEditor;
-        if (newValue == 'spjksb') {
+        if (newValue == 'C' || newValue =="PTZ") {
             //视频设备
             editor = new E('#spjkEditor');
             initEditorFile(editor);
             editor.create();
 
             editor.txt.html(document.getElementById("deviceCameraRemark").value);
-        } else if (newValue == 'ypsb') {
+        } else if (newValue == 'M') {
             //音频
             editor = new E('#ypEditor');
             initEditorFile(editor);
             editor.create();
             editor.txt.html(document.getElementById("deviceMicrophoneRemark").value);
-        } else if (newValue == 'cgqsb') {
+        } else if (newValue == 'cgq') {
             //传感器
             editor = new E('#cgqEditor');
             initEditorFile(editor);
             editor.create();
             editor.txt.html(document.getElementById("deviceSensorRemark").value);
-        } else if (newValue == 'dgsb') {
+        } else if (newValue == 'L') {
             //灯光
             editor = new E('#dgEditor');
             initEditorFile(editor);
@@ -169,7 +169,7 @@
         var params = {
             "deviceBasic": dataSource
         }
-        if (dataSource.deviceBasicCategory == 'spjksb') {//视频监控设备
+        if (dataSource.deviceBasicCategory == 'C' || dataSource.deviceBasicCategory == "PTZ") {//视频监控设备
             params.deviceCamera = {
                 "deviceCameraShotNumber": (deviceCamera && deviceCamera.deviceCameraShotNumber !== undefined) ? deviceCamera.deviceCameraShotNumber : "",
                 "deviceCameraPx": (deviceCamera && deviceCamera.deviceCameraPx !== undefined) ? deviceCamera.deviceCameraPx : "",
@@ -179,7 +179,7 @@
                 "deviceBasicId": (deviceCamera && deviceCamera.deviceBasicId !== undefined) ? deviceCamera.deviceBasicId : "",
                 "deviceCameraRemark": editor.txt.html()//deviceCamera.deviceCameraRemark
             }
-        } else if (dataSource.deviceBasicCategory == 'ypsb') {//音频设备
+        } else if (dataSource.deviceBasicCategory == 'M') {//音频设备
             params.deviceMicrophone = {
                 "deviceMicrophonePower": (deviceMicrophone && deviceMicrophone.deviceMicrophonePower !== undefined) ? deviceMicrophone.deviceMicrophonePower : "",
                 "deviceMicrophoneStream": (deviceMicrophone && deviceMicrophone.deviceMicrophoneStream !== undefined) ? deviceMicrophone.deviceMicrophoneStream : "",
@@ -187,7 +187,7 @@
                 "deviceBasicId": (deviceMicrophone && deviceMicrophone.deviceBasicId !== undefined) ? deviceMicrophone.deviceBasicId : "",
                 "deviceMicrophoneRemark": editor.txt.html()//deviceMicrophone.deviceMicrophoneRemark
             }
-        } else if (dataSource.deviceBasicCategory == 'cgqsb') {//传感器设备
+        } else if (dataSource.deviceBasicCategory == 'cgq') {//传感器设备
             params.deviceSensor = {
                 "deviceSensorNode": (deviceSensor && deviceSensor.deviceSensorNode !== undefined) ? deviceSensor.deviceSensorNode : "",
                 "deviceSensorDefenceArea": (deviceSensor && deviceSensor.deviceSensorDefenceArea !== undefined) ? deviceSensor.deviceSensorDefenceArea : "",
@@ -195,7 +195,7 @@
                 "deviceBasicId": (deviceSensor && deviceSensor.deviceBasicId !== undefined) ? deviceSensor.deviceBasicId : "",
                 "deviceSensorRemark": editor.txt.html()//deviceSensor.deviceSensorRemark
             }
-        } else if (dataSource.deviceBasicCategory == 'dgsb') {//灯光设备
+        } else if (dataSource.deviceBasicCategory == 'L') {//灯光设备
             params.deviceLight = {
                 "deviceLightPower": (deviceLight && deviceLight.deviceLightPower !== undefined) ? deviceLight.deviceLightPower : "",
                 "deviceLightLuminance": (deviceLight && deviceLight.deviceLightLuminance !== undefined) ? deviceLight.deviceLightLuminance : "",
@@ -217,10 +217,10 @@
             contentType: false, //必须
             processData: false, //必须
             success: function (data) {
-                if (document.getElementById("file").value != "") {
+               /* if (document.getElementById("file").value != "") {
                     submitImg(data.data);//图片上传接口
                 }
-
+*/
                 $.Dialog.success("操作成功！");
             },
             error: function (arg1, arg2, arg3) {
@@ -311,7 +311,7 @@
                         ng-options="x.key as x.name for x in device.sblx">
                 </select>
             </td>
-            <th><span>上级设备:</span><span class="required">*</span></th>
+            <th><span>上级设备:</span></th>
             <td>
                 <input class="form-control" id="deviceBasicParentEquipment" type="text"
                        ng-model="data.deviceBasicParentEquipment"/>
@@ -428,7 +428,7 @@
     </table>
 </form>
 <h3 ng-show="data.deviceBasicCategory != undefined">拓展信息</h3>
-<div ng-show="data.deviceBasicCategory == 'spjksb'">
+<div ng-show="data.deviceBasicCategory == 'C' || data.deviceBasicCategory == 'PTZ' ">
     <form name="spForm" id="spForm" method="post" ab-load="/basedevice/api/getDeviceCameraInfo?id={id}"
           ng-model="deviceCamera" enctype="multipart/form-data">
         <h4>视频监控设备</h4>
@@ -469,7 +469,7 @@
         </table>
     </form>
 </div>
-<div ng-show="data.deviceBasicCategory == 'ypsb'">
+<div ng-show="data.deviceBasicCategory == 'M'">
     <form name="ypForm" id="ypForm" method="post" ab-load="/basedevice/api/getDeviceMicrophoneInfo?id={id}"
           ng-model="deviceMicrophone" enctype="multipart/form-data">
         <h4>音频设备</h4>
@@ -499,7 +499,7 @@
         </table>
     </form>
 </div>
-<div ng-show="data.deviceBasicCategory == 'cgqsb'">
+<div ng-show="data.deviceBasicCategory == 'cgq'">
     <form name="cgqForm" id="cgqForm" method="post" ab-load="/basedevice/api/getDeviceSensorInfo?id={id}"
           ng-model="deviceSensor" enctype="multipart/form-data">
         <h4>传感器设备</h4>
@@ -529,7 +529,7 @@
         </table>
     </form>
 </div>
-<div ng-show="data.deviceBasicCategory == 'dgsb'">
+<div ng-show="data.deviceBasicCategory == 'L'">
     <form name="dgForm" id="dgForm" method="post" ab-load="/basedevice/api/getDeviceLightInfo?id={id}"
           ng-model="deviceLight" enctype="multipart/form-data">
         <h4>灯光设备</h4>

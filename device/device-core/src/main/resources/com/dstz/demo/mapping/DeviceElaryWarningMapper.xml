@@ -84,7 +84,7 @@
     device_elary_warning_defence_area, device_elary_warning_node, device_elary_warning_column_number,
     (select name_ from sys_data_dict where key_=device_elary_warning_status and dict_key_='bjzt') device_elary_warning_status,
     (select name_ from sys_data_dict where key_=device_elary_warning_type and dict_key_='bjfl') device_elary_warning_type,
-    device_elary_warning_decide, device_elary_warning_handle,
+    (select name_ from sys_data_dict where key_=device_elary_warning_decide and dict_key_='bjjqpd') device_elary_warning_decide, device_elary_warning_handle,
     device_elary_warning_handel_time
 
     FROM device_elary_warning

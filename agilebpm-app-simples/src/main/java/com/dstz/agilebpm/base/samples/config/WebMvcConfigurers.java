@@ -2,6 +2,7 @@ package com.dstz.agilebpm.base.samples.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,9 +53,10 @@ public class WebMvcConfigurers extends WebMvcConfigurerAdapter {
 	    return new HttpMessageConverters(converter);
 
 	}
-
+	@Value("${fileUpload.rootSavePath}")
+	private String rootSavePath;
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:///" + "D:/images/upload/");
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:///" + rootSavePath);//"D:/images/upload/"
 	}
 }

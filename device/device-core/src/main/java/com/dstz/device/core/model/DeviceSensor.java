@@ -9,6 +9,26 @@ public class DeviceSensor implements Serializable {
 
     private String deviceSensorRemark;
 
+    private String deviceSensorNode;
+
+    private String deviceSensorDefenceArea;
+
+    public String getDeviceSensorNode() {
+        return deviceSensorNode;
+    }
+
+    public void setDeviceSensorNode(String deviceSensorNode) {
+        this.deviceSensorNode = deviceSensorNode;
+    }
+
+    public String getDeviceSensorDefenceArea() {
+        return deviceSensorDefenceArea;
+    }
+
+    public void setDeviceSensorDefenceArea(String deviceSensorDefenceArea) {
+        this.deviceSensorDefenceArea = deviceSensorDefenceArea;
+    }
+
     public String getDeviceSensorId() {
         return deviceSensorId;
     }

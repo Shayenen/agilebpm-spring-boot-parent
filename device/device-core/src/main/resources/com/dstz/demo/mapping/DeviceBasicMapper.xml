@@ -21,6 +21,11 @@
     <result column="device_basic_brand" jdbcType="VARCHAR" property="deviceBasicBrand" />
     <result column="device_basic_provider" jdbcType="VARCHAR" property="deviceBasicProvider" />
     <result column="device_basic_purchase_time" jdbcType="VARCHAR" property="deviceBasicPurchaseTime" />
+
+    <result column="device_basic_mesh" jdbcType="VARCHAR" property="deviceBasicMesh" />
+    <result column="device_basic_enclosure" jdbcType="VARCHAR" property="deviceBasicEnclosure" />
+    <result column="device_basic_ip" jdbcType="VARCHAR" property="deviceBasicIp" />
+    <result column="device_basic_column_number" jdbcType="VARCHAR" property="deviceBasicColumnNumber" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dstz.device.core.model.DeviceBasic">
     <result column="device_basic_img" jdbcType="LONGVARBINARY" property="deviceBasicImg" />
@@ -30,7 +35,8 @@
     device_basic_category, device_basic_type, device_basic_parent_equipment, device_basic_site,
     device_basic_status, device_basic_factorydate, device_basic_factory_number, device_basic_purchase_amount,
     device_basic_save_place, device_basic_user_department, device_basic_leader, device_basic_setup_time,
-    device_basic_brand, device_basic_provider, device_basic_purchase_time
+    device_basic_brand, device_basic_provider, device_basic_purchase_time,device_basic_mesh,device_basic_enclosure,
+    device_basic_ip,device_basic_column_number
   </sql>
   <sql id="Blob_Column_List">
     device_basic_img
@@ -59,7 +65,8 @@
       device_basic_save_place, device_basic_user_department,
       device_basic_leader, device_basic_setup_time,
       device_basic_brand, device_basic_provider,
-      device_basic_purchase_time, device_basic_img
+      device_basic_purchase_time, device_basic_img,device_basic_mesh,device_basic_enclosure,
+    device_basic_ip,device_basic_column_number
       )
     values (#{deviceBasicId,jdbcType=VARCHAR}, #{deviceBasicName,jdbcType=VARCHAR}, #{deviceBasicBodynumber,jdbcType=VARCHAR},
       #{deviceBasicVerson,jdbcType=VARCHAR}, #{deviceBasicCategory,jdbcType=VARCHAR},
@@ -69,7 +76,9 @@
       #{deviceBasicSavePlace,jdbcType=VARCHAR}, #{deviceBasicUserDepartment,jdbcType=VARCHAR},
       #{deviceBasicLeader,jdbcType=VARCHAR}, #{deviceBasicSetupTime,jdbcType=TIMESTAMP},
       #{deviceBasicBrand,jdbcType=VARCHAR}, #{deviceBasicProvider,jdbcType=VARCHAR},
-      #{deviceBasicPurchaseTime,jdbcType=VARCHAR}, #{deviceBasicImg,jdbcType=LONGVARBINARY}
+      #{deviceBasicPurchaseTime,jdbcType=VARCHAR}, #{deviceBasicImg,jdbcType=LONGVARBINARY},
+      #{deviceBasicMesh,jdbcType=VARCHAR},#{deviceBasicEnclosure,jdbcType=VARCHAR},
+      #{deviceBasicIp,jdbcType=VARCHAR},#{deviceBasicColumnNumber,jdbcType=VARCHAR}
       )
   </insert>
 
@@ -92,7 +101,11 @@
       device_basic_setup_time = #{deviceBasicSetupTime,jdbcType=TIMESTAMP},
       device_basic_brand = #{deviceBasicBrand,jdbcType=VARCHAR},
       device_basic_provider = #{deviceBasicProvider,jdbcType=VARCHAR},
-      device_basic_purchase_time = #{deviceBasicPurchaseTime,jdbcType=VARCHAR}
+      device_basic_purchase_time = #{deviceBasicPurchaseTime,jdbcType=VARCHAR},
+      device_basic_mesh = #{deviceBasicMesh,jdbcType=VARCHAR},
+      device_basic_enclosure = #{deviceBasicEnclosure,jdbcType=VARCHAR},
+      device_basic_ip = #{deviceBasicIp,jdbcType=VARCHAR},
+      device_basic_column_number = #{deviceBasicColumnNumber,jdbcType=VARCHAR}
       <if test="deviceBasicImg !='' and deviceBasicImg !=null">
         ,device_basic_img = #{deviceBasicImg,jdbcType=LONGVARBINARY}
       </if>
@@ -107,7 +120,8 @@
     (select name_ from sys_data_dict where key_=device_basic_status and dict_key_='sbzt') device_basic_status, device_basic_factorydate, device_basic_factory_number, device_basic_purchase_amount,
     device_basic_save_place,
     (select name_ from sys_data_dict where key_=device_basic_user_department and dict_key_='sbsybm') device_basic_user_department, device_basic_leader, device_basic_setup_time,
-    device_basic_brand, device_basic_provider, device_basic_purchase_time
+    device_basic_brand, device_basic_provider, device_basic_purchase_time,device_basic_mesh,device_basic_enclosure,
+    device_basic_ip,device_basic_column_number
     FROM device_basic
     <where>
       <if test="whereSql!=null">

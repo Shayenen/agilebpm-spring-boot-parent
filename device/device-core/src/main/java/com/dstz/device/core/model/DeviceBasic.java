@@ -50,6 +50,44 @@ public class DeviceBasic extends BaseModel {
 
     private MultipartFile file;
 
+    private String deviceBasicMesh;
+    private String deviceBasicEnclosure;
+    private String deviceBasicIp;
+    private String deviceBasicColumnNumber;
+
+
+    public String getDeviceBasicMesh() {
+        return deviceBasicMesh;
+    }
+
+    public void setDeviceBasicMesh(String deviceBasicMesh) {
+        this.deviceBasicMesh = deviceBasicMesh;
+    }
+
+    public String getDeviceBasicEnclosure() {
+        return deviceBasicEnclosure;
+    }
+
+    public void setDeviceBasicEnclosure(String deviceBasicEnclosure) {
+        this.deviceBasicEnclosure = deviceBasicEnclosure;
+    }
+
+    public String getDeviceBasicIp() {
+        return deviceBasicIp;
+    }
+
+    public void setDeviceBasicIp(String deviceBasicIp) {
+        this.deviceBasicIp = deviceBasicIp;
+    }
+
+    public String getDeviceBasicColumnNumber() {
+        return deviceBasicColumnNumber;
+    }
+
+    public void setDeviceBasicColumnNumber(String deviceBasicColumnNumber) {
+        this.deviceBasicColumnNumber = deviceBasicColumnNumber;
+    }
+
     public String getDeviceBasicId() {
         return deviceBasicId;
     }

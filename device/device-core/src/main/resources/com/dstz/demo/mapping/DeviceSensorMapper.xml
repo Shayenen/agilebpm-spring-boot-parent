@@ -4,12 +4,15 @@
   <resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceSensor">
     <id column="device_sensor_id" jdbcType="VARCHAR" property="deviceSensorId" />
     <result column="device_basic_id" jdbcType="VARCHAR" property="deviceBasicId" />
+
+    <result column="device_sensor_node" jdbcType="VARCHAR" property="deviceSensorNode" />
+    <result column="device_sensor_defence_area" jdbcType="VARCHAR" property="deviceSensorDefenceArea" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dstz.device.core.model.DeviceSensor">
     <result column="device_sensor_remark" jdbcType="LONGVARCHAR" property="deviceSensorRemark" />
   </resultMap>
   <sql id="Base_Column_List">
-    device_sensor_id, device_basic_id
+    device_sensor_id, device_basic_id,device_sensor_node,device_sensor_defence_area
   </sql>
   <sql id="Blob_Column_List">
     device_sensor_remark
@@ -33,16 +36,19 @@
   </select>
 
   <insert id="create" parameterType="com.dstz.device.core.model.DeviceSensor">
-     insert into device_sensor (device_sensor_id, device_basic_id, device_sensor_remark
+     insert into device_sensor (device_sensor_id, device_basic_id, device_sensor_remark,device_sensor_node,device_sensor_defence_area
       )
     values (#{deviceSensorId,jdbcType=VARCHAR}, #{deviceBasicId,jdbcType=VARCHAR}, #{deviceSensorRemark,jdbcType=LONGVARCHAR}
+    , #{deviceSensorNode,jdbcType=VARCHAR}, #{deviceSensorDefenceArea,jdbcType=VARCHAR}
       )
   </insert>
 
   <update id="update" parameterType="com.dstz.device.core.model.DeviceSensor">
     update device_sensor
     set device_basic_id = #{deviceBasicId,jdbcType=VARCHAR},
-      device_sensor_remark = #{deviceSensorRemark,jdbcType=LONGVARCHAR}
+      device_sensor_remark = #{deviceSensorRemark,jdbcType=LONGVARCHAR},
+      device_sensor_node = #{deviceSensorNode,jdbcType=VARCHAR},
+      device_sensor_defence_area = #{deviceSensorDefenceArea,jdbcType=VARCHAR}
     where device_sensor_id = #{deviceSensorId,jdbcType=VARCHAR}
   </update>
 

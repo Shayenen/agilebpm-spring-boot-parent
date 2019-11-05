@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.SysLogDao">
+    <resultMap id="sysLog" type="com.dstz.device.core.model.SysLog">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="operatorContext" column="operator_context" jdbcType="VARCHAR"/>
+        <result property="fileAddress" column="file_address" jdbcType="VARCHAR"/>
+        <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="requestContext" column="request_context" jdbcType="VARCHAR"/>
+        <result property="isFile" column="is_file" />
+        <result property="operatorName" column="operator_name" jdbcType="VARCHAR"/>
+        <result property="operatorId" column="operator_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="columns">
+		id,operator,ip,ip_address,operator_context,file_address,create_time,is_file,request_context,operator_name,operator_id
+	</sql>
+
+    <insert id="create" parameterType="com.dstz.device.core.model.SysLog">
+		INSERT INTO sys_log
+		(id,operator,ip,ip_address,operator_context,file_address,create_time,is_file,request_context,operator_name,operator_id)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR}, #{ipAddress,jdbcType=VARCHAR},
+		#{operatorContext,jdbcType=VARCHAR},#{fileAddress}, #{createTime,jdbcType=TIMESTAMP}
+		,  #{isFile},#{requestContext,jdbcType=CLOB},#{operatorName},#{operatorId})
+	</insert>
+
+    <select id="get" parameterType="java.lang.String" resultMap="sysLog">
+        SELECT
+        <include refid="columns"/>
+        FROM sys_log
+        WHERE
+        id=#{id}
+    </select>
+
+
+    <select id="query" parameterType="java.util.Map" resultMap="sysLog">
+        SELECT id,operator,ip,ip_address,operator_context,file_address,create_time,is_file,request_context,operator_name,operator_id FROM sys_log
+        <where>
+            <if test="whereSql!=null">
+                ${whereSql}
+            </if>
+        </where>
+        <if test="orderBySql!=null">
+            ORDER BY ${orderBySql}
+        </if>
+        <if test="orderBySql==null">
+            ORDER BY id DESC
+        </if>
+    </select>
+
+</mapper>

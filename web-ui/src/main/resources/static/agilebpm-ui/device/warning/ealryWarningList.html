@@ -7,37 +7,72 @@
     <script type="text/javascript" src="../../build/common/base.js"></script>
     <script type="text/javascript" src="../../build/common/ngEdit.js"></script>
     <script type="text/javascript" src="../../build/common/gridList.js"></script>
+    <script type="text/javascript" src="../../build/common/ajaxfileupload.js"></script>
+    <script src="../../assets/js/common/grid.js"></script>
 </head>
 <script type="text/javascript">
     var app = angular.module('app', ['baseDirective']);
     app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
         console.log($scope.data)
     }]);
-
-    function checkOut(){
-        console.log(ngUtil.getScope().data)
-    }
+    downExcelurl='/elaryWarning/api/excel';
+function uploadExcel() {
+    $.ajaxFileUpload({
+        type: "POST",
+        url: "/elaryWarning/api/importExcel",//后台接口
+        dataType: "json",
+        fileElementId: "file",  // 文件的id
+        success: function (d) {
+            $.Dialog.error('导入成功！');
+        },
+        error: function () {
+            $.Dialog.error('导入失败！');
+        },
+    });
+}
 </script>
 <body class="panel-body" ng-controller="ctrl">
 <div class="panel panel-default search-panel">
-    <div class="panel-heading">
+    <div class="panel-heading">查询条件
         <a href="javascript:void(0)" class="pull-right">　<i class="fa  fa-angle-double-up" toggle-collapse="#searchForm"></i> </a>
     </div>
     <div class="panel-body">
         <form id="searchForm" class="form-horizontal">
             <div class="form-group">
-                <label class="control-label col-sm-1" for="device_elary_warning_number^VLK">报警编号</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="device_elary_warning_number^VLK" ng-model="data.device_elary_warning_number">
-                </div>
                 <label class="control-label col-sm-1" for="device_elary_warning_defence_area^VLK">防区</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="device_elary_warning_defence_area^VLK" ng-model="data.device_elary_warning_defence_area">
+                    <input type="text" class="form-control" id="device_elary_warning_defence_area^VLK">
                 </div>
-                <div class="col-sm-3" style="text-align:left;">
+                <label class="control-label col-sm-1" for="device_elary_warning_type^VLK">报警类型</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="device_elary_warning_type^VLK">
+                        <option value="">全部</option>
+                        <option value="0">禁用</option>
+                        <option value="1">正常</option>
+                    </select>
+                </div>
+                <label class="control-label col-sm-1" for="device_elary_warning_decide^VLK">警情判断</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="device_elary_warning_decide^VLK">
+                        <option value="">全部</option>
+                        <option value="0">禁用</option>
+                        <option value="1">正常</option>
+                    </select>
+                </div>
+                <label class="control-label col-sm-1" for="device_elary_warning_status^VLK">报警状态</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="device_elary_warning_status^VLK">
+                        <option value="">全部</option>
+                        <option value="0">禁用</option>
+                        <option value="1">正常</option>
+                    </select>
+                </div>
+                <div class="col-sm-6" style="text-align:left;">
                     <button type="button" style="margin-left:40px" class="btn btn-primary fa-search">查询</button>
                     <button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
-                    <button type="button" style="margin-left:40px" class="btn btn-primary fa-download" onclick="checkOut()">导出</button>
+                    <button type="button" style="margin-left:40px" class="btn btn-primary fa-download fa-download-excel"  >导出</button>
+                    <!--<input type="file" id="file" name="file" style="margin-left:40px" class="btn btn-primary fa-upload" onchange="uploadExcel()" value="导入">-->
+                    <!-- <button type="file" style="margin-left:40px" class="btn btn-primary fa-upload" onclick="uploadExcel()" >导入</button>-->
                 </div>
             </div>
         </form>
@@ -59,8 +94,9 @@
         <th data-field="deviceElaryWarningDecide" >报警判断</th>
         <th data-field="deviceElaryWarningHandle" >处理人</th>
         <th data-field="deviceElaryWarningHandelTime" >处理时间</th>
+        <th data-field="id" data-formatter="innerHtmlFormatter" data-title="处理依据" >现场确认</th>
         <th data-field="id" data-formatter="innerHtmlFormatter" data-title="操作">
-            回放
+            回放/解除报警
             <!--<a class='btn btn-outline btn-primary fa fa-edit' openDialog='回放' qtip='编辑' url='/agilebpm-ui/device/basic/deviceEdit.html?key=demo&id={deviceBasicId}'></a>
            <a class='btn btn-outline btn-primary fa  fa-trash' sendAction='记录' qtip='此处删除可能影响流程数据，请注意' url='/basedevice/api/removeDevice?id={deviceBasicId}'></a>-->
         </th>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dstz.device.core.dao.DeviceEquipmentLinkageDao">
+  <!--<resultMap id="BaseResultMap" type="com.dstz.device.core.model.DeviceWarning">
+    <id column="device_warning_id" jdbcType="VARCHAR" property="deviceWarningId" />
+    <result column="device_warning_number" jdbcType="VARCHAR" property="deviceWarningNumber" />
+    <result column="device_warning_time" jdbcType="TIMESTAMP" property="deviceWarningTime" />
+    <result column="device_warning_device_name" jdbcType="VARCHAR" property="deviceWarningDeviceName" />
+    <result column="device_warning_device_number" jdbcType="VARCHAR" property="deviceWarningDeviceNumber" />
+    <result column="device_warning_defence_area" jdbcType="VARCHAR" property="deviceWarningDefenceArea" />
+    <result column="device_warning_device_model" jdbcType="VARCHAR" property="deviceWarningDeviceModel" />
+    <result column="device_warning_device_type" jdbcType="VARCHAR" property="deviceWarningDeviceType" />
+    <result column="device_warning_detail" jdbcType="VARCHAR" property="deviceWarningDetail" />
+    <result column="device_warning_status" jdbcType="VARCHAR" property="deviceWarningStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    device_warning_id, device_warning_number, device_warning_time, device_warning_device_name, 
+    device_warning_device_number, device_warning_defence_area, device_warning_device_model, 
+    device_warning_device_type, device_warning_detail, device_warning_status, create_time
+  </sql>
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from device_warning
+    where device_warning_id = #{deviceWarningId,jdbcType=VARCHAR}
+  </select>
+  <delete id="remove" parameterType="java.lang.String">
+    delete from device_warning
+    where device_warning_id = #{deviceWarningId,jdbcType=VARCHAR}
+  </delete>-->
+  <insert id="create" parameterType="com.dstz.device.core.model.DeviceEquipmentLinkage">
+    insert into device_equipment_linkage (device_equipment_linkage_id, device_sensor_id,
+      device_camera_id, device_light_id,
+      device_microphone_id)
+    values (#{deviceEquipmentLinkageId,jdbcType=VARCHAR}, #{deviceSensorId,jdbcType=VARCHAR},
+      #{deviceCameraId,jdbcType=VARCHAR}, #{deviceLightId,jdbcType=VARCHAR},
+      #{deviceMicrophoneId,jdbcType=VARCHAR})
+  </insert>
+  <!--
+  <update id="updateByPrimaryKey" parameterType="com.dstz.device.core.model.DeviceWarning">
+    update device_warning
+    set device_warning_number = #{deviceWarningNumber,jdbcType=VARCHAR},
+      device_warning_time = #{deviceWarningTime,jdbcType=TIMESTAMP},
+      device_warning_device_name = #{deviceWarningDeviceName,jdbcType=VARCHAR},
+      device_warning_device_number = #{deviceWarningDeviceNumber,jdbcType=VARCHAR},
+      device_warning_defence_area = #{deviceWarningDefenceArea,jdbcType=VARCHAR},
+      device_warning_device_model = #{deviceWarningDeviceModel,jdbcType=VARCHAR},
+      device_warning_device_type = #{deviceWarningDeviceType,jdbcType=VARCHAR},
+      device_warning_detail = #{deviceWarningDetail,jdbcType=VARCHAR},
+      device_warning_status = #{deviceWarningStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where device_warning_id = #{deviceWarningId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+
+    device_warning_id, device_warning_number, device_warning_time, device_warning_device_name,
+    device_warning_device_number, device_warning_defence_area, device_warning_device_model,
+    (select name_ from sys_data_dict where key_=device_warning_device_type and dict_key_='bjfl') device_warning_device_type, device_warning_detail,
+    (select name_ from sys_data_dict where key_=device_warning_status and dict_key_='bjzt') device_warning_status, create_time
+
+    FROM device_warning
+    <where>
+      <if test="whereSql!=null">
+        ${whereSql}
+      </if>
+    </where>
+    <if test="orderBySql!=null">
+      ORDER BY ${orderBySql}
+    </if>
+    <if test="orderBySql==null">
+      ORDER BY create_time DESC
+    </if>
+  </select>-->
+
+</mapper>

@@ -17,7 +17,7 @@ public interface DeviceBasicManager extends Manager<String, DeviceBasic> {
      * @return
      * @throws Exception
      */
-    String createOrUpdateDevice(String json) throws Exception;
+    String createOrUpdateDevice(String json);
 
     /**
      * 摄像机详情

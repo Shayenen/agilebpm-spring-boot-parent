@@ -10,11 +10,10 @@ import com.dstz.base.core.id.IdUtil;
 import com.dstz.base.core.util.StringUtil;
 import com.dstz.base.db.model.page.PageResult;
 import com.dstz.base.rest.BaseController;
-import com.dstz.device.core.manager.DeviceBasicManager;
-import com.dstz.device.core.manager.DeviceLightManager;
-import com.dstz.device.core.manager.DeviceMicrophoneManager;
-import com.dstz.device.core.manager.DeviceSensorManager;
+import com.dstz.device.config.Log;
+import com.dstz.device.core.manager.*;
 import com.dstz.device.core.model.*;
+import com.dstz.device.core.utils.SysLogUtils;
 import com.dstz.sys.core.manager.DataDictManager;
 import com.dstz.sys.core.model.DataDict;
 import com.github.pagehelper.Page;
@@ -22,6 +21,7 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import io.swagger.annotations.Api;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,6 +62,12 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	@Resource
 	DataDictManager dataDictManager;
 
+	@Resource
+	SysLogManager sysLogManager;
+
+	@Value("${fileUpload.rootSavePath}")
+	private String rootSavePath;
+
 
 	@Override
 	protected String getModelDesc() {
@@ -75,11 +81,17 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	 * @return
 	 * @throws Exception
 	 */
+	@Log
 	@RequestMapping("listJson")
 	public PageResult listJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		QueryFilter queryFilter = getQueryFilter(request);
 		System.out.println(IdUtil.getUId());
 		Page<DeviceBasic> SerialNoList = (Page<DeviceBasic>) deviceBasicManager.query(queryFilter);
+		try{
+			sysLogManager.create(SysLogUtils.getSysLog(0,"","设备管理列表",JSONObject.toJSONString(queryFilter.getParams())));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return new PageResult(SerialNoList);
 	}
 
@@ -119,6 +131,11 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 			deviceBasic.setDeviceBasicImg(getFileByte(file));
 		}
 		deviceBasicManager.update(deviceBasic);
+		try{
+			sysLogManager.create(SysLogUtils.getSysLog(0,"","更新设备图片信息",id));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return  getSuccessResult("图片更新信息成功");
 	}
 
@@ -166,6 +183,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	 * @return
 	 * @throws Exception
 	 */
+
 	@RequestMapping("getDeviceLightInfo")
 	public ResultMsg<DeviceLight> getDeviceLightInfo(@RequestParam String id) throws Exception {
 		DeviceLight deviceLight = deviceLightManager.getDeviceLight(id);
@@ -183,13 +201,13 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 			InputStream inputStream = multipartFile.getInputStream();
 			String contextPath = request.getContextPath();
 			// 服务器根目录的路径
-			String path = "d:/images/";//realPath.replace(contextPath.substring(1), "");
+			//String path = "d:/images/";//realPath.replace(contextPath.substring(1), "");
 			// 根目录下新建文件夹upload，存放上传图片
-			String uploadPath = path + "upload";
+			//String uploadPath = rootSavePath + "upload";
 			// 获取文件名称
 			String filename = getFileName();
 			// 将文件上传的服务器根目录下的upload文件夹
-			File file = new File(uploadPath, filename);
+			File file = new File(rootSavePath, filename);
 			FileUtils.copyInputStreamToFile(inputStream, file);
 			// 返回图片访问路径
 			String url = request.getScheme() + "://" + request.getServerName()
@@ -222,6 +240,7 @@ public class BaseDeviceController extends BaseController<DeviceBasic> {
 	@CatchErr
 	public ResultMsg<String> removeDevice(@RequestParam String id) throws Exception {
 		deviceBasicManager.removeDevice(id);
+
 		return this.getSuccessResult(String.format("删除%s成功", this.getModelDesc()));
 	}
 

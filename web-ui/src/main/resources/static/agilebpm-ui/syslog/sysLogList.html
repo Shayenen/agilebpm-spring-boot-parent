@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>DEMO MODULE</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="../build/common/base.css" rel="stylesheet">
+	<script type="text/javascript" src="../build/common/base.js"></script>
+	<script type="text/javascript" src="../build/common/gridList.js"></script>
+</head>
+<body class="panel-body">
+	<div class="panel panel-default search-panel">
+         <div class="panel-heading">
+             查询条件
+         	<a href="javascript:void(0)" class="pull-right">　<i class="fa  fa-angle-double-up" toggle-collapse="#searchForm"></i> </a>
+         </div>
+         <div class="panel-body">
+             <form id="searchForm" class="form-horizontal">
+                 <div class="form-group">
+                     <label class="control-label col-sm-1" for="operatorName^VLK">账号名称</label>
+                     <div class="col-sm-2">
+                         <input type="text" class="form-control" id="operatorName^VLK">
+                     </div>
+                     <label class="control-label col-sm-1" for="operatorContext^VLK">操作内容</label>
+                     <div class="col-sm-2">
+                         <input type="text" class="form-control" id="operatorContext^VLK">
+                     </div>
+                     <div class="col-sm-3" style="text-align:left;">
+                         <button type="button" style="margin-left:40px" class="btn btn-primary fa-search">查询</button>
+                         <button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div>
+     <table ab-grid data-id-field="id" data-url="/sysLog/api/listJson">
+         <thead>
+         <tr>
+             <th data-checkbox="true">id</th>
+             <th data-field="operator">操作人账号</th>
+             <th data-field="operatorName" >操作人名称</th>
+             <th data-field="ip" >访问IP</th>
+             <th data-field="ipAddress" >IP地址</th>
+             <th data-field="operatorContext">操作内容</th>
+             <th data-field="createTime" >操作时间</th>
+             <th data-field="isFile" data-formatter="labelFormatter"
+                 data-value-style="0-未包含,1-数据导出,2-数据导入," >是否包含文件</th>
+             <th data-field="fileAddress" >文件地址</th>
+             <!--<th data-field="requestContext" >请求参数</th>-->
+
+             <th data-field="id" data-formatter="innerHtmlFormatter" data-title="管理">
+             	<a class='btn btn-outline btn-primary fa fa-edit' openDialog='编辑' qtip='编辑' url='./sysLogEdit.html?id={id}'></a>
+				<!--<a class='btn btn-outline btn-primary fa  fa-trash' sendAction='删除' qtip='此处删除可能影响流程数据，请注意' url='/basedevice/api/removeDevice?id={deviceBasicId}'></a>-->
+             </th>
+         </tr>
+         </thead>
+     </table>
+
+</body>
+</html>

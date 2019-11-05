@@ -1,3 +1,4 @@
+var downExcelurl;
 (function($) {
 	// 初始
 	$.init = function() {
@@ -10,6 +11,8 @@
 		$.handlerRemoveSelect();
 
 		$.handlerCollapseExpand();
+
+		$.handlerDownload();
 	};
 	// 查询
 	$.search = function(obj) {
@@ -62,6 +65,49 @@
 		$obj.click(function() {
 			$.search(this);
 		});
+	};
+	// 处理下载
+	$.handlerDownload = function() {
+		var $obj = $("#searchForm .btn.fa-download-excel");
+		$obj.unbind('click');
+		$obj.click(function() {
+			$.downExcel(this);
+		});
+	};
+	// 下载
+	$.downExcel = function(obj) {
+		if ($(obj).hasClass('disabled'))
+			return;
+		var param = "";
+		$("input,select","#searchForm").each(function(item,i) {
+			if (!$(this).val()) return;
+			if (param != "") {
+				param+="&"+$(this).attr("id")+"="+$(this).val();
+
+			}else{
+				param=$(this).attr("id")+"="+$(this).val();
+			}
+		});
+		/*window.open('/elaryWarning/api/excel?'+param);*/
+		console.log(param);
+		$.ajax({
+			async: false,
+			cache: false,
+			type: "post",
+			data: param,
+			url: downExcelurl,
+			dataType: 'json',
+			//contentType: "application/x-www-form-urlencoded", //必须
+			//processData: false, //必须
+			success: function (data) {
+				console.log(data);
+				window.open(data);
+			},
+			error: function (arg1, arg2, arg3) {
+				console.log(arg1 + "--" + arg2 + "--" + arg3);
+			}
+		});
+		//$("[ab-grid]").bootstrapTable("refresh",{query:param});
 	};
 	// 重置处理查询
 	$.handlerReSetSearch = function() {
