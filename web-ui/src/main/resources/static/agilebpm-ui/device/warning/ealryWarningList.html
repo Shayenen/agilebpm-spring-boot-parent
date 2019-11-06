@@ -37,6 +37,12 @@
     }]);
     downExcelurl='/elaryWarning/api/excel';
 
+    //清除时间选择框内的时间
+    function timeChooseChange(){
+       $("#beginTime").val('');
+       $("#endTime").val('');
+    }
+
 </script>
 <body class="panel-body" ng-controller="ctrl">
 <div class="panel panel-default search-panel">
@@ -73,7 +79,7 @@
                 </div>
                 <label class="control-label col-sm-1" for="timeSearch">时间检索</label>
                 <div class="col-sm-2">
-                    <select class="form-control" id="timeSearch" ng-model="data.timeSelect">
+                    <select class="form-control" onchange="timeChooseChange()" id="timeSearch" ng-model="data.timeSelect">
                         <option value="">无</option>
                         <option value="day">当日</option>
                         <option value="week">当周</option>
