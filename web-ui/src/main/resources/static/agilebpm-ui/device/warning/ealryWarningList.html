@@ -14,22 +14,29 @@
     var app = angular.module('app', ['baseDirective']);
     app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
         console.log($scope.data)
+        $scope.device = {};
+        $.ajax({
+            type: "GET",
+            data: {
+                dictKey: ['bjfl', 'bjjqpd', 'bjzt']
+            },
+            url: '/basedevice/api/getDictData',
+            dataType: 'json',
+
+            success: function (data) {
+                $scope.device.bjfl = data.data.bjfl;
+                //$scope.device.sblx = data.data.sblx;
+                $scope.device.bjzt = data.data.bjzt;
+                $scope.device.bjjqpd = data.data.bjjqpd;
+                $scope.$apply();
+            },
+            error: function (arg1, arg2, arg3) {
+                console.log(arg1 + "--" + arg2 + "--" + arg3);
+            }
+        });
     }]);
     downExcelurl='/elaryWarning/api/excel';
-function uploadExcel() {
-    $.ajaxFileUpload({
-        type: "POST",
-        url: "/elaryWarning/api/importExcel",//后台接口
-        dataType: "json",
-        fileElementId: "file",  // 文件的id
-        success: function (d) {
-            $.Dialog.error('导入成功！');
-        },
-        error: function () {
-            $.Dialog.error('导入失败！');
-        },
-    });
-}
+
 </script>
 <body class="panel-body" ng-controller="ctrl">
 <div class="panel panel-default search-panel">
@@ -47,26 +54,46 @@ function uploadExcel() {
                 <div class="col-sm-2">
                     <select class="form-control" id="device_elary_warning_type^VLK">
                         <option value="">全部</option>
-                        <option value="0">禁用</option>
-                        <option value="1">正常</option>
+                        <option ng-repeat="x in device.bjfl" value="{{x.key}}">{{x.name}}</option>
                     </select>
                 </div>
                 <label class="control-label col-sm-1" for="device_elary_warning_decide^VLK">警情判断</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="device_elary_warning_decide^VLK">
                         <option value="">全部</option>
-                        <option value="0">禁用</option>
-                        <option value="1">正常</option>
+                        <option ng-repeat="x in device.bjjqpd" value="{{x.key}}">{{x.name}}</option>
                     </select>
                 </div>
                 <label class="control-label col-sm-1" for="device_elary_warning_status^VLK">报警状态</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="device_elary_warning_status^VLK">
                         <option value="">全部</option>
-                        <option value="0">禁用</option>
-                        <option value="1">正常</option>
+                        <option ng-repeat="x in device.bjzt" value="{{x.key}}">{{x.name}}</option>
                     </select>
                 </div>
+                <label class="control-label col-sm-1" for="timeSearch">时间检索</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="timeSearch">
+                        <option value="">无</option>
+                        <option value="day">当日</option>
+                        <option value="week">当周</option>
+                        <option value="month">当月</option>
+                        <option value="zdy">自定义</option>
+                    </select>
+                </div>
+
+                <label class="control-label col-sm-1">开始时间</label>
+                <div class="col-sm-2">
+                    <input class="form-control" id="beginTime" autocomplete="off" ab-date="yyyy-MM-dd"
+                           type="text"/>
+                </div>
+                <label class="control-label col-sm-1" >结束时间</label>
+                <div class="col-sm-2">
+                    <input class="form-control" id="endTime" autocomplete="off" ab-date="yyyy-MM-dd"
+                           type="text"/>
+                </div>
+
+
                 <div class="col-sm-6" style="text-align:left;">
                     <button type="button" style="margin-left:40px" class="btn btn-primary fa-search">查询</button>
                     <button type="button" style="margin-left: 40px" class="btn btn-primary fa-rotate-left">重置</button>
