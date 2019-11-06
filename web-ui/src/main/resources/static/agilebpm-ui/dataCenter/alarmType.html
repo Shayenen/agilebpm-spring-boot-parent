@@ -8,8 +8,8 @@
     <script type="text/javascript" src="../assets/js/plugins/echarts/echarts.js"></script>
 </head>
 <body class="panel success" ng-controller="ctrl">
-<div style="text-align: center;font-size: 20px;padding-top: 20px;">各围段设备数量</div>
-<div style="width: 1000px;height: 450px;margin: 0 auto; padding-top: 40px" id="chart"></div>
+<div style="text-align: center;font-size: 20px;padding-top: 20px;">报警类型统计</div>
+<div style="width: 1200px;height: 450px;margin: 0 auto; padding-top: 40px" id="chart"></div>
 </body>
 <script>
     $(function () {
@@ -20,7 +20,7 @@
             },
             legend: {
                 top: 'bottom',
-                data: ['摄像机', '号角', '灯', '传感器']
+                data: ['入侵', '未知原因', '测试', '无意触碰', '车辆震动']
             },
             xAxis: {
                 type: 'category',
@@ -59,10 +59,10 @@
                     }
                 },
             },
-            color: ['#2f62bb', '#e86e1a', '#9195aa', '#e6b600'],
+            color: ['#2f62bb', '#e86e1a', '#9195aa', '#e6b600', 'rgb(211,64,60)'],
             series: [
                 {
-                    name: '摄像机',
+                    name: '入侵',
                     data: [50, 60, 35, 35, 62, 35, 20, 16],
                     type: 'bar',
                     barWidth: 20,//柱图宽度
@@ -80,7 +80,7 @@
                     },
                 },
                 {
-                    name: '号角',
+                    name: '未知原因',
                     data: [33, 53, 23, 26, 36, 24, 29, 22],
                     type: 'bar',
                     barWidth: 20,//柱图宽度
@@ -98,7 +98,7 @@
                     },
                 },
                 {
-                    name: '灯',
+                    name: '测试',
                     data: [53, 60, 23, 55, 23, 13, 23, 11],
                     type: 'bar',
                     barWidth: 20,//柱图宽度
@@ -116,8 +116,25 @@
                     },
                 },
                 {
-                    name: '传感器',
-                    data: [123, 153, 96, 135, 188, 120, 180, 123],
+                    name: '无意触碰',
+                    data: [123, 134, 96, 135, 188, 120, 111, 123],
+                    type: 'bar',
+                    barWidth: 20,//柱图宽度
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, //开启显示
+                                position: 'top', //在上方显示
+                                textStyle: { //数值样式
+                                    color: '#999',
+                                    fontSize: 14
+                                }
+                            },
+                        }
+                    },
+                }, {
+                    name: '车辆震动',
+                    data: [45, 33, 96, 86, 98, 100, 43, 66],
                     type: 'bar',
                     barWidth: 20,//柱图宽度
                     itemStyle: {
