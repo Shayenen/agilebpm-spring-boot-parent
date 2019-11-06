@@ -73,7 +73,7 @@
                 </div>
                 <label class="control-label col-sm-1" for="timeSearch">时间检索</label>
                 <div class="col-sm-2">
-                    <select class="form-control" id="timeSearch">
+                    <select class="form-control" id="timeSearch" ng-model="data.timeSelect">
                         <option value="">无</option>
                         <option value="day">当日</option>
                         <option value="week">当周</option>
@@ -81,14 +81,13 @@
                         <option value="zdy">自定义</option>
                     </select>
                 </div>
-
-                <label class="control-label col-sm-1">开始时间</label>
-                <div class="col-sm-2">
+                <label ng-show="data.timeSelect === 'zdy'" class="control-label col-sm-1">开始时间</label>
+                <div class="col-sm-2" ng-show="data.timeSelect === 'zdy'">
                     <input class="form-control" id="beginTime" autocomplete="off" ab-date="yyyy-MM-dd"
                            type="text" ng-model="data.startTime"/>
                 </div>
-                <label class="control-label col-sm-1" >结束时间</label>
-                <div class="col-sm-2">
+                <label ng-show="data.timeSelect === 'zdy'" class="control-label col-sm-1" >结束时间</label>
+                <div class="col-sm-2" ng-show="data.timeSelect === 'zdy'">
                     <input class="form-control" id="endTime" autocomplete="off" ab-date="yyyy-MM-dd"
                            type="text" ng-model="data.endTime"/>
                 </div>
