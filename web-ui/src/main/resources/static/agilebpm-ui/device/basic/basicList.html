@@ -1,12 +1,39 @@
-<html>
+<html ng-app="app">
 <head>
     <title>DEMO MODULE</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../build/common/base.css" rel="stylesheet">
     <script type="text/javascript" src="../../build/common/base.js"></script>
+    <script type="text/javascript" src="../../build/common/ngEdit.js"></script>
     <script type="text/javascript" src="../../build/common/gridList.js"></script>
 </head>
-<body class="panel-body">
+<script>
+    var app = angular.module('app', ['baseDirective']);
+    app.controller("ctrl", ['$scope', 'baseService', function ($scope, baseService) {
+        console.log("-------------------")
+        $scope.device = {};
+        $.ajax({
+            type: "GET",
+            data: {
+                dictKey: ['sbgl', 'sbzt']
+            },
+            url: '/basedevice/api/getDictData',
+            dataType: 'json',
+
+            success: function (data) {
+                $scope.device.sbgl = data.data.sbgl;
+                //$scope.device.sblx = data.data.sblx;
+               // $scope.device.sbsybm = data.data.sbsybm;
+                $scope.device.sbzt = data.data.sbzt;
+                $scope.$apply();
+            },
+            error: function (arg1, arg2, arg3) {
+                console.log(arg1 + "--" + arg2 + "--" + arg3);
+            }
+        });
+    }]);
+</script>
+<body class="panel-body" ng-controller="ctrl">
 <div class="panel panel-default search-panel">
     <div class="panel-heading">
         查询条件
@@ -31,17 +58,16 @@
                 <label class="control-label col-sm-1" for="device_basic_category^VLK">设备类别</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="device_basic_category^VLK">
-                        <option value="">全部</option>
-                        <option value="0">禁用</option>
-                        <option value="1">正常</option>
+                        <option value="" selected>全部</option>
+                        <option ng-repeat="x in device.sbgl" value="{{x.key}}">{{x.name}}</option>
                     </select>
                 </div>
                 <label class="control-label col-sm-1" for="device_basic_status^VLK">设备状态</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="device_basic_status^VLK">
-                        <option value="">全部</option>
-                        <option value="0">禁用</option>
-                        <option value="1">正常</option>
+                        <option value="" selected>全部</option>
+
+                        <option ng-repeat="x in device.sbzt" value="{{x.key}}">{{x.name}}</option>
                     </select>
                 </div>
                 <div class="col-sm-3" style="text-align:left;">
